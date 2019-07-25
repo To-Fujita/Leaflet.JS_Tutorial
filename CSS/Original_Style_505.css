@@ -1,0 +1,80 @@
+﻿.leaflet-container {
+    background: #fff;
+    outline: 0;
+}
+.ui-widget {
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 0.8em;
+}
+.ui-slider-range {
+     background: #808080;
+}
+#colorpicker-red_01, #colorpicker-green_01, #colorpicker-blue_01, #colorpicker-red_02, #colorpicker-green_02, #colorpicker-blue_02, #slider_001, #slider_301, #slider_302, #slider_303 {
+     float: left;
+     clear: left;
+     width: 255px;
+     margin: 2px 5px;
+}
+#colorpicker-swatch_01 {
+     width: 60px;
+     height: 30px;
+     margin-top: 5px;
+     margin-left: 10px;
+     background-image: none;
+}
+#colorpicker-swatch_02 {
+     width: 60px;
+     height: 30px;
+     margin-top: 5px;
+     margin-left: 10px;
+     background-image: none;
+}
+#colorpicker-red_01 .ui-slider-range {
+     background: #ef2929;
+}
+#colorpicker-red_01 .ui-slider-handle {
+     border-color: #ef2929;
+}
+#colorpicker-green_01 .ui-slider-range {
+     background: #8ae234;
+}
+#colorpicker-green_01 .ui-slider-handle {
+     border-color: #8ae234;
+}
+#colorpicker-blue_01 .ui-slider-range {
+     background: #729fcf;
+}
+#colorpicker-blue_01 .ui-slider-handle {
+     border-color: #729fcf;
+}
+#colorpicker-hex_01, #colorpicker-rgb_01 {
+     margin: 3px;
+}
+#colorpicker-red_02 .ui-slider-range {
+     background: #ef2929;
+}
+#colorpicker-red_02 .ui-slider-handle {
+     border-color: #ef2929;
+}
+#colorpicker-green_02 .ui-slider-range {
+     background: #8ae234;
+}
+#colorpicker-green_02 .ui-slider-handle {
+     border-color: #8ae234;
+}
+#colorpicker-blue_02 .ui-slider-range {
+     background: #729fcf;
+}
+#colorpicker-blue_02 .ui-slider-handle {
+     border-color: #729fcf;
+}
+#colorpicker-hex_02, #colorpicker-rgb_02 {
+     margin: 3px;
+}
+#console {
+    height: 136px;
+    overflow-y: scroll;
+    color: white;
+    background-color: black;
+}
+

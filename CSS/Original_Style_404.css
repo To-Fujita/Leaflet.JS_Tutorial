@@ -1,0 +1,18 @@
+﻿.leaflet-container {
+    background: #fff;
+    outline: 0;
+}
+.ui-widget {
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 0.8em;
+}
+.ui-slider-range {
+     background: #808080;
+}
+#console {
+    height: 136px;
+    overflow-y: scroll;
+    color: white;
+    background-color: black;
+}
+
