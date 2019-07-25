@@ -21,7 +21,7 @@ How to draw overlays on the map.
 [Demo for Tutorial_202](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_202_EN.html): Added overlays for MODIS's data and USGS's earthquakes data.  
 
 ### Step-3
-How to show some utilities on the map.
+How to show some utilities on the map.  
 [Demo for Tutorial_301](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_301_EN.html): To show some Utilities on the Map. 
 
 ### Step-4
