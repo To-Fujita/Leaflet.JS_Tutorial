@@ -17,8 +17,8 @@ How to draw maps in several cases.
 
 ### Step-2
 How to draw overlays on the map.  
-[Demo for Tutorial_201](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_201_EN.html): To draw an open street map.  
-[Demo for Tutorial_202](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_202_EN.html): To draw a Stamen Design map.  
+[Demo for Tutorial_201](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_201_EN.html): To draw some overlays based on Tutorial_104.  
+[Demo for Tutorial_202](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_202_EN.html): Added overlays for MODIS's data and USGS's earthquakes data.  
 
 ### Step-3
 How to show some utilities on the map.
