@@ -8,7 +8,7 @@ This is a tutorial to draw maps by Leaflet.js for beginners.
 
 
 ### Step-1
-[Demo for Tutorial_101](https://github.com/To-Fujita/Leaflet.JS_Tutorial/Leaflet_Tutrial_101_EN.html): To draw an open street map. 
+[Demo for Tutorial_101](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_101_EN.html): To draw an open street map. 
 
 ## Licence
 [MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
