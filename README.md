@@ -41,11 +41,28 @@ How to draw figures on the map.
 
 ### Step-6
 Several samples.  
-[Demo for Tutorial_101](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_101_EN.html): It is a demo including almost above tutorials.  
-[Demo for Tutorial_102](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_102_EN.html): It is a sample to show your device's position on the map.   
-[Demo for Tutorial_103](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_103_EN.html): It is a sample to trace in any interval your device's position on the map.  
-[Demo for Tutorial_104](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_104_EN.html): It is a sample to show the place of the photograph on the map.  
-[Demo for Tutorial_504](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_504_EN.html): It is a sample to show the place of the photograph with photo frame on the map.  
+[Demo for Tutorial_601](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_601_EN.html): It is a demo including almost above tutorials.  
+[Demo for Tutorial_602](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_602_EN.html): It is a sample to show your device's position on the map.   
+[Demo for Tutorial_603](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_603_EN.html): It is a sample to trace in any interval your device's position on the map.  
+[Demo for Tutorial_604](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_604_EN.html): It is a sample to show the place of the photograph on the map.  
+[Demo for Tutorial_605](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_605_EN.html): It is a sample to show the place of the photograph with photo frame on the map.  
+
+## References:
+1. [Leaflet - a JavaScript library for interactive maps](https://leafletjs.com/)  
+2. [jQuery: The Write Less, Do More, JavaScript Library.](https://jquery.com/)   
+3. [jQuery user interface](https://jqueryui.com/)   
+4. [calvinmetcalf/leaflet-ajax: plugin for leaflet for ajax - GitHub](https://github.com/calvinmetcalf/leaflet-ajax)   
+5. [k4r573n/leaflet-control-osm-geocoder - GitHub](https://github.com/k4r573n/leaflet-control-osm-geocoder)   
+6. [aparshin/leaflet-GIBS: Leaflet plugin for NASA GIBS Imagery integration. Contribute to aparshin/leaflet-GIBS development by creating an account on GitHub.](https://github.com/aparshin/leaflet-GIBS)   
+7. [Norkart/Leaflet-MiniMap: A minimap control plugin for Leaflet - GitHub](https://github.com/Norkart/Leaflet-MiniMap)   
+8. [ardhi/Leaflet.MousePosition: A mouse position control for Leaflet. Contribute to ardhi/Leaflet.MousePosition development by creating an account on GitHub.](https://github.com/ardhi/Leaflet.MousePosition)   
+9. [marghoobsuleman/ms-Dropdown: Image dropdown - convert your dropdown to image dropdown - marghoobsuleman/ms-Dropdown. - GitHub](https://github.com/marghoobsuleman/ms-Dropdown)   
+10. [OpenStreetMap is the free wiki world map.](https://www.openstreetmap.org/)   
+11. [Stamen Design: Data Visualization and Map Design Studio](https://stamen.com/)   
+12. [Esri's GIS mapping software is the most powerful mapping & spatial data analytics technology available.](https://www.esri.com/)   
+13. [OpenSeaMap - die freie Seekarte, nach dem Wiki-Prinzip, auf PC, Garmin, Lowrance.](https://www.openseamap.org/)   
+14. [Earthquakes - Real-time Data - USGS](https://www.usgs.gov/products/data-and-tools/real-time-data/earthquakes)   
+15. [Exif.js. A JavaScript library for reading EXIF meta data from image files.](https://github.com/exif-js/exif-js)
 
 ## Licence
 [MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
