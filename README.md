@@ -1,4 +1,4 @@
-# Leaflet.JS_Tutorial
+# How to draw maps by using Leaflet.js.
 This is a tutorial to draw maps by Leaflet.js for beginners.
 
 ## Description
