@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_401_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Layer_401 = new Array();
+	var map_401 = L.map('map_401').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_401);
+	Leaflet_Marker_401();
+
+	function Leaflet_Marker_401()		// Set the Marker
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    Markers_shape_pos[ 0 ] = [51.5058, -0.0752];
+	    Markers_shape_nam[ 0 ] = "Tower Bridge";
+	    Markers_shape_lnk[ 0 ] = "<a href = 'https://www.towerbridge.org.uk/' target='_blank'>Link to Tower Bridge</a>";
+	    Markers_shape[ 0 ] = L.marker([ Markers_shape_pos[ 0 ][ 0 ], Markers_shape_pos[ 0 ][ 1 ] ]);
+	    Markers_shape[ 0 ].bindPopup(Markers_shape_nam[ 0 ] + "<br>" + Markers_shape_lnk[ 0 ]).openPopup();
+	    Layer_401[ 0 ] = Markers_shape[ 0 ];
+	    Layer_401[ 0 ].addTo(map_401);
+	}
+    }
+
+</script>
+</head>
+<body onload="init()">
+    <div id="map_401" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

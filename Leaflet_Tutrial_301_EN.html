@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_301_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset = "utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<link rel = "stylesheet" href = "./CSS/Leaflet_Graticule.css" />
+<link rel = "stylesheet" href = "./Plugins/Leaflet-MousePosition-master/L.Control.MousePosition.css" />
+<link rel = "stylesheet" href = "./Plugins/Leaflet-MiniMap-master/Control.MiniMap.css" />
+<link rel = "stylesheet" href = "./Plugins/leaflet-control-osm-geocoder-master/Control.OSMGeocoder.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script src = "./Plugins/leaflet-GIBS-master/GIBSMetadata.js" ></script>
+<script src = "./Plugins/leaflet-GIBS-master/GIBSLayer.js" ></script>
+<script src = "./Plugins/leaflet-ajax-master/leaflet.ajax.js" ></script>
+<script src = "./Plugins/Leaflet-MousePosition-master/L.Control.MousePosition.js" ></script>
+<script src = "./Plugins/Leaflet-MiniMap-master/Control.MiniMap.js" ></script>
+<script src = "./Plugins/leaflet-control-osm-geocoder-master/Control.OSMGeocoder_SRC.js" ></script>
+<script src = "./JS/Map_Data_EN.js" ></script>
+<script src = "./JS/Leaflet_Graticule.js" ></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    var map;
+    var ClickLat, ClickLon, Act_Zoom, Pre_Zoom;
+    var Mouse_Position = L.control.mousePosition( {position:'bottomright'} );
+
+    function init() {
+	map = L.map('map').setView([51.5, 0.0], 8);
+	map.addLayer( Basic_Map[ 0 ] );
+	L.control.layers(baseMap, overLay).addTo(map);
+
+	L.control.scale().addTo(map);
+	Mouse_Position.addTo(map);
+	var osm2 = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 15, attribution: 'Map data &copy; OpenStreetMap contributors' });
+	var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true, position: 'bottomleft' }).addTo(map);
+	Grid_on_B();
+	map.on('click', function(e) {
+		ClickLat = e.latlng.lat;
+		ClickLon = e.latlng.lng;
+		if(flag_grid == 1)
+		{
+			Act_Zoom = map.getZoom();
+			Act_Ctn = map.getCenter();
+			if(Act_Zoom != Pre_Zoom)
+			{
+				grid( grid_line_col );
+				Pre_Zoom = Act_Zoom;
+			}
+		}
+	});
+	osmGeocoder = new L.Control.OSMGeocoder();
+	map.addControl(osmGeocoder);
+    }
+</script>
+</head>
+<body onload="init()">
+    <div id="map" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

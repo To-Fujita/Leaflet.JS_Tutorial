@@ -1,0 +1,610 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_605_EN.html	2019/7/20	by T. Fujita</title>
+<meta charset = "utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel = "stylesheet" href = "./Plugins/ms-Dropdown-master/dd.css" />
+<link rel = "stylesheet" href = "./CSS/scroll_menu.css" />
+<link rel = "stylesheet" href = "./CSS/Original_Style_404.css" />
+
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+
+    form img {
+	height: 100px;
+	order: 1;
+    }
+
+.imageCover1 {
+    position: relative;
+    width: 100px;
+    height: 217px;
+}
+
+.imageCover1 .baseImage {
+    position: absolute;
+    left: -50px;
+    top: -217px;
+    width: 100px;
+    height: 56px;
+}
+
+.imageCover1 .coverImage {
+    position: absolute;
+    left: -50px;
+    top: -217px;
+    width: 100px;
+    height: 217px;
+}
+
+.imageCover2 {
+    position: relative;
+    width: 75px;
+    height: 260px;
+}
+
+.imageCover2 .baseImage {
+    position: absolute;
+    left: -38px;
+    top: -260px;
+    width: 75px;
+    height: 87px;
+}
+
+.imageCover2 .coverImage {
+    position: absolute;
+    left: -38px;
+    top: -260px;
+    width: 75px;
+    height: 260px;
+}
+
+</style>
+
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.2.1/exif.min.js"></script>
+<script src = "./Plugins/ms-Dropdown-master/jquery.dd.js"></script>
+<script src = "./JS/Dialog_605_EN.js" ></script>
+<script>
+	var Marker_LAT = new Array();
+	var Marker_LON = new Array();
+	var Marker_NAM = new Array();
+	var Marker_LNK = new Array();
+	var Marker_ICN = new Array();
+	var Marker_ID = new Array();
+	var Marker_Drag_flag = new Array();
+	var Marker_Drag_info = new Array();
+	var ClickLat = null;
+	var ClickLon = null;
+	var Marker_count = 0;
+	var Marker_ID_count = 0;
+	var SelectedID;
+	var Marker_flag = 0;
+	var Temp_shape, Temp_shape_clone;
+	var Temp, Temp_LAT, Temp_LON, Temp_NAM, Temp_LNK, Temp_ICN, Temp_ID;
+	var Temp_Drag_flag, Temp_Drag_info;
+	var Layer_404 = new Array();
+	var Layer_404_clone = new Array();
+	var Dialog_flag_001 = 0;
+	var Photo_Marker_LAT = new Array();
+	var Photo_Marker_LON = new Array();
+	var Photo_Marker_NAM = new Array();
+	var Photo_Marker_LNK = new Array();
+	var Photo_Marker_ICN = new Array();
+	var Photo_Marker_ID = new Array();
+	var Photo_Marker_Drag_flag = new Array();
+	var Photo_Marker_Drag_info = new Array();
+	var Photo_Marker_count = 0;
+	var Photo_Marker_ID_count = 0;
+	var Layer_AD004 = new Array();
+	var Layer_AD004_clone = new Array();
+	var map_AD004;
+
+	function init() {
+		map_AD004 = L.map('map_AD004').setView([51.5, 0.0], 8);
+		mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+		L.tileLayer(
+			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; ' + mapLink,
+			maxZoom: 18
+	        }).addTo(map_AD004);
+		map_AD004.on('click', function(e) {
+			ClickLat = e.latlng.lat;
+			ClickLon = e.latlng.lng;
+			if ( Marker_flag == 1 ) { Leaflet_Marker_401(); }
+			if ( Marker_flag == 2 ) { Leaflet_Marker_403(); }
+		});
+	}
+
+	function Leaflet_Marker_400() {		// Initialize to set a Marker
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 1;
+	}
+
+	function Leaflet_Marker_401() {		// Set a Marker
+	  if(Marker_flag == 1) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_AD004);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_AD004);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+		Marker_flag = 0;
+	    }
+	}
+
+	function Leaflet_Marker_402() {		// Initialize to set Markers
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 2;
+	}
+
+	function Leaflet_Marker_403() {		// Start to Set Several Markers
+	  if(Marker_flag == 2) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_AD004);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_AD004);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	}
+
+	function Leaflet_Marker_404() {		// End of Setting Several Markers
+		Marker_flag = 0;
+	}
+
+	function Leaflet_Marker_405() {		// Clear All Markers
+		var j = Layer_404.length - 1;
+		for(i = 0; i <= j; i++) {
+			if(Layer_404[i] != null) {
+				map_AD004.removeLayer(Layer_404[i]);
+				map_AD004.removeLayer(Layer_404_clone[ i ]);
+			}
+		}
+		Marker_count = 0;
+		Marker_LAT = new Array();
+		Marker_LON = new Array();
+		Marker_NAM = new Array();
+		Marker_LNK = new Array();
+		Marker_ICN = new Array();
+	}
+
+	function Leaflet_Marker_406() {		// Save Marker's Position as CSV File
+	    for (i = 0; i <= (Marker_LON.length - 1); i++) {
+		if( !isNaN(Marker_LON[ i ]) ) {
+		    while( (Marker_LON[ i ] * 1.0) < -180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Marker_LON[ i ] * 1.0) > 180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Marker_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Marker_LAT.length;
+		for ( i = 0; i < Temp; i++ ) {
+			if( Marker_LAT[ i ] != "" && Marker_LON[ i ] != "" ) {
+			  CSV_content = CSV_content + Marker_LAT[ i ] + "," + Marker_LON[ i ] + "," + Marker_NAM[ i ] + "," + Marker_LNK[ i ] + ",\r\n";
+			}
+		  }
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function Leaflet_Marker_407() {		// Load the Marker's Position by CSV File.
+		Dialog_002();
+	}
+
+	function Marker_setting() {		// Setting Markers
+		Temp_LAT = Marker_LAT[ Temp ] * 1.0;
+		Temp_LON = Marker_LON[ Temp ] * 1.0;
+		Temp_NAM = Marker_NAM[ Temp ];
+		Temp_LNK = Marker_LNK[ Temp ];
+		Temp_ICN = Marker_ICN[ Temp ];
+		Temp_ID = Marker_ID[ Temp ];
+		Temp_Drag_flag = Marker_Drag_flag[ Temp ]
+		Temp_Drag_info = Marker_Drag_info[ Temp ]
+		Set_Link =" ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "<a href= '" + Temp_LNK + "' target='_blank'> " + "Link to the URL of " + Temp_NAM + " </a>";
+		    }
+		}
+	}
+
+	function Marker_set() {			// Set Markers
+	  if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+	    if( (Temp_LAT !== undefined) || (Temp_LAT !== "") ) {
+		if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+		    Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+			{icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+			 Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+		    Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    if(Temp_LON >= 0) {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+			 Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    } else {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+			 Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    }
+		}
+	    }
+	  }
+	}
+
+	function onMarkerOpen() {		// Actions at Click the Marker
+	    var tempMarker = this;
+	    SelectedID = tempMarker.options.id;
+	    $(".marker-delete-button:visible").click(function () {
+		if(SelectedID.slice(0,5) =="Photo") {
+		    Photo_Marker_DEL(tempMarker);
+		} else  {
+		    Marker_DEL(tempMarker);
+		}
+	    });
+	    $(".marker-change-button:visible").click(function () {
+		Dialog_001();
+	    });
+	}
+
+	function Change_Marker() {		// Action at Click the Change Button
+	    for(i = 0; i <= Marker_count; i++) {
+		if(SelectedID == Marker_ID[ i ] ) {
+		    if(Set_Text !="") {
+			Marker_NAM[ i ] = Set_Text;
+		    }
+			Marker_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    for(i = 0; i <= Photo_Marker_count; i++) {
+		if(SelectedID == Photo_Marker_ID[ i ] ) {
+		    if(Set_Text !="") {
+			Photo_Marker_NAM[ i ] = Set_Text;
+		    }
+			Photo_Marker_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    Marker_Refresh();
+	    Photo_Marker_Refresh();
+	}
+
+	function Marker_DEL(tempMarker) {	// Action at Click the Delete Button
+		var k = 0;
+		Marker_flag = 0;
+		Marker_LAT[ Marker_count + 1 ] = "";
+		Marker_LON[ Marker_count + 1 ] = "";
+		Marker_NAM[ Marker_count + 1 ] = "";
+		Marker_LNK[ Marker_count + 1 ] = "";
+		Marker_ICN[ Marker_count + 1 ] = "";
+		Marker_ID[ Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				for(k = i; k <= Marker_count; k++) {
+					Marker_LAT[ k ] = Marker_LAT[ k + 1 ];
+					Marker_LON[ k ] = Marker_LON[ k + 1 ];
+					Marker_NAM[ k ] = Marker_NAM[ k + 1 ];
+					Marker_LNK[ k ] = Marker_LNK[ k + 1 ];
+					Marker_ICN[ k ] = Marker_ICN[ k + 1 ];
+					Marker_ID[ k ] = Marker_ID[ k + 1 ];
+					Marker_Drag_flag[ k ] = Marker_Drag_flag[ k + 1 ];
+					Marker_Drag_info[ k ] = Marker_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Marker_count = Marker_count - 1;
+		Marker_Refresh();
+	}
+
+	function Photo_Marker_DEL(tempMarker) {		// Action at Click the Delete Button for Photo
+		var k = 0;
+		Marker_flag = 0;
+		Photo_Marker_LAT[ Photo_Marker_count + 1 ] = "";
+		Photo_Marker_LON[ Photo_Marker_count + 1 ] = "";
+		Photo_Marker_NAM[ Photo_Marker_count + 1 ] = "";
+		Photo_Marker_LNK[ Photo_Marker_count + 1 ] = "";
+		Photo_Marker_ICN[ Photo_Marker_count + 1 ] = "";
+		Photo_Marker_ID[ Photo_Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Photo_Marker_count; i++) {
+			if(SelectedID == Photo_Marker_ID[ i ] ) {
+				for(k = i; k <= Photo_Marker_count; k++) {
+					Photo_Marker_LAT[ k ] = Photo_Marker_LAT[ k + 1 ];
+					Photo_Marker_LON[ k ] = Photo_Marker_LON[ k + 1 ];
+					Photo_Marker_NAM[ k ] = Photo_Marker_NAM[ k + 1 ];
+					Photo_Marker_LNK[ k ] = Photo_Marker_LNK[ k + 1 ];
+					Photo_Marker_ICN[ k ] = Photo_Marker_ICN[ k + 1 ];
+					Photo_Marker_ID[ k ] = Photo_Marker_ID[ k + 1 ];
+					Photo_Marker_Drag_flag[ k ] = Photo_Marker_Drag_flag[ k + 1 ];
+					Photo_Marker_Drag_info[ k ] = Photo_Marker_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Photo_Marker_count = Photo_Marker_count - 1;
+		Photo_Marker_Refresh();
+	}
+	function Marker_Refresh() {		// Refresh Markers
+		var j = Layer_404.length - 1;
+		for(i = 0; i <= j; i++) {
+		    if(Layer_404[ i ] != null) {
+			map_AD004.removeLayer(Layer_404[ i ]);
+			map_AD004.removeLayer(Layer_404_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= Marker_count - 1; i++)
+		{
+			Temp = i;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_AD004);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_AD004);
+		}
+	}
+
+	function Photo_Marker_Refresh() {		// Refresh Markers for Photo
+		var j = Layer_AD004.length - 1;
+		for(i = 0; i <= j; i++) {
+		    if(Layer_AD004[ i ] != null) {
+			map_AD004.removeLayer(Layer_AD004[ i ]);
+			map_AD004.removeLayer(Layer_AD004_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= Photo_Marker_count - 1; i++)
+		{
+			Temp = i;
+			Photo_Marker_Setting();
+			Photo_Marker_Set();
+			Layer_AD004[ Temp ] = Temp_shape;
+			Layer_AD004[ Temp ].addTo(map_AD004);
+			Layer_AD004_clone[ Temp ] = Temp_shape_clone;
+			Layer_AD004_clone[ Temp ].addTo(map_AD004);
+		}
+	}
+
+	function Dragging() {			// Get Marker's Position
+		ClickLat = this._latlng.lat;
+		ClickLon = this._latlng.lng;
+		SelectedID = this.options.id;
+		if(SelectedID.slice(0,5) == "Photo") {
+		    for(i = 0; i <= Photo_Marker_count; i++) {
+			if(SelectedID == Photo_Marker_ID[ i ] ) {
+				Photo_Marker_LAT[ i ] = ClickLat;
+				Photo_Marker_LON[ i ] = ClickLon;
+			}
+		    }
+		    Photo_Marker_Refresh();
+		} else {
+		    for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				Marker_LAT[ i ] = ClickLat;
+				Marker_LON[ i ] = ClickLon;
+			}
+		    }
+		    Marker_Refresh();
+		}
+		SelectedID = null;
+	}
+
+	function CSV_Markers() {		// Set Markers from CSV File
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		if((Data_CSV[i][0] * 1.0) > 90) {
+		    Data_CSV[i][0] = 90;
+		}
+		if((Data_CSV[i][0] * 1.0) < -90) {
+		    Data_CSV[i][0] = -90;
+		}
+		while( (Data_CSV[i][1] * 1.0) < -180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 + 360;
+		}
+		while( (Data_CSV[i][1] * 1.0) > 180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 - 360;
+		}
+	    }
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Marker_LAT[ Marker_count ] = Data_CSV[i][0];
+		Marker_LON[ Marker_count ] = Data_CSV[i][1];
+		Marker_NAM[ Marker_count ] = Data_CSV[i][2];
+		Marker_LNK[ Marker_count ] = Data_CSV[i][3];
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = false;
+		Marker_Drag_info[ Marker_count ] = "This Marker is Fixed.";
+		if( Data_CSV[i][0] != "" ) {
+		    if( !isNaN( Data_CSV[i][0] ) ) {
+			Temp = Marker_count;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_AD004);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_AD004);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+		    }
+		}
+	    }
+	}
+
+	function Leaflet_Photo_001() {			// Load Photo File
+		Dialog_Additional_003();
+	}
+
+	function Leaflet_Photo_002() {			// Clear All Photo Markers
+		var j = Layer_AD004.length - 1;
+		for(i = 0; i <= j; i++) {
+			if(Layer_AD004[i] != null) {
+				map_AD004.removeLayer(Layer_AD004[i]);
+				map_AD004.removeLayer(Layer_AD004_clone[ i ]);
+			}
+		}
+		Photo_Marker_count = 0;
+		Photo_Marker_LAT = new Array();
+		Photo_Marker_LON = new Array();
+		Photo_Marker_NAM = new Array();
+		Photo_Marker_LNK = new Array();
+		Photo_Marker_ICN = new Array();
+	}
+
+	function Photo_Marker_Setting() {		// Setting the Photo Marker
+		Temp_LAT = Photo_Marker_LAT[ Temp ] * 1.0;
+		Temp_LON = Photo_Marker_LON[ Temp ] * 1.0;
+		Temp_NAM = Photo_Marker_NAM[ Temp ];
+		Temp_LNK = Photo_Marker_LNK[ Temp ];
+		Temp_ICN = Photo_Marker_ICN[ Temp ];
+		Temp_ID = Photo_Marker_ID[ Temp ];
+		Temp_Drag_flag = Photo_Marker_Drag_flag[ Temp ]
+		Temp_Drag_info = Photo_Marker_Drag_info[ Temp ]
+		Set_Link =" ";
+	}
+
+	function Photo_Marker_Set() {			// Set Photo Markers
+	  if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+	    if( (Temp_LAT !== undefined) || (Temp_LAT !== "") ) {
+		if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+		    Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+			{icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p><center> <img src = '" + window.URL.createObjectURL(Temp_LNK) + "' width='300'></center></p>" +
+			 " <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+		    Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    if(Temp_LON >= 0) {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p><center> <img src = '" + window.URL.createObjectURL(Temp_LNK) + "' width='300'></center></p>" +
+			 " <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    } else {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p><center> <img src = '" + window.URL.createObjectURL(Temp_LNK) + "' width='300'></center></p>" +
+			 " <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    }
+		}
+	        var image = document.createElement('img');
+		image.src = window.URL.createObjectURL(Temp_LNK);
+	    }
+	  }
+	}
+
+
+    </script>
+</head>
+<body onload="init()">
+<nav id="menu-wrap" style="z-index: 1000;">  
+	<ul id="menu" style="width: 98%;">
+		<li><a href="#">Marker Menu</a>
+		<ul>
+			<li><a href="#" onclick = "Dialog_001()">Select Marker Style</a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_400()">Set One Marker </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_402()">Start to Set Several Markers </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_404()">End of Set Several Markers </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_405()">Clear All Markers </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_406()">Save Marker Position as CSV File </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_407()">Load Marker Position from CSV File </a></li>
+		</ul>
+		</li>
+		<li><a href="#">Photo Position</a>
+		<ul>
+			<li><a href="#" onclick = "Leaflet_Photo_001()">Load Photo File </a></li>
+			<li><a href="#" onclick = "Leaflet_Photo_002()">Clear All Photo Markers </a></li>
+		</ul>
+		</li>
+	</ul>
+</nav>
+<div id="map_Layer">
+    <div id="map_AD004" style="width: 100%; height: 96%; border: solid 1px"></div>
+These Icons are downloaded from<A HREF = "http://flat-icon-design.com/" target="_blank"> FLAT ICON DESIGN </A>and
+<A HREF = "http://icooon-mono.com/" target="_blank"> ICOON MONO </A>. 
+TopeconHeroes holds the copyright of these Icons.
+</div>
+</body>
+</html>
+

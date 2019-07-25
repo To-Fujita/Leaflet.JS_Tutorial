@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_502_EN.html	2019/7/20	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Layer_502 = new Array();
+	var map_502 = L.map('map_502').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_502);
+	Leaflet_Polygons_502();
+
+	function Leaflet_Polygons_502()		// Draw Polygons
+	{
+	     var Polygons_shape = new Array();
+	     var Polygons_shape_pos = new Array();
+	     var Polygons_shape_nam = new Array();
+	     var Polygons_shape_lnk = new Array();
+	     var Polygons_strokecol = new Array();
+	     var Polygons_fillcolor = new Array();
+	     var Line_W = 2;
+
+	     Polygons_shape_pos[ 0 ] = [ 
+				       [ 51.7, 1.9 ],
+				       [ 51.5, 1.4 ],
+				       [ 51.0, 1.5 ] 
+				       ];
+	     Polygons_strokecol[ 0 ] = "000000";
+	     Polygons_fillcolor[ 0 ] = "FFFF00";
+	     Polygons_shape_nam[ 0 ] = "Polygons Sample #001";
+	     Polygons_shape_lnk[ 0 ] = "  ";
+
+	     Polygons_shape_pos[ 1 ] = [ 
+				       [ 51.5, 1.0 ],
+				       [ 51.4, 0.0 ],
+				       [ 52.0, 0.5 ],
+				       [ 52.0, 1.5 ],
+				       ];
+	     Polygons_strokecol[ 1 ] = "FF0000";
+	     Polygons_fillcolor[ 1 ] = "FF0000";
+	     Polygons_shape_nam[ 1 ] = "Polygons Sample #002";
+	     Polygons_shape_lnk[ 1 ] = "  ";
+
+	     for ( i = 0; i <= (Polygons_shape_pos.length - 1); i++ )
+	     {
+		 if (Polygons_shape_pos[ i ] != null ) 	
+		 {
+		    Polygons_shape[ i ] = L.polygon([ Polygons_shape_pos[ i ] ],
+			{ color: "#" + Polygons_strokecol[ i ],
+			  fillColor: "#" + Polygons_fillcolor[ i ],
+			  weight: Line_W,
+			  fillopacity: 0.5
+		    });
+		    Polygons_shape[ i ].bindPopup(Polygons_shape_nam[ i ] + "<br>" + Polygons_shape_lnk[ i ]);
+		    Layer_502[ i ] = Polygons_shape[ i ];
+		    Layer_502[ i ].addTo(map_502);
+		}
+	    }
+	}
+    }
+
+</script>
+</head>
+<body onload="init()">
+    <div id="map_502" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

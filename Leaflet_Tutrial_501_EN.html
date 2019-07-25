@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_501_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Layer_501 = new Array();
+	var map_501 = L.map('map_501').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_501);
+	Leaflet_Lines_501();
+
+	function Leaflet_Lines_501()		// Draw Lines
+	{
+	    var Lines_shape = new Array();
+	    var Lines_shape_pos = new Array();
+	    var Lines_shape_nam = new Array();
+	    var Lines_shape_lnk = new Array();
+	    var Lines_strokecol = new Array();
+	    var Lines_style = new Array();
+	    var Set_Color = "000000";
+	    var Line_W = 2;
+
+	    Lines_shape_pos[ 0 ] = [ 
+				   [ 51.7, 1.9 ],
+				   [ 51.5, 1.6 ],
+				   [ 51.0, 1.5 ] 
+				   ];
+	    Lines_strokecol[ 0 ] = "000000";
+	    Lines_shape_nam[ 0 ] = "Lines Sample #001";
+	    Lines_shape_lnk[ 0 ] = " ";
+
+	    Lines_shape_pos[ 1 ] = [ 
+				   [ 51.5, 2.0 ],
+				   [ 51.7, 2.1 ],
+				   [ 52.0, 1.5 ] 
+				   ];
+	    Lines_strokecol[ 1 ] = "FF0000";
+	    Lines_shape_nam[ 1 ] = "Lines Sample #002";
+	    Lines_shape_lnk[ 1 ] = " ";
+
+	    for ( i = 0; i <= (Lines_shape_pos.length - 1); i++ )
+	    {
+		 if (Lines_shape_pos[ i ] != null ) 	
+		 {
+		    Set_Color = Lines_strokecol[ i ];
+	            Lines_shape[ i ] = L.polyline([  Lines_shape_pos[ i ] ],
+			{ color: "#"+Set_Color,
+			  weight: Line_W,
+			  opacity: 1
+			}).bindPopup( Lines_shape_nam[ i ] + "<br>" +  Lines_shape_lnk[ i ]
+		    );
+		    Layer_501[ i ] =  Lines_shape[ i ];
+		    Layer_501[ i ].addTo(map_501);
+		 }
+	    }
+	}
+    }
+
+</script>
+</head>
+<body onload="init()">
+    <div id="map_501" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

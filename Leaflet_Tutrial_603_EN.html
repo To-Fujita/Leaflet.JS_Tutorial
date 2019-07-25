@@ -1,0 +1,673 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_603_EN.html	2019/7/20	by T. Fujita</title>
+<meta charset = "utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel = "stylesheet" href = "./Plugins/ms-Dropdown-master/dd.css" />
+<link rel = "stylesheet" href = "./CSS/scroll_menu.css" />
+<link rel = "stylesheet" href = "./CSS/Original_Style_404.css" />
+
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src = "./Plugins/ms-Dropdown-master/jquery.dd.js"></script>
+<script src = "./JS/Dialog_603_EN.js" ></script>
+<script>
+	var Marker_LAT = new Array();
+	var Marker_LON = new Array();
+	var Marker_NAM = new Array();
+	var Marker_LNK = new Array();
+	var Marker_ICN = new Array();
+	var Marker_ID = new Array();
+	var Marker_Drag_flag = new Array();
+	var Marker_Drag_info = new Array();
+	var ClickLat = null;
+	var ClickLon = null;
+	var Marker_count = 0;
+	var Marker_ID_count = 0;
+	var SelectedID;
+	var Marker_flag = 0;
+	var Temp_shape, Temp_shape_clone;
+	var Temp, Temp_LAT, Temp_LON, Temp_NAM, Temp_LNK, Temp_ICN, Temp_ID, Temp_ACC;
+	var Temp_Drag_flag, Temp_Drag_info;
+	var Layer_404 = new Array();
+	var Layer_404_clone = new Array();
+	var Dialog_flag_001 = 0;
+	var Trace_LAT = new Array();
+	var Trace_LON = new Array();
+	var Trace_NAM = new Array();
+	var Trace_LNK = new Array();
+	var Trace_ACC = new Array();
+	var Trace_ICN = new Array();
+	var Trace_ID = new Array();
+	var Trace_Drag_flag = new Array();
+	var Trace_Drag_info = new Array();
+	var Trace_count = 0;
+	var Trace_ID_count = 0;
+	var Layer_AD_002 = new Array();
+	var Layer_AD_002_clone = new Array();
+	var Accuracy = 0;
+	var Time_Stamp = "";
+	var Interval_flag = 0;
+	var zoom = 6;
+	var map_AD_002;
+
+	function init() {
+		map_AD_002 = L.map('map_AD_002').setView([51.5, 0.0], 8);
+		mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+		L.tileLayer(
+			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; ' + mapLink,
+			maxZoom: 18
+	        }).addTo(map_AD_002);
+		map_AD_002.on('click', function(e) {
+			ClickLat = e.latlng.lat;
+			ClickLon = e.latlng.lng;
+			if ( Marker_flag == 1 ) { Leaflet_Marker_401(); }
+			if ( Marker_flag == 2 ) { Leaflet_Marker_403(); }
+		});
+	}
+
+	function Leaflet_Marker_400() {		// Initialize to set a Marker
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 1;
+	}
+
+	function Leaflet_Marker_401() {		// Set a Marker
+	  if(Marker_flag == 1) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_AD_002);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_AD_002);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+		Marker_flag = 0;
+	    }
+	}
+
+	function Leaflet_Marker_402() {		// Initialize to set Markers
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 2;
+	}
+
+	function Leaflet_Marker_403() {		// Start to Set Several Markers
+	  if(Marker_flag == 2) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_AD_002);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_AD_002);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	}
+
+	function Leaflet_Marker_404() {		// End of Setting Several Markers
+		Marker_flag = 0;
+	}
+
+	function Leaflet_Marker_405() {		// Clear All Markers
+		var j = Layer_404.length - 1;
+		for(i = 0; i <= j; i++) {
+			if(Layer_404[i] != null) {
+				map_AD_002.removeLayer(Layer_404[i]);
+				map_AD_002.removeLayer(Layer_404_clone[ i ]);
+			}
+		}
+		Marker_count = 0;
+		Marker_LAT = new Array();
+		Marker_LON = new Array();
+		Marker_NAM = new Array();
+		Marker_LNK = new Array();
+		Marker_ICN = new Array();
+	}
+
+	function Leaflet_Marker_406() {		// Save Marker's Position as CSV File
+	    for (i = 0; i <= (Marker_LON.length - 1); i++) {
+		if( !isNaN(Marker_LON[ i ]) ) {
+		    while( (Marker_LON[ i ] * 1.0) < -180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Marker_LON[ i ] * 1.0) > 180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Marker_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Marker_LAT.length;
+		for ( i = 0; i < Temp; i++ ) {
+			if( Marker_LAT[ i ] != "" && Marker_LON[ i ] != "" ) {
+			  CSV_content = CSV_content + Marker_LAT[ i ] + "," + Marker_LON[ i ] + "," + Marker_NAM[ i ] + "," + Marker_LNK[ i ] + ",\r\n";
+			}
+		  }
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function Leaflet_Marker_407() {		// Load the Marker's Position by CSV File.
+		Dialog_002();
+	}
+
+	function Marker_setting() {		// Setting Markers
+		Temp_LAT = Marker_LAT[ Temp ] * 1.0;
+		Temp_LON = Marker_LON[ Temp ] * 1.0;
+		Temp_NAM = Marker_NAM[ Temp ];
+		Temp_LNK = Marker_LNK[ Temp ];
+		Temp_ICN = Marker_ICN[ Temp ];
+		Temp_ID = Marker_ID[ Temp ];
+		Temp_Drag_flag = Marker_Drag_flag[ Temp ]
+		Temp_Drag_info = Marker_Drag_info[ Temp ]
+		Set_Link =" ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "<a href= '" + Temp_LNK + "' target='_blank'> " + "Link to the URL of " + Temp_NAM + " </a>";
+		    }
+		}
+	}
+
+	function Marker_set() {			// Set Markers
+	  if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+	    if( (Temp_LAT !== undefined) || (Temp_LAT !== "") ) {
+		if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+		    Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+			{icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+			 Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+		    Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    if(Temp_LON >= 0) {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+			 Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    } else {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR>" + Temp_Drag_info + "<BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" +
+			 Set_Link + "<p> <input type='button' value='Delete this Marker' class='marker-delete-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    }
+		}
+	    }
+	  }
+	}
+
+	function onMarkerOpen() {		// Actions at Click the Marker
+	    var tempMarker = this;
+	    SelectedID = tempMarker.options.id;
+	    $(".marker-delete-button:visible").click(function () {
+		Marker_DEL(tempMarker);
+	    });
+	    $(".marker-change-button:visible").click(function () {
+		Dialog_001();
+	    });
+	}
+
+	function Change_Marker() {		// Action at Click the Change Button
+	    for(i = 0; i <= Marker_count; i++) {
+		if(SelectedID == Marker_ID[ i ] ) {
+			Marker_NAM[ i ] = Set_Text;
+			Marker_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    for(i = 0; i <= Trace_count; i++) {
+		if(SelectedID == Trace_ID[ i ] ) {
+			Trace_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    Marker_Refresh();
+	}
+
+	function Marker_DEL(tempMarker) {	// Action at Click the Delete Button
+		var k = 0;
+		Marker_flag = 0;
+		Marker_LAT[ Marker_count + 1 ] = "";
+		Marker_LON[ Marker_count + 1 ] = "";
+		Marker_NAM[ Marker_count + 1 ] = "";
+		Marker_LNK[ Marker_count + 1 ] = "";
+		Marker_ICN[ Marker_count + 1 ] = "";
+		Marker_ID[ Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				for(k = i; k <= Marker_count; k++) {
+					Marker_LAT[ k ] = Marker_LAT[ k + 1 ];
+					Marker_LON[ k ] = Marker_LON[ k + 1 ];
+					Marker_NAM[ k ] = Marker_NAM[ k + 1 ];
+					Marker_LNK[ k ] = Marker_LNK[ k + 1 ];
+					Marker_ICN[ k ] = Marker_ICN[ k + 1 ];
+					Marker_ID[ k ] = Marker_ID[ k + 1 ];
+					Marker_Drag_flag[ k ] = Marker_Drag_flag[ k + 1 ];
+					Marker_Drag_info[ k ] = Marker_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Marker_count = Marker_count - 1;
+		Marker_Refresh();
+	}
+
+	function Marker_Refresh() {		// Refresh Markers
+		var j = Layer_404.length - 1;
+		for(i = 0; i <= j; i++) {
+		    if(Layer_404[ i ] != null) {
+			map_AD_002.removeLayer(Layer_404[ i ]);
+			map_AD_002.removeLayer(Layer_404_clone[ i ]);
+		    }
+		}
+		var j = Layer_AD_002.length - 1;
+		for(i = 0; i <= j; i++) {
+		    if(Layer_AD_002[ i ] != null) {
+			map_AD_002.removeLayer(Layer_AD_002[ i ]);
+			map_AD_002.removeLayer(Layer_AD_002_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= Marker_count - 1; i++)
+		{
+			Temp = i;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_AD_002);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_AD_002);
+		}
+		for (i = 0; i <= Trace_count - 1; i++)
+		{
+			Temp = i;
+			Trace_setting();
+			Trace_set();
+			Layer_AD_002[ Temp ] = Temp_shape;
+			Layer_AD_002[ Temp ].addTo(map_AD_002);
+			Layer_AD_002_clone[ Temp ] = Temp_shape_clone;
+			Layer_AD_002_clone[ Temp ].addTo(map_AD_002);
+		}
+	}
+
+	function Dragging() {			// Get Marker's Position
+		ClickLat = this._latlng.lat;
+		ClickLon = this._latlng.lng;
+		SelectedID = this.options.id;
+		for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				Marker_LAT[ i ] = ClickLat;
+				Marker_LON[ i ] = ClickLon;
+			}
+		}
+		Marker_Refresh();
+		SelectedID = null;
+	}
+
+	function CSV_Markers() {		// Set Markers from CSV File
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		if((Data_CSV[i][0] * 1.0) > 90) {
+		    Data_CSV[i][0] = 90;
+		}
+		if((Data_CSV[i][0] * 1.0) < -90) {
+		    Data_CSV[i][0] = -90;
+		}
+		while( (Data_CSV[i][1] * 1.0) < -180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 + 360;
+		}
+		while( (Data_CSV[i][1] * 1.0) > 180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 - 360;
+		}
+	    }
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Marker_LAT[ Marker_count ] = Data_CSV[i][0];
+		Marker_LON[ Marker_count ] = Data_CSV[i][1];
+		Marker_NAM[ Marker_count ] = Data_CSV[i][2];
+		Marker_LNK[ Marker_count ] = Data_CSV[i][3];
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = false;
+		Marker_Drag_info[ Marker_count ] = "This Marker is Fixed.";
+		if( Data_CSV[i][0] != "" ) {
+		    if( !isNaN( Data_CSV[i][0] ) ) {
+			Temp = Marker_count;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_AD_002);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_AD_002);
+		    }
+		}
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	}
+
+	function Leaflet_Position_AD001() {		// Set the Device's Position
+		if (navigator.geolocation) {
+			getPosition();
+		} else {
+		      alert("It is not available to get Position.");
+		}
+	}
+
+	function Leaflet_Trace_AD002() {		// Trace Start/End
+		Dialog_AD_001();
+	}
+
+	function Leaflet_Trace_AD003() {		// Clear Trace
+		var j = Layer_AD_002.length - 1;
+		for(i = 0; i <= j; i++) {
+			if(Layer_AD_002[i] != null) {
+				map_AD_002.removeLayer(Layer_AD_002[i]);
+				map_AD_002.removeLayer(Layer_AD_002_clone[ i ]);
+			}
+		}
+		Trace_count = 0;
+		Trace_LAT = new Array();
+		Trace_LON = new Array();
+		Trace_NAM = new Array();
+		Trace_LNK = new Array();
+		Trace_ACC = new Array();
+		Trace_ICN = new Array();
+	}
+
+	function Leaflet_Trace_AD004() {		// Save Trace Data to CSV File
+	    for (i = 0; i <= (Trace_LON.length - 1); i++) {
+		if( !isNaN(Trace_LON[ i ]) ) {
+		    while( (Trace_LON[ i ] * 1.0) < -180) {
+			Trace_LON[ i ] = (Trace_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Trace_LON[ i ] * 1.0) > 180) {
+			Trace_LON[ i ] = (Trace_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Trace_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Time Stamp,Link,Accuracy(m),\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Trace_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Trace_LAT.length;
+		for ( i = 0; i < Temp; i++ ) {
+			if( Trace_LAT[ i ] != "" && Trace_LON[ i ] != "" ) {
+			  CSV_content = CSV_content + Trace_LAT[ i ] + "," + Trace_LON[ i ] + "," + Trace_NAM[ i ] + "," + Trace_LNK[ i ] + "," + Trace_ACC[ i ] + ",\r\n";
+			}
+		  }
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function getPosition() {			// get the Position
+	  navigator.geolocation.getCurrentPosition(
+	    function(position) {			// In case of success
+		Trace_LAT[ Trace_count ] = position.coords.latitude;
+		Trace_LON[ Trace_count ] = position.coords.longitude;
+		Trace_NAM[ Trace_count ] = new Date(position.timestamp); 
+		Trace_ACC[ Trace_count ] = position.coords.accuracy;
+		Trace_LNK[ Trace_count ] = " ";
+		Trace_ICN[ Trace_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Trace_ID[ Trace_count ] = "Trace" + Trace_ID_count;
+		Trace_Drag_flag[ Trace_count ] = false;
+		Trace_Drag_info[ Trace_count ] = "This Marker is Fixed.";
+			Temp = Trace_count;
+			Trace_setting();
+			Trace_set();
+			Layer_AD_002[ Temp ] = Temp_shape;
+			Layer_AD_002[ Temp ].addTo(map_AD_002);
+			Layer_AD_002_clone[ Temp ] = Temp_shape_clone;
+			Layer_AD_002_clone[ Temp ].addTo(map_AD_002);
+			zoom = map_AD_002.getZoom();
+			map_AD_002.setView(new L.LatLng(Trace_LAT[ Temp ], Trace_LON[ Temp ]), zoom, {animation: true} );
+			Trace_count = Trace_count + 1;
+			Trace_ID_count = Trace_ID_count + 1;
+	    },
+	    function(error) {			// Failed to get the Position
+		switch(error.code) {
+	            case 1: //PERMISSION_DENIED
+	              alert("It is not allowed to get Position.");
+	              break;
+	            case 2: //POSITION_UNAVAILABLE
+	              alert("Failed to get Position.");
+	              break;
+	            case 3: //TIMEOUT
+	              alert("Timeout!");
+	              break;
+	            default:
+	              alert("Other Error (Error Code: "+error.code+")");
+	              break;
+		}
+	    }
+	  );
+	}
+
+	function Trace_setting() {		// Setting the Marker for Trace
+		Temp_LAT = Trace_LAT[ Temp ] * 1.0;
+		Temp_LON = Trace_LON[ Temp ] * 1.0;
+		Temp_NAM = Trace_NAM[ Temp ];
+		Temp_LNK = Trace_LNK[ Temp ];
+		Temp_ACC = Trace_ACC[ Temp ];
+		Temp_ICN = Trace_ICN[ Temp ];
+		Temp_ID = Trace_ID[ Temp ];
+		Temp_Drag_flag = Trace_Drag_flag[ Temp ]
+		Temp_Drag_info = Trace_Drag_info[ Temp ]
+		Set_Link =" ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "<a href= '" + Temp_LNK + "' target='_blank'> " + "Link to the URL of " + Temp_NAM + " </a>";
+		    }
+		}
+	}
+
+	function Trace_set() {			// Set the Marker for Trace
+	  if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+	    if( (Temp_LAT !== undefined) || (Temp_LAT !== "") ) {
+		if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+		    Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+			{icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR> Accuracy: " + Temp_ACC + " (m) <BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>" );
+		    Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    if(Temp_LON >= 0) {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR> Accuracy: " + Temp_ACC + " (m) <BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    } else {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "<BR> Accuracy: " + Temp_ACC + " (m) <BR>" +
+			 "<p> <input type='button' value='Change this Marker' class='marker-change-button'/></p>");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    }
+		}
+	    }
+	  }
+	}
+
+	function Start_Trace() {
+		Interval_flag = 1;
+		var POS_Data = setInterval( function() {
+			Leaflet_Position_AD001();
+			if(Interval_flag != 1) {
+				clearInterval(POS_Data);
+			}}, Interval * 60 * 1000 );
+	}
+
+	function Stop_Trace() {
+		Inteval_flag = 0;
+	}
+
+	function CSV_Trace() {
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		if((Data_CSV[i][0] * 1.0) > 90) {
+		    Data_CSV[i][0] = 90;
+		}
+		if((Data_CSV[i][0] * 1.0) < -90) {
+		    Data_CSV[i][0] = -90;
+		}
+		while( (Data_CSV[i][1] * 1.0) < -180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 + 360;
+		}
+		while( (Data_CSV[i][1] * 1.0) > 180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 - 360;
+		}
+	    }
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Trace_LAT[ Trace_count ] = Data_CSV[i][0];
+		Trace_LON[ Trace_count ] = Data_CSV[i][1];
+		Trace_NAM[ Trace_count ] = Data_CSV[i][2];
+		Trace_LNK[ Trace_count ] = Data_CSV[i][3];
+		Trace_ACC[ Trace_count ] = Data_CSV[i][4];
+		Trace_ICN[ Trace_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Trace_ID[ Trace_count ] = "Trace" + Trace_ID_count;
+		Trace_Drag_flag[ Trace_count ] = false;
+		Trace_Drag_info[ Trace_count ] = "This Marker is Fixed.";
+		if( Data_CSV[i][0] != "" ) {
+		    if( !isNaN( Data_CSV[i][0] ) ) {
+			Temp = Trace_count;
+			Trace_setting();
+			Trace_set();
+			Layer_AD_002[ Temp ] = Temp_shape;
+			Layer_AD_002[ Temp ].addTo(map_AD_002);
+			Layer_AD_002_clone[ Temp ] = Temp_shape_clone;
+			Layer_AD_002_clone[ Temp ].addTo(map_AD_002);
+		    }
+		}
+		Trace_count = Trace_count + 1;
+		Trace_ID_count = Trace_ID_count + 1;
+	    }
+	}
+
+    </script>
+</head>
+<body onload="init()">
+<nav id="menu-wrap" style="z-index: 1000;">  
+	<ul id="menu" style="width: 98%;">
+		<li><a href="#">Marker Menu</a>
+		<ul>
+			<li><a href="#" onclick = "Dialog_001()">Select Marker Style</a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_400()">Set One Marker </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_402()">Start to Set Several Markers </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_404()">End of Set Several Markers </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_405()">Clear All Markers </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_406()">Save Marker Position as CSV File </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_407()">Load Marker Position from CSV File </a></li>
+		</ul>
+		</li>
+		<li><a href="#">Device Position</a>
+		<ul>
+			<li><a href="#" onclick = "Leaflet_Position_AD001()">Set Device Position </a></li>
+			<li><a href="#" onclick = "Leaflet_Trace_AD002()">Trace Start/End </a></li>
+			<li><a href="#" onclick = "Leaflet_Trace_AD003()">Clear Trace </a></li>
+			<li><a href="#" onclick = "Leaflet_Trace_AD004()">Save Trace Data as CSV File </a></li>
+			<li><a href="#" onclick = "Leaflet_Marker_407()">Load Trace Data from CSV File </a></li>
+		</ul>
+		</li>
+	</ul>
+</nav>
+<div id="map_Layer">
+    <div id="map_AD_002" style="width: 100%; height: 96%; border: solid 1px"></div>
+These Icons are downloaded from<A HREF = "http://flat-icon-design.com/" target="_blank"> FLAT ICON DESIGN </A>and
+<A HREF = "http://icooon-mono.com/" target="_blank"> ICOON MONO </A>. 
+TopeconHeroes holds the copyright of these Icons.
+</div>
+</body>
+</html>
+

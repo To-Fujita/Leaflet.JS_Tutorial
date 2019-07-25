@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_504_EN.html	2019/7/20	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Layer_504_L = new Array();
+	var Layer_504_P = new Array();
+	var Layer_504_C = new Array();
+	var map_504 = L.map('map_504').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_504);
+	Leaflet_Lines_504();
+	Leaflet_Polygons_504();
+	Leaflet_Circles_504();
+
+	function Leaflet_Lines_504()		// Draw Lines
+	{
+	    var Lines_shape = new Array();
+	    var Lines_shape_pos = new Array();
+	    var Lines_shape_nam = new Array();
+	    var Lines_shape_lnk = new Array();
+	    var Lines_strokecol = new Array();
+	    var Lines_style = new Array();
+	    var Set_Color = "000000";
+	    var Line_W = 2;
+
+	    Lines_shape_pos[ 0 ] = [ 
+				   [ 51.7, -1.9 ],
+				   [ 51.5, -1.6 ],
+				   [ 51.0, -1.5 ] 
+				   ];
+	    Lines_strokecol[ 0 ] = "000000";
+	    Lines_shape_nam[ 0 ] = "Lines Sample #001";
+	    Lines_shape_lnk[ 0 ] = " ";
+
+	    Lines_shape_pos[ 1 ] = [ 
+				   [ 51.5, 0.0 ],
+				   [ 52.1, 1.0 ],
+				   [ 52.0, 1.5 ] 
+				   ];
+	    Lines_strokecol[ 1 ] = "FF0000";
+	    Lines_shape_nam[ 1 ] = "Lines Sample #002";
+	    Lines_shape_lnk[ 1 ] = " ";
+
+	    for ( i = 0; i <= (Lines_shape_pos.length - 1); i++ )
+	    {
+		 if (Lines_shape_pos[ i ] != null ) 	
+		 {
+		    Set_Color = Lines_strokecol[ i ];
+	            Lines_shape[ i ] = L.polyline([  Lines_shape_pos[ i ] ],
+			{ color: "#"+Set_Color,
+			  weight: Line_W,
+			  opacity: 1,
+			  draggable: 'true'
+			}).bindPopup( Lines_shape_nam[ i ] + "<BR> <input type='button' value='Delete this line' class='figure-delete-button'/>"
+		    );
+		    Lines_shape[ i ].on('popupopen', onPopupFigure );
+		    Layer_504_L[ i ] = Lines_shape[ i ];
+		    Layer_504_L[ i ].addTo(map_504);
+		 }
+	    }
+	}
+
+	function Leaflet_Polygons_504()		// Draw Polygons
+	{
+	     var Polygons_shape = new Array();
+	     var Polygons_shape_pos = new Array();
+	     var Polygons_shape_nam = new Array();
+	     var Polygons_shape_lnk = new Array();
+	     var Polygons_strokecol = new Array();
+	     var Polygons_fillcolor = new Array();
+	     var Line_W = 2;
+
+	     Polygons_shape_pos[ 0 ] = [ 
+				       [ 52.2, -0.9 ],
+				       [ 52.0, -1.4 ],
+				       [ 51.5, -0.7 ] 
+				       ];
+	     Polygons_strokecol[ 0 ] = "000000";
+	     Polygons_fillcolor[ 0 ] = "FFFF00";
+	     Polygons_shape_nam[ 0 ] = "Polygons Sample #001";
+	     Polygons_shape_lnk[ 0 ] = "  ";
+
+	     Polygons_shape_pos[ 1 ] = [ 
+				       [ 51.5, 1.0 ],
+				       [ 51.4, 0.0 ],
+				       [ 51.0, 0.5 ],
+				       [ 51.0, 1.5 ],
+				       ];
+	     Polygons_strokecol[ 1 ] = "FF0000";
+	     Polygons_fillcolor[ 1 ] = "FF0000";
+	     Polygons_shape_nam[ 1 ] = "Polygons Sample #002";
+	     Polygons_shape_lnk[ 1 ] = "  ";
+
+	     for ( i = 0; i <= (Polygons_shape_pos.length - 1); i++ )
+	     {
+		 if (Polygons_shape_pos[ i ] != null ) 	
+		 {
+		    Polygons_shape[ i ] = L.polygon([ Polygons_shape_pos[ i ] ],
+			{ color: "#" + Polygons_strokecol[ i ],
+			  fillColor: "#" + Polygons_fillcolor[ i ],
+			  weight: Line_W,
+			  fillopacity: 0.5,
+			  draggable: 'true'
+		    });
+		    Polygons_shape[ i ].bindPopup(Polygons_shape_nam[ i ]  + "<BR> <input type='button' value='Delete this polygon' class='figure-delete-button'/>");
+		    Polygons_shape[ i ].on('popupopen', onPopupFigure );
+		    Layer_504_P[ i ] = Polygons_shape[ i ];
+		    Layer_504_P[ i ].addTo(map_504);
+		}
+	    }
+	}
+
+	function Leaflet_Circles_504()		// Draw Circles
+	{
+	    var Circle_shape = new Array();
+	    var Circle_shape_LAT = new Array();
+	    var Circle_shape_LON = new Array();
+	    var Circle_shape_RAD = new Array();
+	    var Circle_shape_NAM = new Array();
+	    var Circle_shape_LNK = new Array();
+	    var Circle_strokecol = new Array();
+	    var Circle_fillcolor = new Array();
+	    var Line_W = 2;
+
+	    Circle_shape_LAT[ 0 ] = 51.5;
+	    Circle_shape_LON[ 0 ] = -0.1;
+	    Circle_shape_RAD[ 0 ] = 30000;
+	    Circle_shape_NAM[ 0 ] = "Circle Sample #001";
+	    Circle_shape_LNK[ 0 ] = " ";
+	    Circle_strokecol[ 0 ] = "000000";
+	    Circle_fillcolor[ 0 ] = "FFFF00";
+
+	    Circle_shape_LAT[ 1 ] = 51.3;
+	    Circle_shape_LON[ 1 ] = 1.5;
+	    Circle_shape_RAD[ 1 ] = 50000;
+	    Circle_shape_NAM[ 1 ] = "Circle Sample #002";
+	    Circle_shape_LNK[ 1 ] = " ";
+	    Circle_strokecol[ 1 ] = "FF0000";
+	    Circle_fillcolor[ 1 ] = "FF0000";
+
+	    for (i = 0; i <= (Circle_shape_LAT.length - 1); i++) {
+		Circle_shape[ i ] = L.circle([ Circle_shape_LAT[ i ], Circle_shape_LON[ i ] ], Circle_shape_RAD[ i ],
+		    { color: "#" + Circle_strokecol[ i ],
+		      fillColor: "#" + Circle_fillcolor[ i ],
+		      weight: Line_W,
+		      fillopacity: 0.5,
+		      draggable: 'true'
+		    }).bindPopup(Circle_shape_NAM[ i ] + "<BR> <input type='button' value='Delete this circle' class='figure-delete-button'/>"
+		);
+		Circle_shape[ i ].on('popupopen', onPopupFigure );
+		Layer_504_C[ i ] = Circle_shape[ i ];
+		Layer_504_C[ i ].addTo(map_504);
+	    }
+	}
+
+	function onPopupFigure() 
+	{
+	    var tempFigure = this;
+	    $(".figure-delete-button:visible").click(function () {
+	        map_504.removeLayer(tempFigure);
+	    });
+	}
+    }
+
+    </script>
+</head>
+<body onload="init()">
+    <div id="map_504" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

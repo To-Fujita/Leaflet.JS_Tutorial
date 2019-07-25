@@ -1,0 +1,3252 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel = "stylesheet" href = "./CSS/Original_Style_000.css" />
+<head>
+<meta charset="utf-8" />
+<title> How to Use the Leaflet.js on Github </title>
+<STYLE>
+    body {
+	background-color: #feeded;
+	background-image: url("./images/map-image.png");
+	background-repeat: repeat;
+    }
+</STYLE>
+</head>
+<body>
+<center>
+    <h1>How to draw maps by using the Leaflet.js</h1>
+</center>
+"Leaflet.js" is an open-source JavaScript library for interactive maps. 
+This document is a tutorial for beginners to use the "Leaflet.js". 
+I will show you how to draw a map, how to set markers and/or figures on the map step by step.
+<br>
+<h2>Step-1: Try to draw some Maps.</h2>
+Let's try to draw the open street map as a first step. The source of html is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_101_EN.html"  target="_blank">Demo for Tutorial_101</a>: To draw an open street map.
+<span id="code-block" style="height: 100px;">
+<PRE>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;title&gt;Leaflet_Tutrial_101_EN.html	2019/7/19	by T. Fujita&lt;/title&gt;
+&lt;meta charset="utf-8" /&gt;
+&lt;link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" /&gt;
+&lt;script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"&gt;&lt;/script&gt;
+&lt;style&gt;
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+&lt;/style&gt;
+&lt;script&gt;
+    function init() {
+	var map_101 = L.map('map_101').setView([51.5, 0.0], 8);			// Set Latitude and Longitude for the center of Map, then 8 is a zoom level to show the Map.
+	mapLink = '&lt;a href="https://openstreetmap.org"&gt;OpenStreetMap&lt;/a&gt;';	// URL for attribution
+	L.tileLayer(
+	    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {		// set tile images for Map
+	    attribution: 'Map data &copy; ' + mapLink,				// set the attribution
+	    maxZoom: 18
+        }).addTo(map_101);
+    }
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="init()"&gt;
+    &lt;div id="map_101" style="width: 100%; height: 100%; border: solid 1px"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</PRE>
+</span>
+<br><br>
+Next is a try to change the map style that is Stamen designed. The change points are as follows:
+<br>
+<a href = "./Leaflet_Tutrial_102_EN.html"  target="_blank">Demo for Tutorial_102</a>: To draw a Stamen Design map.
+<span id="code-block" style="height: 100px;">
+<PRE>
+	L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;',
+		variant: 'toner-lite'
+	}).addTo(map_102);				// The map No. is need to fit the id on the html.
+</PRE>
+</span>
+<br><br>
+Try again to change the map style. In this time, to use Esri designed map. Also, the change points are as follows:
+<br>
+<a href = "./Leaflet_Tutrial_103_EN.html"  target="_blank">Demo for Tutorial_103</a>: To draw an Esri designed map.
+<span id="code-block" style="height: 100px;">
+<PRE>
+	L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; &lt;a href="http://www.esrij.com/"&gt; Esri &lt;/a&gt;'
+	}).addTo(map_103);
+</PRE>
+</span>
+<br><br>
+As a last of Step-1, it is a sample for how to select a map from several maps. The JavaScript section of html is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_104_EN.html"  target="_blank">Demo for Tutorial_104</a>: To select a map from several maps.
+<span id="code-block" style="height: 100px;">
+<PRE>
+function init() {
+	var Basic_Map = new Array();						// This array is stored map url.
+	Basic_Map[ 0 ] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; &lt;a href="https://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors',
+		continuousWorld: false
+	});
+	Basic_Map[ 1 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;, ',
+		variant: 'toner-background'
+	});
+	Basic_Map[ 2 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;, ',
+		variant: 'toner-lite'
+	});
+	Basic_Map[ 3 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		minZoom: 1,
+		maxZoom: 16,
+		attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;, ',
+		variant: 'watercolor'
+	});
+	Basic_Map[ 4 ] = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; &lt;a href="http://www.esrij.com/"&gt; Esri Japan &lt;/a&gt;'
+	});
+	Basic_Map[ 5 ] = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+		maxZoom: 13,
+		attribution: 'Tiles by &lt;a href="http://www.esrij.com/"&gt; Esri Japan &lt;/a&gt;'
+	});
+
+        var map_104 = L.map('map_104').setView([51.5, 0.0], 8);
+        map_104.addLayer( Basic_Map[ 0 ] );
+
+	var baseMap = {
+		"OpenStreetMap": Basic_Map[ 0 ],
+		"Stamen Toner-Background": Basic_Map[ 1 ],
+		"Stamen Toner-Lite": Basic_Map[ 2 ],
+		"Stamen Watercolor": Basic_Map[ 3 ],
+		"Esri World Topo Map": Basic_Map[ 4 ],
+		"Esri Ocean Base Map": Basic_Map[ 5 ],
+	};
+	L.control.layers(baseMap).addTo(map_104);				// Select a map tile
+}
+</PRE>
+</span>
+<br><br>
+
+
+<h2>Step-2: Try to draw Overlays on the Map.</h2>
+In the Step-2, I will show you how to draw some overlays based on the Tutorial_104 map. The source of over layers is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_201_EN.html"  target="_blank">Demo for Tutorial_201</a>: Draw some overlays based on Tutorial_104.
+<span id="code-block" style="height: 100px;">
+<PRE>
+	var Over_Layer = new Array();
+	Over_Layer[ 0 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+	    attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;, ' +
+		'&lt;a href="http://creativecommons.org/licenses/by/3.0"&gt;CC BY 3.0&lt;/a&gt; &mdash; ' +
+		'Map data {attribution.OpenStreetMap}',
+	    variant: 'toner-hybrid'
+	});
+	Over_Layer[ 1 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+	    attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;, ' +
+		'&lt;a href="http://creativecommons.org/licenses/by/3.0"&gt;CC BY 3.0&lt;/a&gt; &mdash; ' +
+		'Map data {attribution.OpenStreetMap}',
+	    variant: 'toner-lines'
+	});
+	Over_Layer[ 2 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+	    attribution: 'Map tiles by &lt;a href="http://stamen.com"&gt;Stamen Design&lt;/a&gt;, ' +
+		'&lt;a href="http://creativecommons.org/licenses/by/3.0"&gt;CC BY 3.0&lt;/a&gt; &mdash; ' +
+		'Map data {attribution.OpenStreetMap}',
+	    variant: 'toner-labels'
+	});
+	Over_Layer[ 3 ] = L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+	    attribution: "&lt;a href='http://www.openseamap.org' target='_blank'&gt;OpenSeaMap&lt;/a&gt; contributors"
+	});
+
+	var overLay_201 = {
+	    "Stamen-hybrid": Over_Layer[ 0 ],
+	    "Stamen toner-lines": Over_Layer[ 1 ],
+	    "Stamen toner-labels": Over_Layer[ 2 ],
+	    "OpenSeaMap": Over_Layer[ 3 ],
+	};
+	L.control.layers(baseMap, overLay_201).addTo(map_201);
+</PRE>
+</span>
+<br><br>
+Next Overlays are based on the data from MODIS (MODerate resolution Imaging Spectroradiometer) and the earthquakes data from USGS (United States Geological Survey).
+It is used some Leaflet Plugins for drawing these Overlays. The additional parts for html and JavaScript are as follows:
+<br>
+<a href = "./Leaflet_Tutrial_202_EN.html"  target="_blank">Demo for Tutorial_202</a>: Added overlays for MODIS's data and USGS's earthquakes data.
+<span id="code-block" style="height: 100px;">
+<PRE>
+<CODE class="red">Added to html section:</CODE>
+&lt;script src = "./Plugins\leaflet-GIBS-master\src/GIBSMetadata.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins\leaflet-GIBS-master\src/GIBSLayer.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins/leaflet-ajax-master/dist/leaflet.ajax.js" &gt;&lt;/script&gt;
+
+<CODE class="red">Added to JavaScript section:</CODE>
+	Over_Layer[ 4 ] = new L.GIBSLayer('MODIS_Water_Mask', {
+	    date: new Date('2018/11/15'),
+	    transparent: true
+	});
+	Over_Layer[ 5 ] = new L.GeoJSON.AJAX(
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson",
+		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson",
+//		"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
+	   {pointToLayer: function (feature, latlng) {
+		return L.circleMarker(latlng, {
+		    radius: feature.properties.mag * feature.properties.mag / 3,
+		    fillcolor: "#FF7800",
+		    color: "#FF7800",
+		    weight: 1,
+		    opacity: 0.5,
+		    fillOpacity: 0.5
+		}); },
+	    onEachFeature: function (feature, layer) {
+	    layer.bindPopup(new Date(feature.properties.time).toUTCString() + " / " + feature.properties.title);
+	    } 
+	});
+</PRE>
+</span>
+<br><br>
+
+
+<h2>Step-3: Try to show some Utilities on the Map.</h2>
+As a Step-3, I will show you how to add following utilities to the map. Almost utilities are by using Leaflet Plugins.<br>
+(1) Mini Map at the bottom of left side on the map.<br>
+(2) Scale at the bottom of left side on the map.<br>
+(3) Graticule lines on the map.<br>
+(4) Mouse Position at the bottom of right side on the map.<br>
+(5) Search Window at the top of right side on the map.<br>
+<br>
+The map data and the overlay data are separated from html, and then these data are stored as "Map_Data_EN.js". 
+In addition, I create "Leaflet_Graticule.js" and "Leaflet_Graticule.css" for drawing graticule lines. The source of html is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_301_EN.html"  target="_blank">Demo for Tutorial_301</a>: To show some Utilities on the Map.
+<span id="code-block" style="height: 100px;">
+<PRE>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;title&gt;Leaflet_Tutrial_301_EN.html	2019/7/19	by T. Fujita&lt;/title&gt;
+&lt;meta charset = "utf-8" /&gt;
+&lt;link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" /&gt;
+&lt;link rel = "stylesheet" href = "./CSS/Leaflet_Graticule.css" /&gt;
+&lt;link rel = "stylesheet" href = "./Plugins/Leaflet-MousePosition-master/src/L.Control.MousePosition.css" /&gt;
+&lt;link rel = "stylesheet" href = "./Plugins/Leaflet-MiniMap-master/src/Control.MiniMap.css" /&gt;
+&lt;link rel = "stylesheet" href = "./Plugins/leaflet-control-osm-geocoder-master/Control.OSMGeocoder.css" /&gt;
+&lt;script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"&gt;&lt;/script&gt;
+&lt;script src = "./Plugins/leaflet-GIBS-master/src/GIBSMetadata.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins/leaflet-GIBS-master/src/GIBSLayer.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins/leaflet-ajax-master/dist/leaflet.ajax.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins/Leaflet-MousePosition-master/src/L.Control.MousePosition.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins/Leaflet-MiniMap-master/src/Control.MiniMap.js" &gt;&lt;/script&gt;
+&lt;script src = "./Plugins/leaflet-control-osm-geocoder-master/Control.OSMGeocoder_SRC.js" &gt;&lt;/script&gt;
+&lt;script src = "./JS/Map_Data_EN.js" &gt;&lt;/script&gt;				// Separate map and overlay data as a js type of file.
+&lt;script src = "./JS/Leaflet_Graticule.js" &gt;&lt;/script&gt;
+&lt;style&gt;
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+&lt;/style&gt;
+&lt;script&gt;
+    var map;
+    var ClickLat, ClickLon, Act_Zoom, Pre_Zoom;
+    var Mouse_Position = L.control.mousePosition( {position:'bottomright'} );						// Set Mouse Position
+
+    function init() {
+	map = L.map('map').setView([51.5, 0.0], 8);
+	map.addLayer( Basic_Map[ 0 ] );
+	L.control.layers(baseMap, overLay).addTo(map);
+
+	L.control.scale().addTo(map);											// Show Scale
+	Mouse_Position.addTo(map);											// Show Mouse Position
+	var osm2 = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+	    {minZoom: 0, maxZoom: 15, attribution: 'Map data &copy; OpenStreetMap contributors' });
+	var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true, position: 'bottomleft' }).addTo(map);		// Show Mini Map
+	Grid_on_B();													// Set Graticule Lines
+	map.on('click', function(e) {
+		ClickLat = e.latlng.lat;
+		ClickLon = e.latlng.lng;
+		if(flag_grid == 1)
+		{
+			Act_Zoom = map.getZoom();
+			Act_Ctn = map.getCenter();
+			if(Act_Zoom != Pre_Zoom)
+			{
+				grid( grid_line_col );									// Show Graticule Lines
+				Pre_Zoom = Act_Zoom;
+			}
+		}
+	});
+	osmGeocoder = new L.Control.OSMGeocoder();									// Set Search Window
+	map.addControl(osmGeocoder);											// Show Search Window
+    }
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="init()"&gt;
+    &lt;div id="map" style="width: 100%; height: 100%; border: solid 1px"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</PRE>
+</span>
+<br><br>
+
+
+<h2>Step-4: Try to show some Markers on the Map.</h2>
+First of Step-4, I will show you how to set a fixed Marker with default configuration on the map. 
+After click this Marker, it is shown the name of point and link URL in a popup balloon. 
+The source for Marker's section of html is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_401_EN.html"  target="_blank">Demo for Tutorial_401</a>: To show the fixed Marker (with default configuration).
+<span id="code-block" style="height: 100px;">
+<PRE>
+	function Leaflet_Marker_401()					// Set the Marker
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    Markers_shape_pos[ 0 ] = [51.5058, -0.0752];		// Marker Position
+	    Markers_shape_nam[ 0 ] = "Tower Bridge";
+	    Markers_shape_lnk[ 0 ] = "&lt;a href = 'https://www.towerbridge.org.uk/' target='_blank'&gt;Link to Tower Bridge&lt;/a&gt;";
+	    Markers_shape[ 0 ] = L.marker([ Markers_shape_pos[ 0 ][ 0 ], Markers_shape_pos[ 0 ][ 1 ] ]);
+	    Markers_shape[ 0 ].bindPopup(Markers_shape_nam[ 0 ] + "&lt;br&gt;" + Markers_shape_lnk[ 0 ]).openPopup();
+	    Layer_401[ 0 ] = Markers_shape[ 0 ];
+	    Layer_401[ 0 ].addTo(map_401);
+	}
+</PRE>
+</span>
+<br><br>
+The next is how to show selected Icons for fixed Markers. 
+The source for changed Marker's section of html is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_402_EN.html"  target="_blank">Demo for Tutorial_402</a>: To show selected Icons as Markers
+<span id="code-block" style="height: 100px;">
+<PRE>
+	function Leaflet_Marker_402()							// Set the Markers
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    var Markers_shape_icn = new Array();
+	    Markers_shape_pos[ 0 ] = [51.5058, -0.0752];
+	    Markers_shape_nam[ 0 ] = "Tower Bridge";
+	    Markers_shape_lnk[ 0 ] = "&lt;a href= 'https://www.towerbridge.org.uk/' target='_blank'&gt;Link to Tower Bridge&lt;/a&gt;";
+	    Markers_shape_icn[ 0 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_business_76_0nbg.png",		// Set the Marker's Icon
+		iconSize: [32, 32],							// Size of Icon
+		iconAnchor: [16, 32],							// Set Anchor Point
+		popupAnchor: [0, -16]							// Set Anchor Point for Popup
+	    });
+
+	    Markers_shape_pos[ 1 ] = [51.47, -0.453];
+	    Markers_shape_nam[ 1 ] = "Heathrow Airport";
+	    Markers_shape_lnk[ 1 ] = "&lt;a href= 'https://www.heathrow.com/' target='_blank'&gt;Link to Heathrow Airport&lt;/a&gt;";
+	    Markers_shape_icn[ 1 ] = L.icon({
+		iconUrl: "./ICONS/BW_Icon/BW_Icons_64/icon_107470_64.png",
+		iconSize: [32, 32],
+		iconAnchor: [0, 32],
+		popupAnchor: [16, -16]
+	    });
+
+	    Markers_shape_pos[ 2 ] = [51.258, -0.00456];
+	    Markers_shape_nam[ 2 ] = "Oxford";
+	    Markers_shape_lnk[ 2 ] = "&lt;a href= 'https://oxfordcity.co.uk/' target='_blank'&gt;Link to Oxford&lt;/a&gt;";
+	    Markers_shape_icn[ 2 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_traffic_45_0nbg.png",
+		iconSize: [28, 32],
+		iconAnchor: [0, 32],
+		popupAnchor: [16, -16]
+	    });
+	    for ( i = 0; i < Markers_shape_pos.length; i++ )
+	    {
+		if( Markers_shape_pos[ i ] != null ) {
+		    Markers_shape[ i ] = L.marker([ Markers_shape_pos[ i ][ 0 ], Markers_shape_pos[ i ][ 1 ] ],
+			{icon: Markers_shape_icn[ i ]});
+		    Markers_shape[ i ].bindPopup(Markers_shape_nam[ i ] + "&lt;br&gt;" + Markers_shape_lnk[ i ]).openPopup();
+		    Layer_402[ i ] = Markers_shape[ i ];
+		    Layer_402[ i ].addTo(map_402);
+		}
+	    }
+	}
+</PRE>
+</span>
+<br><br>
+Add to Draggable Markers. Human type of icons (including clown icon) are movable. 
+The source for added Draggable Marker's section of html is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_403_EN.html"  target="_blank">Demo for Tutorial_403</a>: Add to Draggable Markers
+<span id="code-block" style="height: 100px;">
+<PRE>
+	    Drag_Markers_shape_pos[ 0 ] = [52.0, 1.75];
+	    Drag_Markers_shape_nam[ 0 ] = "Movable Marker #1";
+	    Drag_Markers_shape_lnk[ 0 ] = " ";
+	    Drag_Markers_shape_icn[ 0 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_object_116_1nbg.png",
+		iconSize: [48, 48],
+		iconAnchor: [24, 24],
+		popupAnchor: [0, 0]
+	    });
+
+	    Drag_Markers_shape_pos[ 1 ] = [51.5, 1.0];
+	    Drag_Markers_shape_nam[ 1 ] = "Movable Marker #2";
+	    Drag_Markers_shape_lnk[ 1 ] = "&lt;A HREF = 'http://flat-icon-design.com/' target='_blank'&gt; Link to FLAT ICOON &lt;/A&gt;";
+	    Drag_Markers_shape_icn[ 1 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_object_115_0nbg.png",
+		iconSize: [48, 48],
+		iconAnchor: [24, 24],
+		popupAnchor: [0, 0]
+	    });
+
+	    Drag_Markers_shape_pos[ 2 ] = [51.5, 2.0];
+	    Drag_Markers_shape_nam[ 2 ] = "Movable Marker #3";
+	    Drag_Markers_shape_lnk[ 2 ] = "&lt;A HREF = 'http://icooon-mono.com/' target='_blank'&gt; Link to ICOON MONO &lt;/A&gt;";
+	    Drag_Markers_shape_icn[ 2 ] = L.icon({
+		iconUrl: "./ICONS/BW_Icon/BW_Icons_64/icon_128020_64.png",
+		iconSize: [48, 48],
+		iconAnchor: [24, 24],
+		popupAnchor: [0, 0]
+	    });
+
+	    for ( i = 0; i < Drag_Markers_shape_pos.length; i++ )
+	    {
+		if( Drag_Markers_shape_pos[ i ] != null ) {
+		    Drag_Markers_shape[ i ] = L.marker([ Drag_Markers_shape_pos[ i ][ 0 ], Drag_Markers_shape_pos[ i ][ 1 ] ],
+			{icon: Drag_Markers_shape_icn[ i ], draggable: true});							// Set Draggable Marker
+		    Drag_Markers_shape[ i ].bindPopup(Drag_Markers_shape_nam[ i ] + "&lt;br&gt;" + Drag_Markers_shape_lnk[ i ]);
+		    Layer_403[ i ] = Drag_Markers_shape[ i ];
+		    Layer_403[ i ].addTo(map_403);
+		}
+	    }
+</PRE>
+</span>
+<br><br>
+The last of Step-4 is interactive Markers. 
+In Demo for Tutorial_404, it is shown the "MARKER MENU" at top of map window, and then you can select the Marker style and set position of Markers anywhere. 
+Markers that is set on the map are able to save or to load as CSV files.
+Therefore, I create next Style Sheets and JavaScript files. <br>
+(1) Original_Style_404.css: A Cascading Style Sheets for Dialog Box<br>
+(2) scroll_menu.css: A Cascading Style Sheets for the Menu at top of the map wildow<br>
+(3) Dialog_404_EN.js: Dialog Boxes to select Icons and to load CSV files<br>
+<br>
+I was used "ms-Dropdown-master" for loading CSV files. 
+The source of html, above CSS and JavaScript are as follows:
+<br>
+<a href = "./Leaflet_Tutrial_404_EN.html"  target="_blank">Demo for Tutorial_404</a>: Interactive Markers
+<span id="code-block" style="height: 100px;">
+<PRE>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;title&gt;Leaflet_Tutrial_404_EN.html	2019/7/19	by T. Fujita&lt;/title&gt;
+&lt;meta charset = "utf-8" /&gt;
+&lt;link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" /&gt;
+&lt;link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"&gt;
+&lt;link rel = "stylesheet" href = "./Plugins/ms-Dropdown-master/css/msdropdown/dd.css" /&gt;
+&lt;link rel = "stylesheet" href = "./CSS/scroll_menu.css" /&gt;
+&lt;link rel = "stylesheet" href = "./CSS/Original_Style_404.css" /&gt;
+&lt;style&gt;
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+&lt;/style&gt;
+&lt;script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"&gt;&lt;/script&gt;
+&lt;script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"&gt;&lt;/script&gt;
+&lt;script src = "./Plugins/ms-Dropdown-master/js/msdropdown/jquery.dd.js"&gt;&lt;/script&gt;
+&lt;script src = "./JS/Dialog_404_EN.js" &gt;&lt;/script&gt;
+&lt;script&gt;
+	var Marker_LAT = new Array();
+	var Marker_LON = new Array();
+	var Marker_NAM = new Array();
+	var Marker_LNK = new Array();
+	var Marker_ICN = new Array();
+	var Marker_ID = new Array();
+	var Marker_Drag_flag = new Array();
+	var Marker_Drag_info = new Array();
+	var ClickLat = null;
+	var ClickLon = null;
+	var Marker_count = 0;
+	var Marker_ID_count = 0;
+	var SelectedID;
+	var Marker_flag = 0;
+	var Temp_shape, Temp_shape_clone;
+	var Temp, Temp_LAT, Temp_LON, Temp_NAM, Temp_LNK, Temp_ICN, Temp_ID;
+	var Temp_Drag_flag, Temp_Drag_info;
+	var Layer_404 = new Array();
+	var Layer_404_clone = new Array();
+	var Dialog_flag_001 = 0;
+	var map_404;
+
+	function init() {
+		map_404 = L.map('map_404').setView([51.5, 0.0], 8);
+		mapLink = '&lt;a href="https://openstreetmap.org"&gt;OpenStreetMap&lt;/a&gt;';
+		L.tileLayer(
+			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; ' + mapLink,
+			maxZoom: 18
+	        }).addTo(map_404);
+		map_404.on('click', function(e) {
+			ClickLat = e.latlng.lat;
+			ClickLon = e.latlng.lng;
+			if ( Marker_flag == 1 ) { Leaflet_Marker_401(); }
+			if ( Marker_flag == 2 ) { Leaflet_Marker_403(); }
+		});
+	}
+
+	function Leaflet_Marker_400() {		// Initialize for setting a Marker
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 1;
+	}
+
+	function Leaflet_Marker_401() {		// Set a Marker
+	  if(Marker_flag == 1) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_404);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_404);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+		Marker_flag = 0;
+	    }
+	}
+
+	function Leaflet_Marker_402() {		// Initialize for Setting of Several Markers
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 2;
+	}
+
+	function Leaflet_Marker_403() {		// Set Several Markers
+	  if(Marker_flag == 2) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_404);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_404);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	}
+
+	function Leaflet_Marker_404() {		// End of Setting for Several Markers
+		Marker_flag = 0;
+	}
+
+	function Leaflet_Marker_405() {		// Clear All Markers
+		var j = Layer_404.length - 1;
+		for(i = 0; i <= j; i++) {
+			if(Layer_404[i] != null) {
+				map_404.removeLayer(Layer_404[i]);
+				map_404.removeLayer(Layer_404_clone[ i ]);
+			}
+		}
+		Marker_count = 0;
+		Marker_LAT = new Array();
+		Marker_LON = new Array();
+		Marker_NAM = new Array();
+		Marker_LNK = new Array();
+		Marker_ICN = new Array();
+	}
+
+	function Leaflet_Marker_406() {		// Save Marker's Position as CSV File
+	    for (i = 0; i <= (Marker_LON.length - 1); i++) {
+		if( !isNaN(Marker_LON[ i ]) ) {
+		    while( (Marker_LON[ i ] * 1.0) < -180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Marker_LON[ i ] * 1.0) > 180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Marker_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Marker_LAT.length;
+		for ( i = 0; i < Temp; i++ ) {
+			if( Marker_LAT[ i ] != "" && Marker_LON[ i ] != "" ) {
+			  CSV_content = CSV_content + Marker_LAT[ i ] + "," + Marker_LON[ i ] + "," + Marker_NAM[ i ] + "," + Marker_LNK[ i ] + ",\r\n";
+			}
+		  }
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function Leaflet_Marker_407() {		// Load Marker's Position from CSV File
+		Dialog_002();
+	}
+
+	function Marker_setting() {		// Setting Markers
+		Temp_LAT = Marker_LAT[ Temp ] * 1.0;
+		Temp_LON = Marker_LON[ Temp ] * 1.0;
+		Temp_NAM = Marker_NAM[ Temp ];
+		Temp_LNK = Marker_LNK[ Temp ];
+		Temp_ICN = Marker_ICN[ Temp ];
+		Temp_ID = Marker_ID[ Temp ];
+		Temp_Drag_flag = Marker_Drag_flag[ Temp ]
+		Temp_Drag_info = Marker_Drag_info[ Temp ]
+		Set_Link =" ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "&lt;a href= '" + Temp_LNK + "' target='_blank'&gt; " + "Link to the URL of " + Temp_NAM + " &lt;/a&gt;";
+		    }
+		}
+	}
+
+	function Marker_set() {			// Set Markers
+	  if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+	    if( (Temp_LAT !== undefined) || (Temp_LAT !== "") ) {
+		if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+		    Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+			{icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "&lt;BR&gt;" + Temp_Drag_info + "&lt;BR&gt;" +
+			 "&lt;p&gt; &lt;input type='button' value='Change this Marker' class='marker-change-button'/&gt;&lt;/p&gt;" +
+			 Set_Link + "&lt;p&gt; &lt;input type='button' value='Delete this Marker' class='marker-delete-button'/&gt;&lt;/p&gt;");
+		    Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    if(Temp_LON >= 0) {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "&lt;BR&gt;" + Temp_Drag_info + "&lt;BR&gt;" +
+			 "&lt;p&gt; &lt;input type='button' value='Change this Marker' class='marker-change-button'/&gt;&lt;/p&gt;" +
+			 Set_Link + "&lt;p&gt; &lt;input type='button' value='Delete this Marker' class='marker-delete-button'/&gt;&lt;/p&gt;");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    } else {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "&lt;BR&gt;" + Temp_Drag_info + "&lt;BR&gt;" +
+			 "&lt;p&gt; &lt;input type='button' value='Change this Marker' class='marker-change-button'/&gt;&lt;/p&gt;" +
+			 Set_Link + "&lt;p&gt; &lt;input type='button' value='Delete this Marker' class='marker-delete-button'/&gt;&lt;/p&gt;");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    }
+		}
+	    }
+	  }
+	}
+
+	function onMarkerOpen() {		// Action at Click the Marker
+	    var tempMarker = this;
+	    SelectedID = tempMarker.options.id;
+	    $(".marker-delete-button:visible").click(function () {
+		Marker_DEL(tempMarker);
+	    });
+	    $(".marker-change-button:visible").click(function () {
+		Dialog_001();
+	    });
+	}
+
+	function Change_Marker() {		// Action at Click the Change Button
+	    for(i = 0; i <= Marker_count; i++) {
+		if(SelectedID == Marker_ID[ i ] ) {
+			Marker_NAM[ i ] = Set_Text;
+			Marker_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    Marker_Refresh();
+	}
+
+	function Marker_DEL(tempMarker) {	// Action at Click the Delete Button
+		var k = 0;
+		Marker_flag = 0;
+		Marker_LAT[ Marker_count + 1 ] = "";
+		Marker_LON[ Marker_count + 1 ] = "";
+		Marker_NAM[ Marker_count + 1 ] = "";
+		Marker_LNK[ Marker_count + 1 ] = "";
+		Marker_ICN[ Marker_count + 1 ] = "";
+		Marker_ID[ Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				for(k = i; k <= Marker_count; k++) {
+					Marker_LAT[ k ] = Marker_LAT[ k + 1 ];
+					Marker_LON[ k ] = Marker_LON[ k + 1 ];
+					Marker_NAM[ k ] = Marker_NAM[ k + 1 ];
+					Marker_LNK[ k ] = Marker_LNK[ k + 1 ];
+					Marker_ICN[ k ] = Marker_ICN[ k + 1 ];
+					Marker_ID[ k ] = Marker_ID[ k + 1 ];
+					Marker_Drag_flag[ k ] = Marker_Drag_flag[ k + 1 ];
+					Marker_Drag_info[ k ] = Marker_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Marker_count = Marker_count - 1;
+		Marker_Refresh();
+	}
+
+	function Marker_Refresh() {		// Refresh Markers
+		var j = Layer_404.length - 1;
+		for(i = 0; i <= j; i++) {
+		    if(Layer_404[ i ] != null) {
+			map_404.removeLayer(Layer_404[ i ]);
+			map_404.removeLayer(Layer_404_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= Marker_count - 1; i++)
+		{
+			Temp = i;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_404);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_404);
+		}
+	}
+
+	function Dragging() {			// Get Marker's Position
+		ClickLat = this._latlng.lat;
+		ClickLon = this._latlng.lng;
+		SelectedID = this.options.id;
+		for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				Marker_LAT[ i ] = ClickLat;
+				Marker_LON[ i ] = ClickLon;
+			}
+		}
+		Marker_Refresh();
+		SelectedID = null;
+	}
+
+	function CSV_Markers() {		// Set Markers from CSV File
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		if((Data_CSV[i][0] * 1.0) > 90) {
+		    Data_CSV[i][0] = 90;
+		}
+		if((Data_CSV[i][0] * 1.0) < -90) {
+		    Data_CSV[i][0] = -90;
+		}
+		while( (Data_CSV[i][1] * 1.0) < -180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 + 360;
+		}
+		while( (Data_CSV[i][1] * 1.0) > 180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 - 360;
+		}
+	    }
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Marker_LAT[ Marker_count ] = Data_CSV[i][0];
+		Marker_LON[ Marker_count ] = Data_CSV[i][1];
+		Marker_NAM[ Marker_count ] = Data_CSV[i][2];
+		Marker_LNK[ Marker_count ] = Data_CSV[i][3];
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = false;
+		Marker_Drag_info[ Marker_count ] = "This Marker is Fixed.";
+		if( Data_CSV[i][0] != "" ) {
+		    if( !isNaN( Data_CSV[i][0] ) ) {
+			Temp = Marker_count;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_404);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_404);
+		    }
+		}
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	}
+
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="init()"&gt;
+&lt;nav id="menu-wrap" style="z-index: 1000;"&gt;  
+	&lt;ul id="menu" style="width: 98%;"&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Marker Menu&lt;/a&gt;
+		&lt;ul&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Dialog_001()"&gt;Select Marker Style&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_400()"&gt;Set One Marker &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_402()"&gt;Start to Set Several Markers &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_404()"&gt;End of Set Several Markers &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_405()"&gt;Clear All Markers &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_406()"&gt;Save Marker Position as CSV File &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_407()"&gt;Load Marker Position from CSV File &lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/nav&gt;
+&lt;div id="map_Layer"&gt;
+    &lt;div id="map_404" style="width: 100%; height: 96%; border: solid 1px"&gt;&lt;/div&gt;
+These Icons are downloaded from&lt;A HREF = "http://flat-icon-design.com/" target="_blank"&gt; FLAT ICON DESIGN &lt;/A&gt;and
+&lt;A HREF = "http://icooon-mono.com/" target="_blank"&gt; ICOON MONO &lt;/A&gt;. 
+TopeconHeroes holds the copyright of these Icons.
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</PRE>
+</span>
+<br>
+Source of Original_Style_404.css
+<span id="code-block" style="height: 100px;">
+<PRE>
+.leaflet-container {
+    background: #fff;
+    outline: 0;
+}
+.ui-widget {
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 0.8em;
+}
+.ui-slider-range {
+     background: #808080;
+}
+#console {
+    height: 136px;
+    overflow-y: scroll;
+    color: white;
+    background-color: black;
+}
+</PRE>
+</span>
+<br>
+Source of scroll_menu.css
+<span id="code-block" style="height: 100px;">
+<PRE>
+#menu, #menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: absolute;
+}
+
+#menu {
+	width: 100%;
+	height: 30px;
+	margin: 0px auto;
+	border: 1px solid #444;
+	background-color: #111;
+	background-image: linear-gradient(#444, #111);
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	border-bottom-left-radius: 1px;
+	border-bottom-right-radius: 1px;
+	box-shadow: 0 1px 1px #777, 0 1px 0 #666 inset;
+}
+
+#menu:before,
+
+#menu:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+#menu li {
+	float: left;
+	border: 1px solid #fff;
+	box-shadow: 1px 0 0 #444;
+	position: relative;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
+}
+
+#menu a {
+	float: left;
+	padding: 5px 10px;
+	color: #FAFAFA;
+	text-transform: uppercase;
+	font: 12px Arial, Helvetica;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #000;
+}
+	
+#menu li:hover > a {
+	color: #BA0000;
+}
+
+#menu ul {
+	margin: 10px 0 0 0;
+	opacity: 0;
+	visibility: hidden;
+	position: absolute;
+	top: 24px;
+	left: 0;
+	z-index: 1000;
+	background: #444;
+	background: linear-gradient(#444, #111);
+	box-shadow: 0 -1px 0 rgba(255,255,255,.3);	
+	border-radius: 3px;
+	transition: all .2s ease-in-out;
+}
+
+#menu li:hover > ul {
+	opacity: 1;
+	visibility: visible;
+	margin: 0;
+}
+
+#menu ul ul {
+	top: 0;
+	left: 200px;
+	margin: 0 0 0 8px;
+	box-shadow: -1px 0 0 rgba(255,255,255,.3);		
+}
+
+#menu ul li {
+	float: none;
+	display: block;
+	border: 0;
+	box-shadow: 0 1px 0 #111, 0 2px 0 #666;
+}
+
+#menu ul li:last-child {   
+	box-shadow: none;    
+}
+
+#menu ul a {    
+	padding: 3px;
+	width: 200px;
+	display: block;
+	white-space: nowrap;
+	float: none;
+	text-transform: none;
+}
+
+#menu ul a:hover {
+	color: #FAFAFA;
+	background-color: #BA0000;
+	background-image: linear-gradient(#BA0000, #111);
+}
+
+#menu ul li:last-child &gt; a {
+	border-radius: 0 0 3px 3px;
+}
+
+#scroll {
+	max-width: 210px;
+	max-height: 300px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#myColor {
+	border: 1px solid #FFFFFF;
+	position: absolute;
+	top: 2px;
+}
+
+#txtInfo {
+	position: absolute;
+	left: 546px;
+}
+
+#menu-wrap{
+	width: 100%;
+}
+
+#map_Layer {
+	width: 100%;
+	height: 93%;
+	position: relative;
+	top:30px;
+	z-index: 0;
+}
+
+.leaflet-container {
+	background: #fff;
+	outline: 0;
+}
+</PRE>
+</span>
+<br>
+Source of Dialog_404_EN.js
+<span id="code-block" style="height: 100px;">
+<PRE>
+// Dialog_404_EN.js	2019/7/19 by T. Fujita
+
+var Set_Text = "";
+var Set_Link = " ";
+var Icon_Url = "./ICONS/BW_Icon/BW_Icons_64/icon_000200_64.png";
+var Icon_W = 24;
+var Icon_H = 24;
+var Icon_AW = Math.round(Icon_W / 2);
+var Icon_AH = Math.round(Icon_H / 2);
+var Icon_PW = 0;
+var Icon_PH = Math.round(Icon_H / 2) * -1;
+var Max_M_Size = 64;
+var Min_M_Size = 8;
+var Data_CSV = new Array();
+
+$(document).ready( function() {
+        $("body").append('&lt;div id="dialog_001" style="z-index: 2000;"&gt;&lt;p&gt;&lt;form name="Form_001"&gt; Title: '+
+'&lt;input type="text" style="width: 230px;" name="txt_mk" value=""&gt;&lt;/form&gt;&lt;BR&gt;'+
+'&lt;div&gt;Marker Select:&lt;BR&gt;'+
+'&lt;select id="Marker_Samples" name="Marker_Samples" style="width:150px;"&gt;'+
+'&lt;option value="1" title="./ICONS/BW_Icon/BW_Icons_64/icon_000200_64.png"&gt;001&lt;/option&gt;'+
+'&lt;option value="2" title="./ICONS/BW_Icon/BW_Icons_64/icon_127890_64.png"&gt;002&lt;/option&gt;'+
+'&lt;option value="3" title="./ICONS/BW_Icon/BW_Icons_64/icon_114880_64.png"&gt;003&lt;/option&gt;'+
+'&lt;option value="4" title="./ICONS/BW_Icon/BW_Icons_64/icon_109890_64.png"&gt;004&lt;/option&gt;'+
+'&lt;option value="5" title="./ICONS/BW_Icon/BW_Icons_64/icon_001050_64.png"&gt;005&lt;/option&gt;'+
+'&lt;option value="6" title="./ICONS/BW_Icon/BW_Icons_64/icon_119170_64.png"&gt;006&lt;/option&gt;'+
+'&lt;option value="7" title="./ICONS/BW_Icon/BW_Icons_64/icon_122590_64.png"&gt;007&lt;/option&gt;'+
+'&lt;option value="8" title="./ICONS/BW_Icon/BW_Icons_64/icon_000220_64.png"&gt;008&lt;/option&gt;'+
+'&lt;option value="9" title="./ICONS/BW_Icon/BW_Icons_64/icon_133000_64.png"&gt;009&lt;/option&gt;'+
+'&lt;option value="10" title="./ICONS/BW_Icon/BW_Icons_64/icon_115740_64.png"&gt;010&lt;/option&gt;'+
+'&lt;option value="11" title="./ICONS/BW_Icon/BW_Icons_64/icon_115710_64.png"&gt;011&lt;/option&gt;'+
+'&lt;option value="12" title="./ICONS/BW_Icon/BW_Icons_64/icon_115750_64.png"&gt;012&lt;/option&gt;'+
+'&lt;option value="13" title="./ICONS/BW_Icon/BW_Icons_64/icon_115720_64.png"&gt;013&lt;/option&gt;'+
+'&lt;option value="14" title="./ICONS/BW_Icon/BW_Icons_64/icon_147060_64.png"&gt;014&lt;/option&gt;'+
+'&lt;option value="15" title="./ICONS/BW_Icon/BW_Icons_64/icon_127900_64.png"&gt;015&lt;/option&gt;'+
+'&lt;option value="16" title="./ICONS/BW_Icon/BW_Icons_64/icon_109850_64.png"&gt;016&lt;/option&gt;'+
+'&lt;option value="17" title="./ICONS/BW_Icon/BW_Icons_64/icon_111050_64.png"&gt;017&lt;/option&gt;'+
+'&lt;option value="18" title="./ICONS/BW_Icon/BW_Icons_64/icon_111060_64.png"&gt;018&lt;/option&gt;'+
+'&lt;option value="19" title="./ICONS/BW_Icon/BW_Icons_64/icon_111520_64.png"&gt;019&lt;/option&gt;'+
+'&lt;option value="20" title="./ICONS/BW_Icon/BW_Icons_64/icon_127100_64.png"&gt;020&lt;/option&gt;'+
+'&lt;option value="21" title="./ICONS/BW_Icon/BW_Icons_64/icon_127110_64.png"&gt;021&lt;/option&gt;'+
+'&lt;option value="22" title="./ICONS/BW_Icon/BW_Icons_64/icon_127120_64.png"&gt;022&lt;/option&gt;'+
+'&lt;option value="23" title="./ICONS/BW_Icon/BW_Icons_64/icon_127130_64.png"&gt;023&lt;/option&gt;'+
+'&lt;option value="24" title="./ICONS/BW_Icon/BW_Icons_64/icon_127140_64.png"&gt;024&lt;/option&gt;'+
+'&lt;option value="25" title="./ICONS/BW_Icon/BW_Icons_64/icon_127150_64.png"&gt;025&lt;/option&gt;'+
+'&lt;option value="26" title="./ICONS/BW_Icon/BW_Icons_64/icon_127160_64.png"&gt;026&lt;/option&gt;'+
+'&lt;option value="27" title="./ICONS/BW_Icon/BW_Icons_64/icon_001720_64.png"&gt;027&lt;/option&gt;'+
+'&lt;option value="28" title="./ICONS/BW_Icon/BW_Icons_64/icon_100590_64.png"&gt;028&lt;/option&gt;'+
+'&lt;option value="29" title="./ICONS/BW_Icon/BW_Icons_64/icon_100600_64.png"&gt;029&lt;/option&gt;'+
+'&lt;option value="30" title="./ICONS/BW_Icon/BW_Icons_64/icon_102040_64.png"&gt;030&lt;/option&gt;'+
+'&lt;option value="31" title="./ICONS/BW_Icon/BW_Icons_64/icon_104940_64.png"&gt;031&lt;/option&gt;'+
+'&lt;option value="32" title="./ICONS/BW_Icon/BW_Icons_64/icon_107470_64.png"&gt;032&lt;/option&gt;'+
+'&lt;option value="33" title="./ICONS/BW_Icon/BW_Icons_64/icon_108510_64.png"&gt;033&lt;/option&gt;'+
+'&lt;option value="34" title="./ICONS/BW_Icon/BW_Icons_64/icon_108730_64.png"&gt;034&lt;/option&gt;'+
+'&lt;option value="35" title="./ICONS/BW_Icon/BW_Icons_64/icon_111960_64.png"&gt;035&lt;/option&gt;'+
+'&lt;option value="36" title="./ICONS/BW_Icon/BW_Icons_64/icon_111970_64.png"&gt;036&lt;/option&gt;'+
+'&lt;option value="37" title="./ICONS/BW_Icon/BW_Icons_64/icon_112440_64.png"&gt;037&lt;/option&gt;'+
+'&lt;option value="38" title="./ICONS/BW_Icon/BW_Icons_64/icon_112450_64.png"&gt;038&lt;/option&gt;'+
+'&lt;option value="39" title="./ICONS/BW_Icon/BW_Icons_64/icon_113000_64.png"&gt;039&lt;/option&gt;'+
+'&lt;option value="40" title="./ICONS/BW_Icon/BW_Icons_64/icon_113010_64.png"&gt;040&lt;/option&gt;'+
+'&lt;option value="41" title="./ICONS/BW_Icon/BW_Icons_64/icon_114520_64.png"&gt;041&lt;/option&gt;'+
+'&lt;option value="42" title="./ICONS/BW_Icon/BW_Icons_64/icon_114530_64.png"&gt;042&lt;/option&gt;'+
+'&lt;option value="43" title="./ICONS/BW_Icon/BW_Icons_64/icon_114770_64.png"&gt;043&lt;/option&gt;'+
+'&lt;option value="44" title="./ICONS/BW_Icon/BW_Icons_64/icon_114780_64.png"&gt;044&lt;/option&gt;'+
+'&lt;option value="45" title="./ICONS/BW_Icon/BW_Icons_64/icon_128020_64.png"&gt;045&lt;/option&gt;'+
+'&lt;option value="46" title="./ICONS/BW_Icon/BW_Icons_64/icon_124660_64.png"&gt;046&lt;/option&gt;'+
+'&lt;option value="47" title="./ICONS/BW_Icon/BW_Icons_64/icon_127930_64.png"&gt;047&lt;/option&gt;'+
+'&lt;option value="48" title="./ICONS/Flat_Icons/s64_f_business_72_0nbg.png"&gt;048&lt;/option&gt;'+
+'&lt;option value="49" title="./ICONS/Flat_Icons/s64_f_business_76_0nbg.png"&gt;049&lt;/option&gt;'+
+'&lt;option value="50" title="./ICONS/Flat_Icons/s64_f_object_6_2nbg.png"&gt;050&lt;/option&gt;'+
+'&lt;option value="51" title="./ICONS/Flat_Icons/s64_f_object_7_2nbg.png"&gt;051&lt;/option&gt;'+
+'&lt;option value="52" title="./ICONS/Flat_Icons/s64_f_object_24_1nbg.png"&gt;052&lt;/option&gt;'+
+'&lt;option value="53" title="./ICONS/Flat_Icons/s64_f_object_25_0nbg.png"&gt;053&lt;/option&gt;'+
+'&lt;option value="54" title="./ICONS/Flat_Icons/s64_f_object_27_2nbg.png"&gt;054&lt;/option&gt;'+
+'&lt;option value="55" title="./ICONS/Flat_Icons/s64_f_object_155_1nbg.png"&gt;055&lt;/option&gt;'+
+'&lt;option value="56" title="./ICONS/Flat_Icons/s64_f_object_164_2nbg.png"&gt;056&lt;/option&gt;'+
+'&lt;option value="57" title="./ICONS/Flat_Icons/s64_f_object_167_0nbg.png"&gt;057&lt;/option&gt;'+
+'&lt;option value="58" title="./ICONS/Flat_Icons/s64_f_object_173_0nbg.png"&gt;058&lt;/option&gt;'+
+'&lt;option value="59" title="./ICONS/Flat_Icons/s64_f_object_115_0nbg.png"&gt;059&lt;/option&gt;'+
+'&lt;option value="60" title="./ICONS/Flat_Icons/s64_f_object_116_1nbg.png"&gt;060&lt;/option&gt;'+
+'&lt;/select&gt;&lt;/div&gt;&lt;BR&gt;'+
+'&lt;div&gt;&lt;tr&gt;&lt;td&gt;&lt;BR&gt;&lt;div id="num_001"&gt;&lt;/div&gt;&lt;div id="slider_001"&gt;&lt;/div&gt;'+
+'&lt;BR&gt;&lt;BR&gt;&lt;div id="Selected_Icon"&gt;Selected Icon: &lt;img src=""&gt;&lt;/div&gt;'+
+'&lt;/td&gt;&lt;/tr&gt;&lt;/div&gt;&lt;BR&gt;Note: These Icons are downloaded from&lt;A HREF = "http://flat-icon-design.com/" target="_blank"&gt; FLAT ICON DESIGN &lt;/A&gt; and' +
+'&lt;A HREF = "http://icooon-mono.com/" target="_blank"&gt; ICOON MONO &lt;/A&gt;.&lt;BR&gt;' +
+'TopeconHeroes holds the copyright of these Icons.&lt;/p&gt;&lt;div&gt;');
+
+	$('#Selected_Icon img').attr('src', Icon_Url);
+
+	$('#dialog_001').dialog({
+		autoOpen: false,
+		title: 'Please Set the Icon Style.',
+		height: 450,
+		width: 300,
+		closeOnEscape: true,
+		modal: true,
+		buttons: {
+			"OK": function(){
+				Set_Text = document.Form_001.txt_mk.value;
+				var Temp = Marker_Samples.options[Marker_Samples.selectedIndex].title;
+				Icon_Url = Temp;
+				Icon_AW = Math.round(Icon_W / 2);
+				Icon_AH = Math.round(Icon_H / 2);
+				Icon_PW = 0;
+				Icon_PH = Math.round(Icon_H / 2) * -1;
+				Change_Marker(); 
+				$(this).dialog('close');
+			}
+		}
+	});
+
+        $("body").append('&lt;div id="dialog_002" style="z-index: 2000;"&gt;&lt;p&gt;&lt;form name="Form_002"&gt;'+
+'Title: &lt;input type="text" style="width: 230px;" name="txt_dat" value=""&gt;&lt;/form&gt;&lt;/p&gt;&lt;HR&gt;'+
+'&lt;p&gt; File Select:'+
+'&lt;form name="subinput"&gt;'+
+'&lt;center&gt;Please select the CSV File&lt;BR&gt;&lt;BR&gt;'+
+'  &lt;TD&gt;&lt;input type="file" name="select" id="select_002" value=""&gt;&lt;/TD&gt;'+
+'  &lt;BR&gt;&lt;BR&gt;'+
+'&lt;/center&gt;&lt;/p&gt;&lt;/div&gt;');
+
+	$('#dialog_002').dialog({
+		autoOpen: false,
+		title: 'Select the CSV File',
+		height: 400,
+		width: 300,
+		closeOnEscape: true,
+		modal: true,
+		show: "fade",
+		hide: "fade",
+		buttons: {
+			"Select the Marker": function(){
+				Dialog_001();
+			},
+			"Set Markers": function(){
+				CSV_Data();
+				CSV_Markers();
+			},
+			"Close": function(){
+				$(this).dialog('close');
+			}
+		}
+	});
+
+
+     $('#slider_001').slider( {
+         orientation: 'horizontal',
+         range: 'min',
+         max: 255,
+         value: 127,
+         slide: refreshSwatch,
+         change: refreshSwatch
+     } );
+     $( '#slider_001' ).slider( 'value', 96 );
+     $( '#Marker_Samples' ).msDropDown({
+		visibleRows:4,
+		on:{change:function(data, ui) {
+			Icon_Url = Marker_Samples.options[Marker_Samples.selectedIndex].title;
+			$('#Selected_Icon img').attr('src', Icon_Url);
+		}}
+     });
+});
+
+
+function Dialog_001() {
+	document.Form_001.txt_mk.value = "";
+	$('#dialog_001').dialog('open');
+}
+
+function Dialog_002() {
+	CSV_Data();
+	document.Form_002.txt_dat.value = "";
+	$('#dialog_002').dialog('open');
+}
+
+
+function refreshSwatch() {
+     Icon_W = Math.round($('#slider_001').slider('value') / 255 * Max_M_Size);
+     if (Icon_W <= Min_M_Size) { Icon_W = Min_M_Size; }
+     Icon_H = Icon_W;
+     $( '#num_001' ).html( 'Marker Size: ' + Icon_W );
+     $( '#Selected_Icon img' ).css( { width: Icon_W, height: Icon_H } );
+}
+
+function CSV_Data() {
+    if(window.File) {
+	var select = document.getElementById('select_002');
+	select.addEventListener('change', function(e) {
+	var fileData = e.target.files[0];
+
+	Data_CSV = [];
+	var reader = new FileReader();
+	reader.onerror = function() {
+		alert('Failed to load the file!');
+	}
+	reader.onload = function() {
+//		var lineArr = reader.result.split("\n");		// LF for MacOS X and UNIX
+		var lineArr = reader.result.split("\r\n");		// CR + LF for Windows
+		for (var i = 0; i < lineArr.length; i++) {
+			Data_CSV[i] = lineArr[i].split(",");
+		}
+	}
+	reader.readAsText(fileData);
+	}, false);
+    }
+}
+</PRE>
+</span>
+<br><br>
+
+
+<h2>Step-5: Try to draw some figures on the Map.</h2>
+It is shown how to draw lines, polygons and circles on the map in this Step-5. 
+The first of Step-5, simple lines are drawn on the map. 
+After click these lines, it is shown the name of lines in a popup balloon. 
+The source of JavaScript for drawing lines is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_501_EN.html"  target="_blank">Demo for Tutorial_501</a>: To draw lines.
+<br>
+<span id="code-block" style="height: 100px;">
+<PRE>
+	function Leaflet_Lines_501()		// Draw Lines
+	{
+	    var Lines_shape = new Array();
+	    var Lines_shape_pos = new Array();
+	    var Lines_shape_nam = new Array();
+	    var Lines_shape_lnk = new Array();
+	    var Lines_strokecol = new Array();
+	    var Lines_style = new Array();
+	    var Set_Color = "000000";
+	    var Line_W = 2;
+
+	    Lines_shape_pos[ 0 ] = [ 
+				   [ 51.7, 1.9 ],
+				   [ 51.5, 1.6 ],
+				   [ 51.0, 1.5 ] 
+				   ];
+	    Lines_strokecol[ 0 ] = "000000";
+	    Lines_shape_nam[ 0 ] = "Lines Sample #001";
+	    Lines_shape_lnk[ 0 ] = " ";
+
+	    Lines_shape_pos[ 1 ] = [ 
+				   [ 51.5, 2.0 ],
+				   [ 51.7, 2.1 ],
+				   [ 52.0, 1.5 ] 
+				   ];
+	    Lines_strokecol[ 1 ] = "FF0000";
+	    Lines_shape_nam[ 1 ] = "Lines Sample #002";
+	    Lines_shape_lnk[ 1 ] = " ";
+
+	    for ( i = 0; i <= (Lines_shape_pos.length - 1); i++ )
+	    {
+		 if (Lines_shape_pos[ i ] != null ) 	
+		 {
+		    Set_Color = Lines_strokecol[ i ];
+	            Lines_shape[ i ] = L.polyline([  Lines_shape_pos[ i ] ],
+			{ color: "#"+Set_Color,
+			  weight: Line_W,
+			  opacity: 1
+			}).bindPopup( Lines_shape_nam[ i ] + "&lt;br&gt;" +  Lines_shape_lnk[ i ]
+		    );
+		    Layer_501[ i ] =  Lines_shape[ i ];
+		    Layer_501[ i ].addTo(map_501);
+		 }
+	    }
+	}
+</PRE>
+</span>
+<br><br>
+At the "Demo for Tutorial_502", I will show you how to draw simple Polygons on the map. 
+The popup balloon is same to lines. Also, the source of JavaScript is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_502_EN.html"  target="_blank">Demo for Tutorial_502</a>: To draw polygons.
+<span id="code-block" style="height: 100px;">
+<PRE>
+	function Leaflet_Polygons_502()		// Draw Polygons
+	{
+	     var Polygons_shape = new Array();
+	     var Polygons_shape_pos = new Array();
+	     var Polygons_shape_nam = new Array();
+	     var Polygons_shape_lnk = new Array();
+	     var Polygons_strokecol = new Array();
+	     var Polygons_fillcolor = new Array();
+	     var Line_W = 2;
+
+	     Polygons_shape_pos[ 0 ] = [ 
+				       [ 51.7, 1.9 ],
+				       [ 51.5, 1.4 ],
+				       [ 51.0, 1.5 ] 
+				       ];
+	     Polygons_strokecol[ 0 ] = "000000";
+	     Polygons_fillcolor[ 0 ] = "FFFF00";
+	     Polygons_shape_nam[ 0 ] = "Polygons Sample #001";
+	     Polygons_shape_lnk[ 0 ] = "  ";
+
+	     Polygons_shape_pos[ 1 ] = [ 
+				       [ 51.5, 1.0 ],
+				       [ 51.4, 0.0 ],
+				       [ 52.0, 0.5 ],
+				       [ 52.0, 1.5 ],
+				       ];
+	     Polygons_strokecol[ 1 ] = "FF0000";
+	     Polygons_fillcolor[ 1 ] = "FF0000";
+	     Polygons_shape_nam[ 1 ] = "Polygons Sample #002";
+	     Polygons_shape_lnk[ 1 ] = "  ";
+
+	     for ( i = 0; i <= (Polygons_shape_pos.length - 1); i++ )
+	     {
+		 if (Polygons_shape_pos[ i ] != null ) 	
+		 {
+		    Polygons_shape[ i ] = L.polygon([ Polygons_shape_pos[ i ] ],
+			{ color: "#" + Polygons_strokecol[ i ],
+			  fillColor: "#" + Polygons_fillcolor[ i ],
+			  weight: Line_W,
+			  fillopacity: 0.5
+		    });
+		    Polygons_shape[ i ].bindPopup(Polygons_shape_nam[ i ] + "&lt;br&gt;" + Polygons_shape_lnk[ i ]);
+		    Layer_502[ i ] = Polygons_shape[ i ];
+		    Layer_502[ i ].addTo(map_502);
+		}
+	    }
+	}
+</PRE>
+</span>
+<br><br>
+The next is how to draw simple circles on the map. 
+After click these circles, it is shown the name of circles in a popup balloon. 
+The source of JavaScript for drawing circles is as follows: 
+<br>
+<a href = "./Leaflet_Tutrial_503_EN.html"  target="_blank">Demo for Tutorial_503</a>: To draw circles.
+<span id="code-block" style="height: 100px;">
+<PRE>
+	function Leaflet_Circles_503()		// Draw Circles
+	{
+	    var Circle_shape = new Array();
+	    var Circle_shape_LAT = new Array();
+	    var Circle_shape_LON = new Array();
+	    var Circle_shape_RAD = new Array();
+	    var Circle_shape_NAM = new Array();
+	    var Circle_shape_LNK = new Array();
+	    var Circle_strokecol = new Array();
+	    var Circle_fillcolor = new Array();
+	    var Line_W = 2;
+
+	    Circle_shape_LAT[ 0 ] = 51.5;
+	    Circle_shape_LON[ 0 ] = -0.1;
+	    Circle_shape_RAD[ 0 ] = 30000;
+	    Circle_shape_NAM[ 0 ] = "Circle Sample #001";
+	    Circle_shape_LNK[ 0 ] = " ";
+	    Circle_strokecol[ 0 ] = "000000";
+	    Circle_fillcolor[ 0 ] = "FFFF00";
+
+	    Circle_shape_LAT[ 1 ] = 51.3;
+	    Circle_shape_LON[ 1 ] = 1.5;
+	    Circle_shape_RAD[ 1 ] = 50000;
+	    Circle_shape_NAM[ 1 ] = "Circle Sample #002";
+	    Circle_shape_LNK[ 1 ] = " ";
+	    Circle_strokecol[ 1 ] = "FF0000";
+	    Circle_fillcolor[ 1 ] = "FF0000";
+
+	    for (i = 0; i <= (Circle_shape_LAT.length - 1); i++) {
+		Circle_shape[ i ] = L.circle([ Circle_shape_LAT[ i ], Circle_shape_LON[ i ] ], Circle_shape_RAD[ i ],
+		    { color: "#" + Circle_strokecol[ i ],
+		      fillColor: "#" + Circle_fillcolor[ i ],
+		      weight: Line_W,
+		      fillopacity: 0.5
+		    }).bindPopup(Circle_shape_NAM[ i ]
+		);
+		Layer_503[ i ] = Circle_shape[ i ];
+		Layer_503[ i ].addTo(map_503);
+	    }
+	}
+</PRE>
+</span>
+<br><br>
+It is drawn lines, polygons and circles in "Demo for Tutorial_504". 
+Additionally, the delete button shows in popup balloon. The source of JavaScript for delete of figure is shown as follows:
+<br>
+<a href = "./Leaflet_Tutrial_504_EN.html"  target="_blank">Demo for Tutorial_504</a>: To draw figures with added the button to delete a figure.
+<span id="code-block" style="height: 100px;">
+<PRE>
+	    for (i = 0; i <= (Circle_shape_LAT.length - 1); i++) {
+		Circle_shape[ i ] = L.circle([ Circle_shape_LAT[ i ], Circle_shape_LON[ i ] ], Circle_shape_RAD[ i ],
+		    { color: "#" + Circle_strokecol[ i ],
+		      fillColor: "#" + Circle_fillcolor[ i ],
+		      weight: Line_W,
+		      fillopacity: 0.5,
+		      draggable: 'true'
+		    }).bindPopup(Circle_shape_NAM[ i ] + "&lt;BR&gt; &lt;input type='button' value='Delete this circle' class='figure-delete-button'/&gt;"
+		);
+		Circle_shape[ i ].on('popupopen', onPopupFigure );
+		Layer_504_C[ i ] = Circle_shape[ i ];
+		Layer_504_C[ i ].addTo(map_504);
+	    }
+
+
+	function onPopupFigure() 					// Delete a Figure
+	{
+	    var tempFigure = this;
+	    $(".figure-delete-button:visible").click(function () {
+	        map_504.removeLayer(tempFigure);
+	    });
+	}
+</PRE>
+</span>
+<br><br>
+"Demo for Tutorial_505" is including interactive Markers and interactive Figures. 
+Then, the interactive Figures is added to the "Demo for Tutorial_404". 
+The source of "Demo for Tutorial_505" is as follows:
+<br>
+<a href = "./Leaflet_Tutrial_505_EN.html"  target="_blank">Demo for Tutorial_505</a>: Interactive Markers and Figures.
+<span id="code-block" style="height: 100px;">
+<PRE>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+&lt;title&gt;Leaflet_Tutrial_505_EN.html	2019/7/20	by T. Fujita&lt;/title&gt;
+&lt;meta charset = "utf-8" /&gt;
+&lt;link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" /&gt;
+&lt;link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"&gt;
+&lt;link rel = "stylesheet" href = "./Plugins/ms-Dropdown-master/css/msdropdown/dd.css" /&gt;
+&lt;link rel = "stylesheet" href = "./CSS/scroll_menu.css" /&gt;
+&lt;link rel = "stylesheet" href = "./CSS/Original_Style_505.css" /&gt;
+
+&lt;style&gt;
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+&lt;/style&gt;
+
+&lt;script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"&gt;&lt;/script&gt;
+&lt;script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"&gt;&lt;/script&gt;
+&lt;script src = "./Plugins/ms-Dropdown-master/js/msdropdown/jquery.dd.js"&gt;&lt;/script&gt;
+&lt;script src = "./JS/Dialog_505_EN.js" &gt;&lt;/script&gt;
+&lt;script&gt;
+	var Marker_LAT = new Array();
+	var Marker_LON = new Array();
+	var Marker_NAM = new Array();
+	var Marker_LNK = new Array();
+	var Marker_ICN = new Array();
+	var Marker_ID = new Array();
+	var Marker_Drag_flag = new Array();
+	var Marker_Drag_info = new Array();
+	var ClickLat = null;
+	var ClickLon = null;
+	var Marker_count = 0;
+	var Marker_ID_count = 0;
+	var SelectedID;
+	var Marker_flag = 0;
+	var Temp_shape, Temp_shape_clone;
+	var Temp, Temp_LAT, Temp_LON, Temp_NAM, Temp_LNK, Temp_ICN, Temp_ID;
+	var Temp_Drag_flag, Temp_Drag_info;
+	var Layer_404 = new Array();
+	var Layer_404_clone = new Array();
+
+	var Lines_shape = new Array();
+	var Lines_shape_clone_01 = new Array();
+	var Lines_shape_clone_02 = new Array();
+	var Lines_LAT = new Array();
+	var Lines_LON = new Array();
+	var Lines_NAM = new Array();
+	var Lines_LNK = new Array();
+	var Lines_ICN = new Array();
+	var Lines_ID = new Array();
+	var Lines_Marker_ID = new Array();
+	var Lines_Drag_flag = new Array();
+	var Lines_Drag_info = new Array();
+	var Polygons_shape = new Array();
+	var Polygons_shape_clone_01 = new Array();
+	var Polygons_shape_clone_02 = new Array();
+	var Polygons_pos = new Array();
+	var Polygons_pos_clone_01 = new Array();
+	var Polygons_pos_clone_02 = new Array();
+	var Polygons_LAT = new Array();
+	var Polygons_LON = new Array();
+	var Polygons_NAM = new Array();
+	var Polygons_LNK = new Array();
+	var Polygons_ICN = new Array();
+	var Polygons_ID = new Array();
+	var Polygons_Marker_ID = new Array();
+	var Polygons_Drag_flag = new Array();
+	var Polygons_Drag_info = new Array();
+	var Circles_shape = new Array();
+	var Circles_shape_clone = new Array();
+	var Circles_LAT = new Array();
+	var Circles_LON = new Array();
+	var Circles_RAD = new Array();
+	var Circles_NAM = new Array();
+	var Circles_LNK = new Array();
+	var Circles_ID = new Array();
+	var Circles_Drag_flag = new Array();
+	var Circles_Drag_info = new Array();
+	var Lines_Marker_count = 0;
+	var Lines_Marker_ID_count = 0;
+	var Lines_count = 0;
+	var Lines_ID_count = 0;
+	var Polygons_Marker_count = 0;
+	var Polygons_Marker_ID_count = 0;
+	var Polygons_count = 0;
+	var Polygons_ID_count = 0;
+	var Circles_count = 0;
+	var Circles_ID_count = 0;
+	var Layer_505_L = new Array();
+	var Layer_505_L_clone_01 = new Array();
+	var Layer_505_L_clone_02 = new Array();
+	var Layer_505_LM = new Array();
+	var Layer_505_LM_clone = new Array();
+	var Layer_505_P = new Array();
+	var Layer_505_P_clone_01 = new Array();
+	var Layer_505_P_clone_02 = new Array();
+	var Layer_505_PM = new Array();
+	var Layer_505_PM_clone = new Array();
+	var Layer_505_C = new Array();
+	var Layer_505_C_clone = new Array();
+	var Dialog_flag_001 = 0;
+	var Lines_flag = 0;
+	var Polygons_flag = 0;
+	var map_505;
+
+	function init() {
+		map_505 = L.map('map_505').setView([51.5, 0.0], 8);
+		mapLink = '&lt;a href="https://openstreetmap.org"&gt;OpenStreetMap&lt;/a&gt;';
+		    L.tileLayer(
+			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; ' + mapLink,
+			maxZoom: 18
+		}).addTo(map_505);
+		map_505.on('click', function(e) {
+			ClickLat = e.latlng.lat;
+			ClickLon = e.latlng.lng;
+			while(ClickLon < -180) {
+				ClickLon = ClickLon + 360;
+			}
+			while(ClickLon > 180) {
+				ClickLon = ClickLon - 360;
+			}
+			if ( Marker_flag == 1 ) { Leaflet_Marker_401(); }
+			if ( Marker_flag == 2 ) { Leaflet_Marker_403(); }
+			if ( Lines_flag >= 1 ) { Leaflet_Lines_501(); };
+			if ( Polygons_flag >= 1 ) { Leaflet_Polygons_501(); };
+		});
+	}
+
+	function Leaflet_Marker_400() {			// Initialize to set a Marker
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 1;
+		Lines_flag = 0;
+		Polygons_flag = 0;
+	}
+
+	function Leaflet_Marker_401() {			// Set a Marker
+	  if(Marker_flag == 1) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = " ";
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_505);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_505);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+		Marker_flag = 0;
+	    }
+	}
+
+	function Leaflet_Marker_402() {			// Initialize to set Markers
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 2;
+		Lines_flag = 0;
+		Polygons_flag = 0;
+	}
+
+	function Leaflet_Marker_403() {			// Start to Set Several Markers
+	  if(Marker_flag == 2) {
+		Marker_LAT[ Marker_count ] = ClickLat;
+		Marker_LON[ Marker_count ] = ClickLon;
+		Marker_NAM[ Marker_count ] = Set_Text;
+		Marker_LNK[ Marker_count ] = Set_Link;
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = true;
+		Marker_Drag_info[ Marker_count ] = "This Marker is movable.";
+		Temp = Marker_count;
+		Marker_setting();
+		Marker_set();
+		Layer_404[ Temp ] = Temp_shape;
+		Layer_404[ Temp ].addTo(map_505);
+		Layer_404_clone[ Temp ] = Temp_shape_clone;
+		Layer_404_clone[ Temp ].addTo(map_505);
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	}
+
+	function Leaflet_Marker_404() {			// End of Setting Several Markers
+		Marker_flag = 0;
+	}
+
+	function Leaflet_Marker_405() {			// Clear All Markers
+		for(i = 0; i < Layer_404.length; i++) {
+			if(Layer_404[i] != null) {
+				map_505.removeLayer(Layer_404[i]);
+			}
+		}
+		for(i = 0; i < Layer_404_clone.length; i++) {
+			if(Layer_404[i] != null) {
+				map_505.removeLayer(Layer_404_clone[ i ]);
+			}
+		}
+		Marker_flag = 0;
+		Marker_count = 0;
+		Marker_LAT = new Array();
+		Marker_LON = new Array();
+		Marker_NAM = new Array();
+		Marker_LNK = new Array();
+		Marker_ICN = new Array();
+	}
+
+	function Leaflet_Marker_406() {			// Save Marker's Position as CSV File
+	    for (i = 0; i <= (Marker_LON.length - 1); i++) {
+		if( !isNaN(Marker_LON[ i ]) ) {
+		    while( (Marker_LON[ i ] * 1.0) < -180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Marker_LON[ i ] * 1.0) > 180) {
+			Marker_LON[ i ] = (Marker_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Marker_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Marker_LAT.length;
+		for ( i = 0; i < Temp; i++ ) {
+			if( Marker_LAT[ i ] != "" && Marker_LON[ i ] != "" ) {
+			  CSV_content = CSV_content + Marker_LAT[ i ] + "," + Marker_LON[ i ] + "," + Marker_NAM[ i ] + "," + Marker_LNK[ i ] + ",\r\n";
+			}
+		  }
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function Leaflet_Marker_407() {			// Load the Marker's Position by CSV File.
+		Dialog_002();
+	}
+
+	function Marker_setting() {			// Setting Markers
+		Temp_LAT = Marker_LAT[ Temp ] * 1.0;
+		Temp_LON = Marker_LON[ Temp ] * 1.0;
+		Temp_NAM = Marker_NAM[ Temp ];
+		Temp_LNK = Marker_LNK[ Temp ];
+		Temp_ICN = Marker_ICN[ Temp ];
+		Temp_ID = Marker_ID[ Temp ];
+		Temp_Drag_flag = Marker_Drag_flag[ Temp ];
+		Temp_Drag_info = Marker_Drag_info[ Temp ];
+		Set_Link = " ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "&lt;a href= '" + Temp_LNK + "' target='_blank'&gt; " + "Link to the URL of " + Temp_NAM + " &lt;/a&gt;";
+		    }
+		}
+	}
+
+	function Lines_Marker_setting() {		// Set Markers for Lines
+		Temp_LAT = Lines_LAT[ Temp ] * 1.0;
+		Temp_LON = Lines_LON[ Temp ] * 1.0;
+		Temp_NAM = Lines_NAM[ Temp ];
+		Temp_LNK = Lines_LNK[ Temp ];
+		Temp_ICN = Lines_ICN[ Temp ];
+		Temp_ID = Lines_Marker_ID[ Temp ];
+		Temp_Drag_flag = Lines_Drag_flag[ Temp ];
+		Temp_Drag_info = Lines_Drag_info[ Temp ];
+		Set_Link = " ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "&lt;a href= '" + Temp_LNK + "' target='_blank'&gt; " + "Link to the URL of " + Temp_NAM + " &lt;/a&gt;";
+		    }
+		}
+	}
+
+	function Polygons_Marker_setting() {		// Set Markers for Polygons
+		Temp_LAT = Polygons_LAT[ Temp ] * 1.0;
+		Temp_LON = Polygons_LON[ Temp ] * 1.0;
+		Temp_NAM = Polygons_NAM[ Temp ];
+		Temp_LNK = Polygons_LNK[ Temp ];
+		Temp_ICN = Polygons_ICN[ Temp ];
+		Temp_ID = Polygons_Marker_ID[ Temp ];
+		Temp_Drag_flag = Polygons_Drag_flag[ Temp ];
+		Temp_Drag_info = Polygons_Drag_info[ Temp ];
+		Set_Link = " ";
+		if(Temp_LNK != undefined ) {
+		    if( String( Temp_LNK ).length > 5 ) {
+			Set_Link = "&lt;a href= '" + Temp_LNK + "' target='_blank'&gt; " + "Link to the URL of " + Temp_NAM + " &lt;/a&gt;";
+		    }
+		}
+	}
+
+	function Marker_set() {				// Set Markers
+	  if( !isNaN( Temp_LAT ) && !isNaN( Temp_LON ) ) {
+	    if( (Temp_LAT !== undefined ) || (Temp_LAT != "") ) {
+		if( ((Temp_LAT * 1.0) != 0) || ((Temp_LON * 1.0) != 0) ) {
+		    Temp_shape = L.marker([ Temp_LAT, Temp_LON ],
+			{icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "&lt;BR&gt;" + Temp_Drag_info + "&lt;BR&gt;" +
+			 "&lt;p&gt; &lt;input type='button' value='Change this Marker' class='marker-change-button'/&gt;&lt;/p&gt;" +
+			 Set_Link + "&lt;p&gt; &lt;input type='button' value='Delete this Marker' class='marker-delete-button'/&gt;&lt;/p&gt;");
+		    Temp_shape.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    if(Temp_LON >= 0) {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON - 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "&lt;BR&gt;" + Temp_Drag_info + "&lt;BR&gt;" +
+			 "&lt;p&gt; &lt;input type='button' value='Change this Marker' class='marker-change-button'/&gt;&lt;/p&gt;" +
+			 Set_Link + "&lt;p&gt; &lt;input type='button' value='Delete this Marker' class='marker-delete-button'/&gt;&lt;/p&gt;");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    } else {
+			Temp_shape_clone = L.marker([ Temp_LAT, (Temp_LON + 360) ],
+			    {icon: Temp_ICN, id: Temp_ID, draggable: Temp_Drag_flag}).bindPopup( Temp_NAM + "&lt;BR&gt;" + Temp_Drag_info + "&lt;BR&gt;" +
+			 "&lt;p&gt; &lt;input type='button' value='Change this Marker' class='marker-change-button'/&gt;&lt;/p&gt;" +
+			 Set_Link + "&lt;p&gt; &lt;input type='button' value='Delete this Marker' class='marker-delete-button'/&gt;&lt;/p&gt;");
+			Temp_shape_clone.on('popupopen', onMarkerOpen ).on('dragend', Dragging);
+		    }
+		}
+	    }
+	  }
+	}
+
+	function onMarkerOpen() {			// Actions at Click the Marker
+	    var tempMarker = this;
+	    SelectedID = tempMarker.options.id;
+	    $(".marker-delete-button:visible").click(function () {
+		if(SelectedID.slice(0,4) =="Line") {
+		    Lines_Marker_DEL(tempMarker);
+		} else if(SelectedID.slice(0,7) =="Polygon") {
+		    Polygons_Marker_DEL(tempMarker);
+		} else {
+		    Marker_DEL(tempMarker);
+		}
+	    });
+	    $(".marker-change-button:visible").click(function () {
+		Dialog_flag_001 = 1;
+		Dialog_001();
+		Dialog_flag_001 = 0;
+	    });
+	}
+
+	function Change_Marker() {			// Action at Click the Change Button
+	    for(i = 0; i <= Marker_count; i++) {
+		if(SelectedID == Marker_ID[ i ] ) {
+			Marker_NAM[ i ] = Set_Text;
+			Marker_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    for(i = 0; i <= Lines_Marker_count; i++) {
+		if(SelectedID == Lines_Marker_ID[ i ] ) {
+			Lines_NAM[ i ] = Set_Text;
+			Lines_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    for(i = 0; i <= Polygons_Marker_count; i++) {
+		if(SelectedID == Polygons_Marker_ID[ i ] ) {
+			Polygons_NAM[ i ] = Set_Text;
+			Polygons_ICN[ i ] = L.icon({
+				iconUrl: Icon_Url,
+				iconSize: [Icon_W, Icon_H],
+				iconAnchor : [Icon_AW, Icon_AH],
+				popupAnchor: [Icon_PW, Icon_PH]
+			});
+		}
+	    }
+	    Marker_Refresh();
+	    Lines_Marker_Refresh();
+	    Polygons_Marker_Refresh();
+	}
+
+	function Marker_DEL(tempMarker) {		// Action at Click the Delete Button
+		var k = 0;
+		Marker_flag = 0;
+		Marker_LAT[ Marker_count ] = "";
+		Marker_LON[ Marker_count ] = "";
+		Marker_NAM[ Marker_count ] = "";
+		Marker_LNK[ Marker_count ] = "";
+		Marker_ICN[ Marker_count ] = "";
+		Marker_ID[ Marker_count ] = "";
+		Marker_LAT[ Marker_count + 1 ] = "";
+		Marker_LON[ Marker_count + 1 ] = "";
+		Marker_NAM[ Marker_count + 1 ] = "";
+		Marker_LNK[ Marker_count + 1 ] = "";
+		Marker_ICN[ Marker_count + 1 ] = "";
+		Marker_ID[ Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				for(k = i; k <= Marker_count; k++) {
+					Marker_LAT[ k ] = Marker_LAT[ k + 1 ];
+					Marker_LON[ k ] = Marker_LON[ k + 1 ];
+					Marker_NAM[ k ] = Marker_NAM[ k + 1 ];
+					Marker_LNK[ k ] = Marker_LNK[ k + 1 ];
+					Marker_ICN[ k ] = Marker_ICN[ k + 1 ];
+					Marker_ID[ k ] = Marker_ID[ k + 1 ];
+					Marker_Drag_flag[ k ] = Marker_Drag_flag[ k + 1 ];
+					Marker_Drag_info[ k ] = Marker_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Marker_Refresh();
+		Marker_count = Marker_count - 1;
+		Marker_Refresh();
+	}
+
+	function Lines_Marker_DEL(tempMarker) {		// Action at Click the Delete Button for Lines
+		var k = 0;
+		Lines_LAT[ Lines_Marker_count ] = "";
+		Lines_LON[ Lines_Marker_count ] = "";
+		Lines_NAM[ Lines_Marker_count ] = "";
+		Lines_LNK[ Lines_Marker_count ] = "";
+		Lines_ICN[ Lines_Marker_count ] = "";
+		Lines_ID[ Lines_Marker_count ] = "";
+		Lines_LAT[ Lines_Marker_count + 1 ] = "";
+		Lines_LON[ Lines_Marker_count + 1 ] = "";
+		Lines_NAM[ Lines_Marker_count + 1 ] = "";
+		Lines_LNK[ Lines_Marker_count + 1 ] = "";
+		Lines_ICN[ Lines_Marker_count + 1 ] = "";
+		Lines_ID[ Lines_Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Lines_Marker_count; i++) {
+			if(SelectedID == Lines_Marker_ID[ i ] ) {
+				for(k = i; k <= Lines_Marker_count; k++) {
+					Lines_LAT[ k ] = Lines_LAT[ k + 1 ];
+					Lines_LON[ k ] = Lines_LON[ k + 1 ];
+					Lines_NAM[ k ] = Lines_NAM[ k + 1 ];
+					Lines_LNK[ k ] = Lines_LNK[ k + 1 ];
+					Lines_ICN[ k ] = Lines_ICN[ k + 1 ];
+					Lines_Marker_ID[ k ] = Lines_Marker_ID[ k + 1 ];
+					Lines_Drag_flag[ k ] = Lines_Drag_flag[ k + 1 ];
+					Lines_Drag_info[ k ] = Lines_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Lines_Marker_Refresh();
+		Lines_Marker_count = Lines_Marker_count - 1;
+		Lines_Marker_Refresh();
+		Leaflet_Lines_Draw();
+	}
+
+	function Polygons_Marker_DEL(tempMarker) {	// Action at Click the Delete Button for Polygons
+		var k = 0;
+		Polygons_LAT[ Polygons_Marker_count ] = "";
+		Polygons_LON[ Polygons_Marker_count ] = "";
+		Polygons_NAM[ Polygons_Marker_count ] = "";
+		Polygons_LNK[ Polygons_Marker_count ] = "";
+		Polygons_ICN[ Polygons_Marker_count ] = "";
+		Polygons_ID[ Polygons_Marker_count ] = "";
+		Polygons_LAT[ Polygons_Marker_count + 1 ] = "";
+		Polygons_LON[ Polygons_Marker_count + 1 ] = "";
+		Polygons_NAM[ Polygons_Marker_count + 1 ] = "";
+		Polygons_LNK[ Polygons_Marker_count + 1 ] = "";
+		Polygons_ICN[ Polygons_Marker_count + 1 ] = "";
+		Polygons_ID[ Polygons_Marker_count + 1 ] = "";
+		SelectedID = tempMarker.options.id;
+		for(i = 0; i <= Polygons_Marker_count; i++) {
+			if(SelectedID == Polygons_Marker_ID[ i ] ) {
+				for(k = i; k <= Polygons_Marker_count; k++) {
+					Polygons_LAT[ k ] = Polygons_LAT[ k + 1 ];
+					Polygons_LON[ k ] = Polygons_LON[ k + 1 ];
+					Polygons_NAM[ k ] = Polygons_NAM[ k + 1 ];
+					Polygons_LNK[ k ] = Polygons_LNK[ k + 1 ];
+					Polygons_ICN[ k ] = Polygons_ICN[ k + 1 ];
+					Polygons_Marker_ID[ k ] = Polygons_Marker_ID[ k + 1 ];
+					Polygons_Drag_flag[ k ] = Polygons_Drag_flag[ k + 1 ];
+					Polygons_Drag_info[ k ] = Polygons_Drag_info[ k + 1 ];
+				}
+			}
+		}
+		SelectedID = null;
+		Polygons_Marker_Refresh();
+		Polygons_Marker_count = Polygons_Marker_count - 1;
+		Polygons_Marker_Refresh();
+		Leaflet_Polygons_Draw();
+	}
+
+	function Marker_Refresh() {			// Refresh Markers
+		for(i = 0; i < Layer_404.length; i++) {
+		    if(Layer_404[ i ] != null) {
+			map_505.removeLayer(Layer_404[ i ]);
+			}
+		    }
+		for(i = 0; i < Layer_404_clone.length; i++) {
+		    if(Layer_404_clone[ i ] != null) {
+			map_505.removeLayer(Layer_404_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= (Marker_count - 1); i++)
+		{
+			Temp = i;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_505);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_505);
+		}
+	}
+
+	function Lines_Marker_Refresh() {		// Refresh Markers for Lines
+		for(i = 0; i < Layer_505_LM.length; i++) {
+		    if(Layer_505_LM[ i ] != null) {
+			map_505.removeLayer(Layer_505_LM[ i ]);
+		    }
+		}
+		for(i = 0; i < Layer_505_LM_clone.length; i++) {
+		    if(Layer_505_LM_clone[ i ] != null) {
+			map_505.removeLayer(Layer_505_LM_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= (Lines_Marker_count - 1); i++)
+		{
+			Temp = i;
+			Lines_Marker_setting();
+			Marker_set();
+			Layer_505_LM[ Temp ] = Temp_shape;
+			Layer_505_LM[ Temp ].addTo(map_505);
+			Layer_505_LM_clone[ Temp ] = Temp_shape_clone;
+			Layer_505_LM_clone[ Temp ].addTo(map_505);
+		}
+	}
+
+	function Polygons_Marker_Refresh() {		// Refresh Markers for Polygons
+		for(i = 0; i < Layer_505_PM.length; i++) {
+		    if(Layer_505_PM[ i ] != null) {
+			map_505.removeLayer(Layer_505_PM[ i ]);
+		    }
+		}
+		for(i = 0; i < Layer_505_PM_clone.length; i++) {
+		    if(Layer_505_PM_clone[ i ] != null) {
+			map_505.removeLayer(Layer_505_PM_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= (Polygons_Marker_count - 1); i++)
+		{
+			Temp = i;
+			Polygons_Marker_setting();
+			Marker_set();
+			Layer_505_PM[ Temp ] = Temp_shape;
+			Layer_505_PM[ Temp ].addTo(map_505);
+			Layer_505_PM_clone[ Temp ] = Temp_shape_clone;
+			Layer_505_PM_clone[ Temp ].addTo(map_505);
+		}
+	}
+
+	function Dragging() {				// Get Marker's Position
+		ClickLat = this._latlng.lat;
+		ClickLon = this._latlng.lng;
+		SelectedID = this.options.id;
+		if(SelectedID.slice(0,4) == "Line") {
+		    for(i = 0; i <= Lines_Marker_count; i++) {
+			if(SelectedID == Lines_Marker_ID[ i ] ) {
+				Lines_LAT[ i ] = ClickLat;
+				Lines_LON[ i ] = ClickLon;
+			}
+		    }
+		    Lines_Marker_Refresh();
+		    Leaflet_Lines_Draw();
+		} else if(SelectedID.slice(0,7) == "Polygon") {
+		    for(i = 0; i <= Polygons_Marker_count; i++) {
+			if(SelectedID == Polygons_Marker_ID[ i ] ) {
+				Polygons_LAT[ i ] = ClickLat;
+				Polygons_LON[ i ] = ClickLon;
+			}
+		    }
+		    Polygons_Marker_Refresh();
+		    Leaflet_Polygons_Draw();
+		} else {
+		    for(i = 0; i <= Marker_count; i++) {
+			if(SelectedID == Marker_ID[ i ] ) {
+				Marker_LAT[ i ] = ClickLat;
+				Marker_LON[ i ] = ClickLon;
+			}
+		    }
+		    Marker_Refresh();
+		}
+		SelectedID = null;
+	}
+
+	function Leaflet_Lines_500() {			// Initialize for Lines
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 0;
+		Lines_flag = 1;
+		Polygons_flag = 0;
+	}
+
+	function Leaflet_Lines_501() {			// Set Markers for Lines
+		Lines_LAT[ Lines_Marker_count ] = ClickLat;
+		Lines_LON[ Lines_Marker_count ] = ClickLon;
+		Lines_NAM[ Lines_Marker_count ] = Set_Text;
+		Lines_LNK[ Lines_Marker_count ] = Set_Link;
+		Lines_ICN[ Lines_Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Lines_Marker_ID[ Lines_Marker_count ] = "Line" + Lines_Marker_ID_count;
+		Lines_Drag_flag[ Lines_Marker_count ] = true;
+		Lines_Drag_info[ Lines_Marker_count ] = "This Marker is movable.";
+		Temp = Lines_Marker_count;
+		Lines_Marker_setting();
+		Marker_set();
+		Layer_505_LM[ Temp ] = Temp_shape;
+		Layer_505_LM[ Temp ].addTo(map_505);
+		Layer_505_LM_clone[ Temp ] = Temp_shape_clone;
+		Layer_505_LM_clone[ Temp ].addTo(map_505);
+		Lines_Marker_count = Lines_Marker_count + 1;
+		Lines_Marker_ID_count = Lines_Marker_ID_count + 1;
+		Leaflet_Lines_Draw();
+	}
+
+	function Leaflet_Lines_502() {			// End of set Markers for Lines
+		Lines_flag = 0;
+		Lines_LAT[ Lines_Marker_count ] = "";
+		Lines_LON[ Lines_Marker_count ] = "";
+		Lines_NAM[ Lines_Marker_count ] = "";
+		Lines_LNK[ Lines_Marker_count ] = "";
+		Lines_ICN[ Lines_Marker_count ] = "";
+		Lines_ID[ Lines_Marker_count ] = "";
+		Lines_Marker_count = Lines_Marker_count + 1;
+	}
+
+	function Leaflet_Lines_503() {			// Clear all Lines
+		for(i = 0; i < Layer_505_LM.length; i++) {
+			if(Layer_505_LM[i] != null) {
+				map_505.removeLayer(Layer_505_LM[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_LM_clone.length; i++) {
+			if(Layer_505_LM_clone[i] != null) {
+				map_505.removeLayer(Layer_505_LM_clone[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_L.length; i++) {
+			if(Layer_505_L[i] != null) {
+				map_505.removeLayer(Layer_505_L[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_L_clone_01.length; i++) {
+			if(Layer_505_L_clone_01[i] != null) {
+				map_505.removeLayer(Layer_505_L_clone_01[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_L_clone_02.length; i++) {
+			if(Layer_505_L_clone_02[i] != null) {
+				map_505.removeLayer(Layer_505_L_clone_02[i]);
+			}
+		}
+		Lines_flag = 0;
+		Lines_count = 0;
+		Lines_Marker_count = 0;
+		Lines_shape = new Array();
+		Lines_shape_clone_01 = new Array();
+		Lines_shape_clone_02 = new Array();
+		Lines_LAT = new Array();
+		Lines_LON = new Array();
+		Lines_NAM = new Array();
+		Lines_LNK = new Array();
+		Lines_ICN = new Array();
+	}
+
+	function Leaflet_Lines_504() {			// Hidden Markers for Lines
+		for(i = 0; i < Layer_505_LM.length; i++) {
+			if(Layer_505_LM[i] != null) {
+				map_505.removeLayer(Layer_505_LM[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_LM_clone.length; i++) {
+			if(Layer_505_LM_clone[i] != null) {
+				map_505.removeLayer(Layer_505_LM_clone[i]);
+			}
+		}
+	}
+
+	function Leaflet_Lines_505() {			// Refresh Markers for Lines
+		Lines_Marker_Refresh();
+	}
+
+	function Leaflet_Lines_Draw() {			// Draw Lines
+	    for (i = 0; i < Layer_505_L.length; i++) {
+		if(Layer_505_L[i] != null) {
+		    map_505.removeLayer(Layer_505_L[i]);
+		}
+	    }
+	    for (i = 0; i < Layer_505_L_clone_01.length; i++) {
+		if(Layer_505_L_clone_01[i] != null) {
+		    map_505.removeLayer(Layer_505_L_clone_01[i]);
+		}
+	    }
+	    for (i = 0; i < Layer_505_L_clone_02.length; i++) {
+		if(Layer_505_L_clone_02[i] != null) {
+		    map_505.removeLayer(Layer_505_L_clone_02[i]);
+		}
+	    }
+	    var Temp_LON_01 = new Array();
+	    var Temp_LON_02 = new Array();
+	    for(i = 0; i <= (Lines_Marker_count - 1); i++) {
+		Temp_LON_01[ i ] = Lines_LON[ i ] * 1.0;
+		Temp_LON_02[ i ] = Lines_LON[ i ] * 1.0;
+		if(Lines_LON[ i ] * 1.0 <= 0) {
+			Temp_LON_01[ i ] = Lines_LON[ i ] * 1.0 + 360;
+		} else {
+			Temp_LON_02[ i ] = Lines_LON[ i ] * 1.0 - 360;
+		}
+	    }
+	    for(i = 0; i <= (Lines_Marker_count - 1); i++) {
+	      if( !isNaN( Lines_LAT[ i ] ) && !isNaN( Lines_LAT[ i + 1 ] ) ) {
+		if( Math.abs(Lines_LON[ i ] - Lines_LON[ i + 1 ]) <= 180 ) {
+		   if( (Lines_LAT[ i ] != 0) || (Lines_LON[ i ] != 0) ) {
+		      if( (Lines_LAT[ i + 1 ] != 0) || (Lines_LON[ i + 1 ] != 0) ) {
+			    Lines_shape[ Lines_count ] = L.polyline([[ Lines_LAT[ i ], Lines_LON[ i ] ], [ Lines_LAT[ i + 1 ], Lines_LON[ i + 1 ] ]],
+				{ color: "#"+Selected_Color,
+				  weight: Line_W,
+				  opacity: Selected_Opacity,
+				  dashArray: Line_Type
+			    });
+			Layer_505_L[ Lines_count ] = Lines_shape[ Lines_count ];
+			Layer_505_L[ Lines_count ].addTo(map_505);
+		      }
+		   }
+		}
+		if( Math.abs(Temp_LON_01[ i ] - Temp_LON_01[ i + 1 ]) <= 180 ) {
+		   if( (Lines_LAT[ i ] != 0) || (Temp_LON_01[ i ] != 0) ) {
+		      if( (Lines_LAT[ i + 1 ] != 0) || (Temp_LON_01[ i + 1 ] != 0) ) {
+			    Lines_shape_clone_01[ Lines_count ] = L.polyline([[ Lines_LAT[ i ], Temp_LON_01[ i ] ], [ Lines_LAT[ i + 1 ], Temp_LON_01[ i + 1 ] ]],
+				{ color: "#"+Selected_Color,
+				  weight: Line_W,
+				  opacity: Selected_Opacity,
+				  dashArray: Line_Type
+			    });
+			Layer_505_L_clone_01[ Lines_count ] = Lines_shape_clone_01[ Lines_count ];
+			Layer_505_L_clone_01[ Lines_count ].addTo(map_505);
+		      }
+		   }
+		}
+		if( Math.abs(Temp_LON_02[ i ] - Temp_LON_02[ i + 1 ]) <= 180 ) {
+		   if( (Lines_LAT[ i ] != 0) || (Temp_LON_02[ i ] != 0) ) {
+		      if( (Lines_LAT[ i + 1 ] != 0) || (Temp_LON_02[ i + 1 ] != 0) ) {
+			    Lines_shape_clone_02[ Lines_count ] = L.polyline([[ Lines_LAT[ i ], Temp_LON_02[ i ] ], [ Lines_LAT[ i + 1 ], Temp_LON_02[ i + 1 ] ]],
+				{ color: "#"+Selected_Color,
+				  weight: Line_W,
+				  opacity: Selected_Opacity,
+				  dashArray: Line_Type
+			    });
+			    Layer_505_L_clone_02[ Lines_count ] = Lines_shape_clone_02[ Lines_count ];
+			    Layer_505_L_clone_02[ Lines_count ].addTo(map_505);
+		      }
+		   }
+		}
+		Lines_count = Lines_count + 1;
+	      }
+	    }
+	}
+
+	function Leaflet_Polygons_500() {		// Initialize for Polygons
+		ClickLat = null;
+		ClickLon = null;
+		Marker_flag = 0;
+		Lines_flag = 0;
+		Polygons_flag = 1;
+	}
+
+	function Leaflet_Polygons_501() {		// Set Markers for Polygons
+		Polygons_LAT[ Polygons_Marker_count ] = ClickLat;
+		Polygons_LON[ Polygons_Marker_count ] = ClickLon;
+		Polygons_NAM[ Polygons_Marker_count ] = Set_Text;
+		Polygons_LNK[ Polygons_Marker_count ] = Set_Link;
+		Polygons_ICN[ Polygons_Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Polygons_Marker_ID[ Polygons_Marker_count ] = "Polygon" + Polygons_Marker_ID_count;
+		Polygons_Drag_flag[ Polygons_Marker_count ] = true;
+		Polygons_Drag_info[ Polygons_Marker_count ] = "This Marker is movable.";
+		Temp = Polygons_Marker_count;
+		Polygons_Marker_setting();
+		Marker_set();
+		Layer_505_PM[ Temp ] = Temp_shape;
+		Layer_505_PM[ Temp ].addTo(map_505);
+		Layer_505_PM_clone[ Temp ] = Temp_shape_clone;
+		Layer_505_PM_clone[ Temp ].addTo(map_505);
+		Polygons_Marker_count = Polygons_Marker_count + 1;
+		Polygons_Marker_ID_count = Polygons_Marker_ID_count + 1;
+	}
+
+	function Leaflet_Polygons_502() {		// End of set Markers for Polygons
+		Polygons_flag = 0;
+		Polygons_LAT[ Polygons_Marker_count ] = "";
+		Polygons_LON[ Polygons_Marker_count ] = "";
+		Polygons_NAM[ Polygons_Marker_count ] = "";
+		Polygons_LNK[ Polygons_Marker_count ] = "";
+		Polygons_ICN[ Polygons_Marker_count ] = "";
+		Polygons_ID[ Polygons_Marker_count ] = "";
+		Polygons_Marker_count = Polygons_Marker_count + 1;
+		Leaflet_Polygons_Draw();
+	}
+
+	function Leaflet_Polygons_503() {		// Clear all Polygons
+		for(i = 0; i < Layer_505_PM.length; i++) {
+			if(Layer_505_PM[i] != null) {
+				map_505.removeLayer(Layer_505_PM[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_PM_clone.length; i++) {
+			if(Layer_505_PM_clone[i] != null) {
+				map_505.removeLayer(Layer_505_PM_clone[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_P.length; i++) {
+			if(Layer_505_P[i] != null) {
+				map_505.removeLayer(Layer_505_P[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_P_clone_01.length; i++) {
+			if(Layer_505_P_clone_01[i] != null) {
+				map_505.removeLayer(Layer_505_P_clone_01[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_P_clone_02.length; i++) {
+			if(Layer_505_P_clone_02[i] != null) {
+				map_505.removeLayer(Layer_505_P_clone_02[i]);
+			}
+		}
+		Polygons_flag = 0;
+		Polygons_count = 0;
+		Polygons_Marker_count = 0;
+		Polygons_shape = new Array();
+		Polygons_LAT = new Array();
+		Polygons_LON = new Array();
+		Polygons_NAM = new Array();
+		Polygons_LNK = new Array();
+		Polygons_ICN = new Array();
+	}
+
+	function Leaflet_Polygons_504() {		// Hidden Markers for Polygons
+		for(i = 0; i < Layer_505_PM.length; i++) {
+			if(Layer_505_PM[i] != null) {
+				map_505.removeLayer(Layer_505_PM[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_PM_clone.length; i++) {
+			if(Layer_505_PM_clone[i] != null) {
+				map_505.removeLayer(Layer_505_PM_clone[i]);
+			}
+		}
+	}
+
+	function Leaflet_Polygons_505() {		// Refresh Markers for Polygons
+		Polygons_Marker_Refresh();
+	}
+
+	function Leaflet_Polygons_Draw() {		// Draw Polygons
+	    if(Polygons_count != 0) {
+		for (i = 0; i < Layer_505_P.length; i++) {
+		    if(Layer_505_P[i] != null) {
+			map_505.removeLayer(Layer_505_P[i]);
+		    }
+		}
+		for (i = 0; i < Layer_505_P_clone_01.length; i++) {
+		    if(Layer_505_P_clone_01[i] != null) {
+			map_505.removeLayer(Layer_505_P_clone_01[i]);
+		    }
+		}
+		for (i = 0; i < Layer_505_P_clone_02.length; i++) {
+		    if(Layer_505_P_clone_02[i] != null) {
+			map_505.removeLayer(Layer_505_P_clone_02[i]);
+		    }
+		}
+	    }
+	    var Temp_LAT = new Array();
+	    var Temp_LON = new Array();
+	    var Temp_LON_clone_01 = new Array();
+	    var Temp_LON_clone_02 = new Array();
+	    var Temp_flag = new Array();
+	    var j = 0;
+	    Polygons_shape = new Array();
+	    Polygons_shape_clone_01 = new Array();
+	    Polygons_shape_clone_02 = new Array();
+	    Polygons_pos = new Array();
+	    Polygons_pos_clone_01 = new Array();
+	    Polygons_pos_clone_02 = new Array();
+	    Temp_flag[ 0 ] = 0;
+	    for(i = 0; i <= (Polygons_LAT.length - 1); i++) {
+		if( isNaN( Polygons_LAT[ i ]) || isNaN( Polygons_LON[ i ] ) || ( (Polygons_LAT[ i ] * 1.0 == 0) && (Polygons_LON[ i ] * 1.0 == 0) ) ) {
+			j = j + 1;
+			Temp_flag[ j ] = 0;
+		} else {
+			if( Math.abs(Polygons_LON[ i ] * 1.0 - Polygons_LON[ i + 1 ] * 1.0 ) > 180) {
+				Temp_flag[ j ] = Temp_flag[ j ] + 1;
+			}
+		}
+	    }
+	    j = 0;
+	    for(i = 0; i <= (Polygons_LAT.length - 1); i++) {
+		Temp_LAT[ i ] = Polygons_LAT[ i ];
+		Temp_LON[ i ] = Polygons_LON[ i ];
+		Temp_LON_clone_01[ i ] = Polygons_LON[ i ];
+		Temp_LON_clone_02[ i ] = Polygons_LON[ i ];
+		if( isNaN( Polygons_LAT[ i ]) || isNaN( Polygons_LON[ i ] ) || ( (Polygons_LAT[ i ] * 1.0 == 0) && (Polygons_LON[ i ] * 1.0 == 0) ) ) {
+			j = j + 1;
+		} else {
+			if(Temp_flag[ j ] != 0) {
+				if(Polygons_LON[ i ] * 1.0 < 0) {
+					Temp_LON[ i ] = Polygons_LON[ i ] * 1.0 + 360;
+				}
+			}
+		}
+		Temp_LON_clone_01[ i ] = Temp_LON[ i ] * 1.0 + 360;
+		Temp_LON_clone_02[ i ] = Temp_LON[ i ] * 1.0 - 360;
+	    }
+	    Polygons_pos[ 0 ] = [];
+	    Polygons_pos_clone_01[ 0 ] = [];
+	    Polygons_pos_clone_02[ 0 ] = [];
+	    j = 0;
+	    for(i = 0; i <= (Temp_LAT.length - 1); i++) {
+		if( isNaN( Polygons_LAT[ i ]) || isNaN( Polygons_LON[ i ] ) || ( (Polygons_LAT[ i ] * 1.0 == 0) && (Polygons_LON[ i ] * 1.0 == 0) ) ) {
+			j = j + 1;
+			Polygons_pos[ j ] = [];
+			Polygons_pos_clone_01[ j ] = [];
+			Polygons_pos_clone_02[ j ] = [];
+		} else {
+			Temp = Polygons_pos[ j ].push([ Temp_LAT[ i ], Temp_LON[ i ] ]);
+			Temp = Polygons_pos_clone_01[ j ].push([ Temp_LAT[ i ], (Temp_LON_clone_01[ i ]) ]);
+			Temp = Polygons_pos_clone_02[ j ].push([ Temp_LAT[ i ], (Temp_LON_clone_02[ i ]) ]);
+		}
+	    }
+	    j = 0;
+	    for(i = 0; i <= (Polygons_pos.length - 1); i++) {
+		if(Polygons_pos[ i ].length >= 3) {
+			Polygons_shape[ j ] = L.polygon([ Polygons_pos[ i ] ],
+			    { color: "#"+Selected_Color,
+			      weight: Line_W,
+			      opacity: Selected_Opacity,
+			      dashArray: Line_Type,
+			      fillColor: "#" + Selected_Fill_Color,
+			      fillopacity: Selected_Fill_Opacity
+			});
+			j = j + 1;
+		}
+	    }
+	    for(i = 0; i <= (Polygons_pos_clone_01.length - 1); i++) {
+		if(Polygons_pos_clone_01[ i ].length >= 3) {
+			Polygons_shape_clone_01[ i ] = L.polygon([ Polygons_pos_clone_01[ i ] ],
+			    { color: "#"+Selected_Color,
+			      weight: Line_W,
+			      opacity: Selected_Opacity,
+			      dashArray: Line_Type,
+			      fillColor: "#" + Selected_Fill_Color,
+			      fillopacity: Selected_Fill_Opacity
+			});
+		}
+	    }
+	    for(i = 0; i <= (Polygons_pos_clone_02.length - 1); i++) {
+		if(Polygons_pos_clone_02[ i ].length >= 3) {
+			Polygons_shape_clone_02[ i ] = L.polygon([ Polygons_pos_clone_02[ i ] ],
+			    { color: "#"+Selected_Color,
+			      weight: Line_W,
+			      opacity: Selected_Opacity,
+			      dashArray: Line_Type,
+			      fillColor: "#" + Selected_Fill_Color,
+			      fillopacity: Selected_Fill_Opacity
+			});
+		}
+	    }
+	    for(i = 0; i <= (Polygons_shape.length - 1); i++) {
+		if(Polygons_shape[ i ] != null) {
+			Layer_505_P[ i ] = Polygons_shape[ i ];
+			Layer_505_P[ i ].addTo(map_505);
+		}
+	    }
+	    for(i = 0; i <= (Polygons_shape_clone_01.length - 1); i++) {
+		if(Polygons_shape_clone_01[ i ] != null) {
+			Layer_505_P_clone_01[ i ] = Polygons_shape_clone_01[ i ];
+			Layer_505_P_clone_01[ i ].addTo(map_505);
+		}
+	    }
+	    for(i = 0; i <= (Polygons_shape_clone_02.length - 1); i++) {
+		if(Polygons_shape_clone_02[ i ] != null) {
+			Layer_505_P_clone_02[ i ] = Polygons_shape_clone_02[ i ];
+			Layer_505_P_clone_02[ i ].addTo(map_505);
+		}
+	    }
+	    Polygons_count = Polygons_count + 1;
+	}
+
+	function Leaflet_Circles_500() {		// Set a Circle
+	    Dialog_004();
+	}
+
+	function Leaflet_Circles_501() {		// Clear all Circles
+		for(i = 0; i < Layer_505_C.length; i++) {
+			if(Layer_505_C[i] != null) {
+				map_505.removeLayer(Layer_505_C[i]);
+			}
+		}
+		for(i = 0; i < Layer_505_C_clone.length; i++) {
+			if(Layer_505_C_clone[i] != null) {
+				map_505.removeLayer(Layer_505_C_clone[i]);
+			}
+		}
+		Circles_count = 0;
+		Circles_shape = new Array();
+		Circles_shape_clone = new Array();
+		Circles_LAT = new Array();
+		Circles_LON = new Array();
+		Circles_RAD = new Array();
+		Circles_NAM = new Array();
+		Circles_LNK = new Array();
+	}
+
+	function Circles_Set(Temp) {			// Draw a Circle
+		if(( Circles_RAD[ Temp ] * 1.0 == 0) || isNaN(Circles_RAD[ Temp ]) ) {
+			alert("Circle Name: " + Circles_NAM[ Temp ] + "\n" + "This radius is not specified.");
+			return;
+		}
+		Circles_shape[ Temp ] = L.circle([ Circles_LAT[ Temp ], Circles_LON[ Temp ] ], Circles_RAD[ Temp ],
+		    { color: "#" + Selected_Color,
+		      fillColor: "#" + Selected_Fill_Color,
+		      opacity: Selected_Opacity,
+		      weight: Line_W,
+		      fillopacity: Selected_Fill_Opacity,
+		      dashArray: Line_Type,
+		      id: Circles_ID[ Temp ]
+		    }).bindPopup(Circles_NAM[ Temp ] + "&lt;BR&gt; &lt;input type='button' value='Delete this circle' class='circle-delete-button'/&gt;");
+		if(Circles_LON[ Temp ] < 0) {
+			Circles_shape_clone[ Temp ] = L.circle([ Circles_LAT[ Temp ], (Circles_LON[ Temp ] + 360) ], Circles_RAD[ Temp ],
+			    { color: "#" + Selected_Color,
+			      fillColor: "#" + Selected_Fill_Color,
+			      opacity: Selected_Opacity,
+			      weight: Line_W,
+			      fillopacity: Selected_Fill_Opacity,
+			      dashArray: Line_Type,
+			      id: Circles_ID[ Temp ]
+			    }).bindPopup(Circles_NAM[ Temp ] + "&lt;BR&gt; &lt;input type='button' value='Delete this circle' class='circle-delete-button'/&gt;");
+		} else {
+			Circles_shape_clone[ Temp ] = L.circle([ Circles_LAT[ Temp ], (Circles_LON[ Temp ] - 360) ], Circles_RAD[ Temp ],
+			    { color: "#" + Selected_Color,
+			      fillColor: "#" + Selected_Fill_Color,
+			      opacity: Selected_Opacity,
+			      weight: Line_W,
+			      fillopacity: Selected_Fill_Opacity,
+			      dashArray: Line_Type,
+			      id: Circles_ID[ Temp ]
+			    }).bindPopup(Circles_NAM[ Temp ] + "&lt;BR&gt; &lt;input type='button' value='Delete this circle' class='circle-delete-button'/&gt;");
+		}
+		Layer_505_C[ Temp ] = Circles_shape[ Temp ].on('popupopen', onPopupCircle );
+		Layer_505_C[ Temp ].addTo(map_505);
+		Layer_505_C_clone[ Temp ] = Circles_shape_clone[ Temp ].on('popupopen', onPopupCircle );
+		Layer_505_C_clone[ Temp ].addTo(map_505);
+	}
+
+	function onPopupCircle() {			// Delete a Circle
+		var tempFigure = this;
+		var k = 0;
+		Circles_LAT[ Circles_count ] = "";
+		Circles_LON[ Circles_count ] = "";
+		Circles_RAD[ Circles_count ] = "";
+		Circles_NAM[ Circles_count ] = "";
+		Circles_LNK[ Circles_count ] = "";
+		Circles_ID[ Circles_count ] = "";
+		Circles_LAT[ Circles_count + 1 ] = "";
+		Circles_LON[ Circles_count + 1 ] = "";
+		Circles_RAD[ Circles_count + 1 ] = "";
+		Circles_NAM[ Circles_count + 1 ] = "";
+		Circles_LNK[ Circles_count + 1 ] = "";
+		Circles_ID[ Circles_count + 1 ] = "";
+		SelectedID = tempFigure.options.id;
+		$(".circle-delete-button:visible").click(function () {
+		    for(i = 0; i <= Circles_count; i++) {
+			if(SelectedID == Circles_ID[ i ] ) {
+				for(k = i; k <= Circles_count; k++) {
+					Circles_LAT[ k ] = Circles_LAT[ k + 1 ];
+					Circles_LON[ k ] = Circles_LON[ k + 1 ];
+					Circles_RAD[ k ] = Circles_RAD[ k + 1 ];
+					Circles_NAM[ k ] = Circles_NAM[ k + 1 ];
+					Circles_LNK[ k ] = Circles_LNK[ k + 1 ];
+					Circles_ID[ k ] = Circles_ID[ k + 1 ];
+					Circles_Drag_flag[ k ] = Circles_Drag_flag[ k + 1 ];
+					Circles_Drag_info[ k ] = Circles_Drag_info[ k + 1 ];
+				}
+			}
+		    }
+		    SelectedID = null;
+		    Circles_count = Circles_count - 1;
+		    Circles_Refresh();
+		});
+	}
+
+	function Circles_Refresh() {			// Refresh Circles
+		for(i = 0; i < Layer_505_C.length; i++) {
+		    if(Layer_505_C[ i ] != null) {
+			map_505.removeLayer(Layer_505_C[ i ]);
+		    }
+		}
+		for(i = 0; i < Layer_505_C_clone.length; i++) {
+		    if(Layer_505_C_clone[ i ] != null) {
+			map_505.removeLayer(Layer_505_C_clone[ i ]);
+		    }
+		}
+		for (i = 0; i <= (Circles_count - 1); i++)
+		{
+			Temp = i;
+			Circles_Set(Temp);
+		}
+	}
+
+	function Leaflet_CSV_510() {			// Save Lines Data as CSV File
+	    for (i = 0; i <= (Lines_LON.length - 1); i++) {
+		if( !isNaN(Lines_LON[ i ]) ) {
+		    while( (Lines_LON[ i ] * 1.0) < -180) {
+			Lines_LON[ i ] = (Lines_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Lines_LON[ i ] * 1.0) > 180) {
+			Lines_LON[ i ] = (Lines_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Lines_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Line_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Lines_LAT.length - 1;
+		for ( i = 0; i < Temp; i++ ) {
+			CSV_content = CSV_content + Lines_LAT[ i ] + "," + Lines_LON[ i ] + "," + Lines_NAM[ i ] + "," + Lines_LNK[ i ] + ",\r\n";
+		}
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function Leaflet_CSV_511() {			// Save Polygons Data as CSV File
+	    for (i = 0; i <= (Polygons_LON.length - 1); i++) {
+		if( !isNaN(Polygons_LON[ i ]) ) {
+		    while( (Polygons_LON[ i ] * 1.0) < -180) {
+			Polygons_LON[ i ] = (Polygons_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Polygons_LON[ i ] * 1.0) > 180) {
+			Polygons_LON[ i ] = (Polygons_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Polygons_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Polygon_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Polygons_LAT.length - 1;
+		for ( i = 0; i < Temp; i++ ) {
+			CSV_content = CSV_content + Polygons_LAT[ i ] + "," + Polygons_LON[ i ] + "," + Polygons_NAM[ i ] + "," + Polygons_LNK[ i ] + ",\r\n";
+		}
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function Leaflet_CSV_512() {			// Save Circles Data as CSV File
+	    for (i = 0; i <= (Circles_LON.length -1); i++) {
+		if( !isNaN(Circles_LON[ i ]) ) {
+		    while( (Circles_LON[ i ] * 1.0) < -180) {
+			Circles_LON[ i ] = (Circles_LON[ i ] * 1.0) + 360;
+		    }
+		    while( (Circles_LON[ i ] * 1.0) > 180) {
+			Circles_LON[ i ] = (Circles_LON[ i ] * 1.0) - 360;
+		    }
+		}
+	    }
+	    if(Circles_LAT[ 0 ] == "LAT(deg.)") {
+		var CSV_content = [];
+	    } else {
+		var CSV_content = "LAT(deg.),LONG(deg.),Name(by utf-8),Link,Radius,\r\n";
+	    }
+		const aTag = document.createElement('a');
+		aTag.download = "CSV_Circle_Data.csv";
+		var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+		Temp = Circles_LAT.length - 1;
+		for ( i = 0; i <= Temp; i++ ) {
+			CSV_content = CSV_content + Circles_LAT[ i ] + "," + Circles_LON[ i ] + "," + Circles_NAM[ i ] + "," + Circles_LNK[ i ] + "," + Circles_RAD[ i ] + ",\r\n";
+		}
+		var blob = new Blob([ bom, CSV_content ], { "type": "text/csv"});
+		if(window.navigator.msSaveBlob) {
+		     window.navigator.msSaveBlob(blob, aTag.download);					// for IE
+		  } else if (window.URL && window.URL.createObjectURL) {
+			aTag.href = window.URL.createObjectURL(blob);					// for FireFox
+			document.body.appendChild(aTag);
+			aTag.click();
+			document.body.removeChild(aTag);
+		  } else if (window.webkitURL && window.webkitURL.createObject) {
+			aTag.href = (window.URL || window.webkitURL).createObjectURL(blob);		// for Chrome
+			aTag.click();
+		  } else {
+			alert("Failed to save the file!");
+		  }
+	}
+
+	function CSV_Markers() {			// Set Markers from CSV File
+	    CSV_Check();
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Marker_LAT[ Marker_count ] = Data_CSV[i][0];
+		Marker_LON[ Marker_count ] = Data_CSV[i][1];
+		Marker_NAM[ Marker_count ] = Data_CSV[i][2];
+		Marker_LNK[ Marker_count ] = Data_CSV[i][3];
+		Marker_ICN[ Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Marker_ID[ Marker_count ] = "Marker" + Marker_ID_count;
+		Marker_Drag_flag[ Marker_count ] = false;
+		Marker_Drag_info[ Marker_count ] = "This Marker is Fixed.";
+		if( Data_CSV[i][0] != "" ) {
+		    if( !isNaN( Data_CSV[i][0] ) ) {
+			Temp = Marker_count;
+			Marker_setting();
+			Marker_set();
+			Layer_404[ Temp ] = Temp_shape;
+			Layer_404[ Temp ].addTo(map_505);
+			Layer_404_clone[ Temp ] = Temp_shape_clone;
+			Layer_404_clone[ Temp ].addTo(map_505);
+		    }
+		}
+		Marker_count = Marker_count + 1;
+		Marker_ID_count = Marker_ID_count + 1;
+	    }
+	    Marker_count = Marker_count - 1;
+	}
+
+	function CSV_Lines() {				// Draw Lines from CSV File
+	    CSV_Check();
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Lines_LAT[ Lines_Marker_count ] = Data_CSV[i][0];
+		Lines_LON[ Lines_Marker_count ] = Data_CSV[i][1];
+		Lines_NAM[ Lines_Marker_count ] = Data_CSV[i][2];
+		Lines_LNK[ Lines_Marker_count ] = Data_CSV[i][3];
+		Lines_ICN[ Lines_Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Lines_Marker_ID[ Lines_Marker_count ] = "Lines" + Lines_Marker_ID_count;
+		Lines_Drag_flag[ Lines_Marker_count ] = false;
+		Lines_Drag_info[ Lines_Marker_count ] = "This Marker is Fixed.";
+		if( !isNaN( Lines_LAT[ Lines_Marker_count ] ) ) {
+			Temp = Lines_Marker_count;
+			Lines_Marker_setting();
+			Marker_set();
+			Layer_505_LM[ Temp ] = Temp_shape;
+			Layer_505_LM[ Temp ].addTo(map_505);
+			Layer_505_LM_clone[ Temp ] = Temp_shape_clone;
+			Layer_505_LM_clone[ Temp ].addTo(map_505);
+			Lines_Marker_count = Lines_Marker_count + 1;
+			Lines_Marker_ID_count = Lines_Marker_ID_count + 1;
+		} else {
+			Lines_Marker_count = Lines_Marker_count + 1;
+			Lines_Marker_ID_count = Lines_Marker_ID_count + 1;
+		}
+	    }
+	    Leaflet_Lines_Draw();
+	}
+
+	function CSV_Polygons() {			// Draw Polygons from CSV File
+	    CSV_Check();
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Polygons_LAT[ Polygons_Marker_count ] = Data_CSV[i][0];
+		Polygons_LON[ Polygons_Marker_count ] = Data_CSV[i][1];
+		Polygons_NAM[ Polygons_Marker_count ] = Data_CSV[i][2];
+		Polygons_LNK[ Polygons_Marker_count ] = Data_CSV[i][3];
+		Polygons_ICN[ Polygons_Marker_count ] = L.icon({
+			iconUrl: Icon_Url,
+			iconSize: [Icon_W, Icon_H],
+			iconAnchor : [Icon_AW, Icon_AH],
+			popupAnchor: [Icon_PW, Icon_PH]
+		});
+		Polygons_Marker_ID[ Polygons_Marker_count ] = "Polygon" + Polygons_Marker_ID_count;
+		Polygons_Drag_flag[ Polygons_Marker_count ] = false;
+		Polygons_Drag_info[ Polygons_Marker_count ] = "This Marker is Fixed.";
+		if( !isNaN( Polygons_LAT[ Polygons_Marker_count ] ) ) {
+			Temp = Polygons_Marker_count;
+			Polygons_Marker_setting();
+			Marker_set();
+			Layer_505_PM[ Temp ] = Temp_shape;
+			Layer_505_PM[ Temp ].addTo(map_505);
+			Layer_505_PM_clone[ Temp ] = Temp_shape_clone;
+			Layer_505_PM_clone[ Temp ].addTo(map_505);
+			Polygons_Marker_count = Polygons_Marker_count + 1;
+			Polygons_Marker_ID_count = Polygons_Marker_ID_count + 1;
+		} else {
+			Polygons_Marker_count = Polygons_Marker_count + 1;
+			Polygons_Marker_ID_count = Polygons_Marker_ID_count + 1;
+		}
+	    }
+	    Leaflet_Polygons_Draw();
+	}
+
+	function CSV_Circles() {			// Draw Circles from CSV File
+	    CSV_Check();
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		Circles_LAT[ Circles_count ] = Data_CSV[i][0] * 1.0;
+		Circles_LON[ Circles_count ] = Data_CSV[i][1] * 1.0;
+		Circles_NAM[ Circles_count ] = Data_CSV[i][2];
+		Circles_LNK[ Circles_count ] = Data_CSV[i][3];
+		Circles_RAD[ Circles_count ] = Data_CSV[i][4] * 1.0;
+		Circles_ID[ Circles_count ] = "Circle" + Circles_ID_count;
+		Circles_Drag_flag[ Circles_count ] = false;
+		Circles_Drag_info[ Circles_count ] = "This Circle is Fixed.";
+		if ( !isNaN( Circles_LAT[ Circles_count ] ) ) {
+		    if ( (Circles_LAT[ Circles_count ] != 0) && (Circles_LON[ Circles_count ] != 0)) {
+			Circles_Set( Circles_count );
+			Circles_count = Circles_count + 1;
+			Circles_ID_count = Circles_ID_count + 1;
+		    }
+		}
+	    }
+	}
+
+	function CSV_Check() {				// Set the limit for Latitude and Longitude
+	    for (i = 0; i <= (Data_CSV.length - 1); i++) {
+		if((Data_CSV[i][0] * 1.0) > 90) {
+		    Data_CSV[i][0] = 90;
+		}
+		if((Data_CSV[i][0] * 1.0) < -90) {
+		    Data_CSV[i][0] = -90;
+		}
+		while( (Data_CSV[i][1] * 1.0) < -180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 + 360;
+		}
+		while( (Data_CSV[i][1] * 1.0) > 180) {
+		    Data_CSV[i][1] = Data_CSV[i][1] * 1.0 - 360;
+		}
+	    }
+	}
+
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload="init()"&gt;
+&lt;nav id="menu-wrap" style=" z-index: 1000;"&gt;  
+	&lt;ul id="menu" style="width: 98%;"&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Marker Menu&lt;/a&gt;
+		&lt;ul&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Dialog_001()"&gt;Select Marker Style&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_400()"&gt;Set One Marker &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_402()"&gt;Start to Set Several Markers &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_404()"&gt;End of Set Several Markers &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_405()"&gt;Clear All Markers &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_406()"&gt;Save Marker Position as CSV File &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_407()"&gt;Load Marker Position from CSV File &lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;/li&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Set Figures&lt;/a&gt;
+		&lt;ul&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Dialog_001()"&gt;Select Marker Style&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Dialog_003()"&gt;Select Line Style&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#"&gt;---------------------------------------------&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Lines_500()"&gt;Start to draw Lines &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Lines_502()"&gt;End of draw Lines &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Lines_503()"&gt;Clear All Lines &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Lines_504()"&gt;Hide Markers for Lines &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Lines_505()"&gt;Show Markers for Lines &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#"&gt;---------------------------------------------&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Polygons_500()"&gt;Start to draw Polygons &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Polygons_502()"&gt;End of draw Polygons &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Polygons_503()"&gt;Clear All Polygons &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Polygons_504()"&gt;Hide Markers for Polygons &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Polygons_505()"&gt;Show Markers for Polygons &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#"&gt;---------------------------------------------&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Circles_500()"&gt;Set a Circle &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Circles_501()"&gt;Clear All Circles &lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;/li&gt;
+		&lt;li&gt;&lt;a href="#"&gt;Load & Save&lt;/a&gt;
+		&lt;ul&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_406()"&gt;Save Marker's Position as CSV File &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_CSV_510()"&gt;Save Lines Data as CSV File &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_CSV_511()"&gt;Save Polygons Data as CSV File &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_CSV_512()"&gt;Save Circles Data as CSV File &lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#"&gt;---------------------------------------------&lt;/a&gt;&lt;/li&gt;
+			&lt;li&gt;&lt;a href="#" onclick = "Leaflet_Marker_407()"&gt;Load Data from CSV File &lt;/a&gt;&lt;/li&gt;
+		&lt;/ul&gt;
+		&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;div id="map_Layer"&gt;
+    &lt;div id="map_505" style="width: 100%; height: 96%; border: solid 1px"&gt;&lt;/div&gt;
+These Icons are downloaded from&lt;A HREF = "http://flat-icon-design.com/" target="_blank"&gt; FLAT ICON DESIGN &lt;/A&gt;and
+&lt;A HREF = "http://icooon-mono.com/" target="_blank"&gt; ICOON MONO &lt;/A&gt;. 
+TopeconHeroes holds the copyright of these Icons.
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</PRE>
+</span>
+I was created "Original_Style_505.css" as a Cascading Style Sheets for setting a line style of figures. 
+The source of "Original_Style_505.css" is as follows:
+<span id="code-block" style="height: 100px;">
+<PRE>
+.leaflet-container {
+    background: #fff;
+    outline: 0;
+}
+.ui-widget {
+    font-family: Arial,Verdana,sans-serif;
+    font-size: 0.8em;
+}
+.ui-slider-range {
+     background: #808080;
+}
+#colorpicker-red_01, #colorpicker-green_01, #colorpicker-blue_01, #colorpicker-red_02, #colorpicker-green_02, #colorpicker-blue_02, #slider_001, #slider_301, #slider_302, #slider_303 {
+     float: left;
+     clear: left;
+     width: 255px;
+     margin: 2px 5px;
+}
+#colorpicker-swatch_01 {
+     width: 60px;
+     height: 30px;
+     margin-top: 5px;
+     margin-left: 10px;
+     background-image: none;
+}
+#colorpicker-swatch_02 {
+     width: 60px;
+     height: 30px;
+     margin-top: 5px;
+     margin-left: 10px;
+     background-image: none;
+}
+#colorpicker-red_01 .ui-slider-range {
+     background: #ef2929;
+}
+#colorpicker-red_01 .ui-slider-handle {
+     border-color: #ef2929;
+}
+#colorpicker-green_01 .ui-slider-range {
+     background: #8ae234;
+}
+#colorpicker-green_01 .ui-slider-handle {
+     border-color: #8ae234;
+}
+#colorpicker-blue_01 .ui-slider-range {
+     background: #729fcf;
+}
+#colorpicker-blue_01 .ui-slider-handle {
+     border-color: #729fcf;
+}
+#colorpicker-hex_01, #colorpicker-rgb_01 {
+     margin: 3px;
+}
+#colorpicker-red_02 .ui-slider-range {
+     background: #ef2929;
+}
+#colorpicker-red_02 .ui-slider-handle {
+     border-color: #ef2929;
+}
+#colorpicker-green_02 .ui-slider-range {
+     background: #8ae234;
+}
+#colorpicker-green_02 .ui-slider-handle {
+     border-color: #8ae234;
+}
+#colorpicker-blue_02 .ui-slider-range {
+     background: #729fcf;
+}
+#colorpicker-blue_02 .ui-slider-handle {
+     border-color: #729fcf;
+}
+#colorpicker-hex_02, #colorpicker-rgb_02 {
+     margin: 3px;
+}
+#console {
+    height: 136px;
+    overflow-y: scroll;
+    color: white;
+    background-color: black;
+}
+</PRE>
+</span>
+<br>
+Also, I was created "Dialog_505_EN.js" based on "Dialog_404_EN.js". 
+It is added to select the line style, input the radius and center position for circle. 
+The following is a part of sorce of "Dialog_505_EN.js". 
+<span id="code-block" style="height: 100px;">
+<PRE>
+// Dialog_505_EN.js	2019/7/19 by T. Fujita
+
+var Line_W = 1;
+var Selected_Color = 'ff0000';
+var Selected_Fill_Color = 'ffff00';
+var Selected_Opacity = 1;
+var Selected_Fill_Opacity = 0.3;
+var Line_Type = "10,0";
+var Temp_LAT = 0.0;
+var Temp_LON = 0.0;
+var Temp_RAD = 0.0;
+
+        $("body").append('&lt;div id="dialog_003" style="z-index: 2000;"&gt;&lt;form name="Form_003"&gt;'+
+'Title: &lt;input type="text" style="width: 230px;" name="txt_line" value=""&gt;&lt;/form&gt;'+
+'&lt;p&gt;&lt;HR&gt;&lt;div style="clear: both;"&gt;&lt;/div&gt;&lt;div&gt;Line Type:'+
+'&lt;select id="Line_Samples" name="Line_Samples" style="width:270px;"&gt;'+
+'&lt;option value="1" title="./ICONS/Lines/Line_Sample-001(10).png"&gt;001&lt;/option&gt;'+
+'&lt;option value="2" title="./ICONS/Lines/Line_Sample-002(5,5).png"&gt;002&lt;/option&gt;'+
+'&lt;option value="3" title="./ICONS/Lines/Line_Sample-003(5,10).png"&gt;003&lt;/option&gt;'+
+'&lt;option value="4" title="./ICONS/Lines/Line_Sample-004(10,5).png"&gt;004&lt;/option&gt;'+
+'&lt;option value="5" title="./ICONS/Lines/Line_Sample-005(5,1).png"&gt;005&lt;/option&gt;'+
+'&lt;option value="6" title="./ICONS/Lines/Line_Sample-006(1,5).png"&gt;006&lt;/option&gt;'+
+'&lt;option value="7" title="./ICONS/Lines/Line_Sample-007(15,10,5,10).png"&gt;007&lt;/option&gt;'+
+'&lt;option value="8" title="./ICONS/Lines/Line_Sample-008(5,5,1,5).png"&gt;008&lt;/option&gt;'+
+'&lt;/select&gt;&lt;/div&gt;'+
+'&lt;div id="num_301"&gt;&lt;/div&gt;&lt;div id="slider_301"&gt;&lt;/div&gt;&lt;BR&gt;'+
+'&lt;div style="float: left;"&gt;Select Line Color: &lt;BR&gt;'+
+'&lt;div id="colorpicker-red_01"&gt;&lt;/div&gt;&lt;div id="colorpicker-green_01"&gt;&lt;/div&gt;&lt;div id="colorpicker-blue_01"&gt;&lt;/div&gt;'+
+'&lt;div id="num_302"&gt;&lt;/div&gt;&lt;div id="slider_302"&gt;&lt;/div&gt;'+
+'&lt;/div&gt;&lt;div style="float: left;"&gt;&lt;div id="colorpicker-swatch_01" class="ui-widget-content ui-corner-all"&gt;&lt;/div&gt;'+
+'&lt;/div&gt;&lt;div style="float: left;"&gt;&lt;div id="colorpicker-hex_01"&gt;&lt;/div&gt;&lt;div id="colorpicker-rgb_01"&gt;&lt;/div&gt;&lt;/div&gt;'+
+'&lt;/p&gt;&lt;p&gt;&lt;div style="float: left;"&gt;&lt;HR&gt;Select Fill Color: &lt;BR&gt;'+
+'&lt;div id="colorpicker-red_02"&gt;&lt;/div&gt;&lt;div id="colorpicker-green_02"&gt;&lt;/div&gt;&lt;div id="colorpicker-blue_02"&gt;&lt;/div&gt;'+
+'&lt;div id="num_303"&gt;&lt;/div&gt;&lt;div id="slider_303"&gt;&lt;/div&gt;'+
+'&lt;/div&gt;&lt;div style="float: left;"&gt;'+
+'&lt;div id="colorpicker-swatch_02" class="ui-widget-content ui-corner-all"&gt;&lt;/div&gt;&lt;/div&gt;'+
+'&lt;div style="float: left;"&gt;&lt;div id="colorpicker-hex_02"&gt;&lt;/div&gt;&lt;div id="colorpicker-rgb_02"&gt;&lt;/div&gt;&lt;/div&gt;'+
+'&lt;div style="clear: both;"&gt;&lt;/div&gt;&lt;/p&gt;&lt;/div&gt;');
+
+	$('#dialog_003').dialog({
+		autoOpen: false,
+		title: 'Select Line Style',
+		height: 500,
+		width: 360,
+		closeOnEscape: true,
+		modal: true,
+		show: "fade",
+		hide: "fade",
+		buttons: {
+			"OK": function(){
+				Set_Text = document.Form_003.txt_line.value;
+				var Temp = Line_Samples.options[Line_Samples.selectedIndex].value;
+				if( Temp == 2 ) {
+					Line_Type = 5 * Line_W + "," + 5 * Line_W;
+				} else if( Temp == 3 ) {
+					Line_Type = 5 * Line_W + "," + 10 * Line_W;
+				} else if( Temp == 4 ) {
+					Line_Type = 10 * Line_W + "," + 5 * Line_W;
+				} else if( Temp == 5 ) {
+					Line_Type = 5 * Line_W + "," + 2 * Line_W;
+				} else if( Temp == 6 ) {
+					Line_Type = 1 * Line_W + "," + 5 * Line_W;
+				} else if( Temp == 7 ) {
+					Line_Type = 15 * Line_W + "," + 10 * Line_W + "," + 5 * Line_W + "," + 10 * Line_W;
+				} else if( Temp == 8 ) {
+					Line_Type = 5 * Line_W + "," + 5 * Line_W + "," + 1 * Line_W + "," + 5 * Line_W;
+				} else {
+					Line_Type = 10 * Line_W + "," + 0;
+				}
+				$(this).dialog('close');
+			}
+		}
+	});
+
+        $("body").append('&lt;div id="dialog_004" style="z-index: 2000"&gt;&lt;form name="Form_004"&gt;'+
+'Title: &lt;input type="text" style="width: 230px;" name="txt_circle" value=""&gt;'+
+'&lt;p&gt;&lt;HR&gt;&lt;div style="clear: both;"&gt;&lt;/div&gt;'+
+'Please input the radius and center position of circle.&lt;BR&gt;&lt;BR&gt;'+
+'&lt;TR&gt;'+
+'&lt;TD&gt;Latitude (Deg.): &lt;input type="text" name="circle_lat" value=""&gt;&lt;/TD&gt;'+
+'&lt;BR&gt;&lt;BR&gt;'+
+'&lt;TD&gt;Longitude (Deg.): &lt;input type="text" name="circle_lon" value=""&gt;&lt;/TD&gt;'+
+'&lt;BR&gt;&lt;BR&gt;'+
+'&lt;/TR&gt;&lt;TR&gt;'+
+'&lt;TD&gt;Radius of Circle(km): &lt;input type="text" name="radius" value=""&gt;&lt;/TD&gt;'+
+'&lt;BR&gt;&lt;BR&gt;&lt;/TR&gt;&lt;/p&gt;&lt;/form&gt;&lt;/div&gt;');
+
+	$('#dialog_004').dialog({
+		autoOpen: false,
+		title: 'Set the Circle Style',
+		height: 300,
+		width: 320,
+		closeOnEscape: true,
+		modal: true,
+		show: "fade",
+		hide: "fade",
+		buttons: {
+			"OK": function(){
+			    Circles_LAT[ Circles_count ] = document.Form_004.circle_lat.value * 1.0;
+			    Circles_LON[ Circles_count ] = document.Form_004.circle_lon.value * 1.0;
+			    Circles_RAD[ Circles_count ] = document.Form_004.radius.value * 1000;
+			    Circles_NAM[ Circles_count ] = document.Form_004.txt_circle.value;
+			    Circles_LNK[ Circles_count ] = " ";
+			    Circles_ID[ Circles_count ] = "Circle" + Circles_ID_count;
+			    if ((Circles_LAT[ Circles_count ] != 0) || (Circles_LON[ Circles_count ] != 0)) {
+				Circles_Set( Circles_count );
+				Circles_count = Circles_count + 1;
+				Circles_ID_count = Circles_ID_count + 1;
+			    }
+				$(this).dialog('close');
+			}
+		}
+	});
+
+
+     $('#slider_001, #slider_301, #colorpicker-red_01, #colorpicker-green_01, #colorpicker-blue_01, #slider_302, #colorpicker-red_02, #colorpicker-green_02, #colorpicker-blue_02, #slider_303').slider( {
+         orientation: 'horizontal',
+         range: 'min',
+         max: 255,
+         value: 127,
+         slide: refreshSwatch,
+         change: refreshSwatch
+     } );
+     $( '#slider_001' ).slider( 'value', 96 );
+     $( '#colorpicker-red_01' ) . slider( 'value', 255 );
+     $( '#colorpicker-green_01' ) . slider( 'value', 0 );
+     $( '#colorpicker-blue_01' ) . slider( 'value', 0 );
+     $( '#slider_301' ).slider( 'value', 25 );
+     $( '#slider_302' ).slider( 'value', 204 );
+     $( '#colorpicker-red_02' ) . slider( 'value', 255 );
+     $( '#colorpicker-green_02' ) . slider( 'value', 255 );
+     $( '#colorpicker-blue_02' ) . slider( 'value', 0 );
+     $( '#slider_303' ).slider( 'value', 76 );
+     $( '#Line_Samples' ).msDropDown();
+     $( '#Marker_Samples' ).msDropDown({
+		visibleRows:4,
+		on:{change:function(data, ui) {
+			Icon_Url = Marker_Samples.options[Marker_Samples.selectedIndex].title;
+			$('#Selected_Icon img').attr('src', Icon_Url);
+		}}
+     });
+});
+
+
+function Dialog_003() {						// Select Line Style
+	document.Form_003.txt_line.value = "";
+	$('#dialog_003').dialog('open');
+}
+
+function Dialog_004() {						// Input the radius and center position for circle
+	document.Form_004.circle_lat.value = "";
+	document.Form_004.circle_lon.value = "";
+	document.Form_004.radius.value = "";
+	document.Form_004.txt_circle.value = "";
+	$('#dialog_004').dialog('open');
+}
+
+
+function refreshSwatch() {
+     Icon_W = Math.round($('#slider_001').slider('value') / 255 * Max_M_Size);
+     if (Icon_W <= Min_M_Size) { Icon_W = Min_M_Size; }
+     Icon_H = Icon_W;
+     $( '#num_001' ).html( 'Marker Size: ' + Icon_W );
+     $( '#Selected_Icon img' ).css( { width: Icon_W, height: Icon_H } );
+
+     var red_01 = $( '#colorpicker-red_01' ) . slider( 'value' );
+     var green_01 = $( '#colorpicker-green_01' ) . slider( 'value' );
+     var blue_01 = $( '#colorpicker-blue_01' ) . slider( 'value' );
+     Line_W = Math.ceil($('#slider_301').slider('value') / 255 * 10);
+     Selected_Opacity = Math.round($('#slider_302').slider('value') / 255 * 100) / 100;
+     Selected_Color = hexFromRGB( red_01, green_01, blue_01 );
+     var red_02 = $( '#colorpicker-red_02' ) . slider( 'value' );
+     var green_02 = $( '#colorpicker-green_02' ) . slider( 'value' );
+     var blue_02 = $( '#colorpicker-blue_02' ) . slider( 'value' );
+     Selected_Fill_Opacity = Math.round($('#slider_303').slider('value') / 255 * 100) / 100;
+     Selected_Fill_Color = hexFromRGB( red_02, green_02, blue_02 );
+     $( '#colorpicker-swatch_01' ) . css( 'background-color', '#' + Selected_Color );
+     $( '#colorpicker-swatch_01' ) . css( 'opacity', Selected_Opacity );
+     $( '#colorpicker-hex_01' ) . html( 'HEX: #' + Selected_Color );
+     $( '#colorpicker-rgb_01' ) . html( 'RGB: (' + red_01 + ',' + green_01 + ',' +blue_01 + ')' );
+     $( '#num_301' ).html( 'Line Width: ' + Line_W );
+     $( '#num_302' ).html( 'Line Opacity: ' + Selected_Opacity );
+     $( '#colorpicker-swatch_02' ) . css( 'background-color', '#' + Selected_Fill_Color );
+     $( '#colorpicker-swatch_02' ) . css( 'opacity', Selected_Fill_Opacity );
+     $( '#colorpicker-hex_02' ) . html( 'HEX: #' + Selected_Fill_Color );
+     $( '#colorpicker-rgb_02' ) . html( 'RGB: (' + red_02 + ',' + green_02 + ',' +blue_02 + ')' );
+     $( '#num_303' ).html( 'Fill Opacity: ' + Selected_Fill_Opacity );
+}
+
+function hexFromRGB( r, g, b ) {
+     var hex = [
+         r . toString( 16 ),
+         g . toString( 16 ),
+         b . toString( 16 )
+     ];
+     jQuery.each( hex, function( nr, val ) {
+         if ( val . length === 1 ) {
+             hex[ nr ] = "0" + val;
+         }
+     } );
+     return hex . join( '' ) . toUpperCase();
+}
+</PRE>
+</span>
+<br><br>
+
+
+<h2>Step-6: Several Samples</h2>
+As the last Step, I will show you several samples as fillows: <br>
+<br>
+(1) <a href = "./Leaflet_Tutrial_601_EN.html"  target="_blank">Demo for Tutorial_601</a>: It is a demo including almost above tutorials. 
+<br>
+(2) <a href = "./Leaflet_Tutrial_602_EN.html"  target="_blank">Demo for Tutorial_602</a>: It is a demo to show your device's position on the map.
+<br>
+(3) <a href = "./Leaflet_Tutrial_603_EN.html"  target="_blank">Demo for Tutorial_603</a>: It is a demo to trace in any interval your device's position on the map.
+<br>
+(4) <a href = "./Leaflet_Tutrial_604_EN.html"  target="_blank">Demo for Tutorial_604</a>: It is a demo to show the place of the photograph on the map.
+<br>
+(5) <a href = "./Leaflet_Tutrial_605_EN.html"  target="_blank">Demo for Tutorial_605</a>: It is a demo to show the place of the photograph with photo frame on the map.
+<br><br>
+
+<hr>
+<h2>References:</h2>
+1. <a href = "https://leafletjs.com/" target="_blank">Leaflet - a JavaScript library for interactive maps</a>
+<br>
+2. <a href = "https://jquery.com/" target="_blank">jQuery: The Write Less, Do More, JavaScript Library.</a>
+<br>
+3. <a href = "https://jqueryui.com/" target="_blank">jQuery user interface</a>
+<br>
+4. <a href = "https://github.com/calvinmetcalf/leaflet-ajax" target="_blank">calvinmetcalf/leaflet-ajax: plugin for leaflet for ajax - GitHub</a>
+<br>
+5. <a href = "https://github.com/k4r573n/leaflet-control-osm-geocoder" target="_blank">k4r573n/leaflet-control-osm-geocoder - GitHub</a>
+<br>
+6. <a href = "https://github.com/aparshin/leaflet-GIBS" target="_blank">aparshin/leaflet-GIBS: Leaflet plugin for NASA GIBS Imagery integration. Contribute to aparshin/leaflet-GIBS development by creating an account on GitHub.</a>
+<br>
+7. <a href = "https://github.com/Norkart/Leaflet-MiniMap" target="_blank">Norkart/Leaflet-MiniMap: A minimap control plugin for Leaflet - GitHub</a>
+<br>
+8. <a href = "https://github.com/ardhi/Leaflet.MousePosition" target="_blank">ardhi/Leaflet.MousePosition: A mouse position control for Leaflet. Contribute to ardhi/Leaflet.MousePosition development by creating an account on GitHub.</a>
+<br>
+9. <a href = "https://github.com/marghoobsuleman/ms-Dropdown" target="_blank">marghoobsuleman/ms-Dropdown: Image dropdown - convert your dropdown to image dropdown - marghoobsuleman/ms-Dropdown. - GitHub</a>
+<br>
+10. <a href = "https://www.openstreetmap.org/" target="_blank">OpenStreetMap is the free wiki world map.</a>
+<br>
+11. <a href = "https://stamen.com/" target="_blank">Stamen Design: Data Visualization and Map Design Studio</a>
+<br>
+12. <a href = "https://www.esri.com/" target="_blank">Esri's GIS mapping software is the most powerful mapping & spatial data analytics technology available.</a>
+<br>
+13. <a href = "https://www.openseamap.org/" target="_blank">OpenSeaMap - die freie Seekarte, nach dem Wiki-Prinzip, auf PC, Garmin, Lowrance.</a>
+<br>
+14. <a href = "https://www.usgs.gov/products/data-and-tools/real-time-data/earthquakes" target="_blank">Earthquakes - Real-time Data - USGS</a>
+<br>
+15. <a href = "https://github.com/exif-js/exif-js" target="_blank">Exif.js. A JavaScript library for reading EXIF meta data from image files.</a>
+<br><br>
+
+</body>
+</html>

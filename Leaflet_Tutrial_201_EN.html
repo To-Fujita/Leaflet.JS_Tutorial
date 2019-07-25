@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_201_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset = "utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Basic_Map = new Array();
+	Basic_Map[ 0 ] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		continuousWorld: false
+	});
+	Basic_Map[ 1 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ',
+		variant: 'toner-background'
+	});
+	Basic_Map[ 2 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ',
+		variant: 'toner-lite'
+	});
+	Basic_Map[ 3 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		minZoom: 1,
+		maxZoom: 16,
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ',
+		variant: 'watercolor'
+	});
+	Basic_Map[ 4 ] = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; <a href="http://www.esrij.com/"> Esri </a>'
+	});
+	Basic_Map[ 5 ] = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+		maxZoom: 13,
+		attribution: 'Tiles by <a href="http://www.esrij.com/"> Esri </a>'
+	});
+
+        var map_201 = L.map('map_201').setView([51.5, 0.0], 8);
+        map_201.addLayer( Basic_Map[ 0 ] );
+
+	var baseMap = {
+		"OpenStreetMap": Basic_Map[ 0 ],
+		"Stamen Toner-Background": Basic_Map[ 1 ],
+		"Stamen Toner-Lite": Basic_Map[ 2 ],
+		"Stamen Watercolor": Basic_Map[ 3 ],
+		"Esri World Topo Map": Basic_Map[ 4 ],
+		"Esri Ocean Base Map": Basic_Map[ 5 ],
+	};
+
+	var Over_Layer = new Array();
+	Over_Layer[ 0 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+	    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ' +
+		'<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; ' +
+		'Map data {attribution.OpenStreetMap}',
+	    variant: 'toner-hybrid'
+	});
+	Over_Layer[ 1 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+	    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ' +
+		'<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; ' +
+		'Map data {attribution.OpenStreetMap}',
+	    variant: 'toner-lines'
+	});
+	Over_Layer[ 2 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+	    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ' +
+		'<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; ' +
+		'Map data {attribution.OpenStreetMap}',
+	    variant: 'toner-labels'
+	});
+	Over_Layer[ 3 ] = L.tileLayer('http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png', {
+	    attribution: "<a href='http://www.openseamap.org' target='_blank'>OpenSeaMap</a> contributors"
+	});
+
+	var overLay_201 = {
+	    "Stamen-hybrid": Over_Layer[ 0 ],
+	    "Stamen toner-lines": Over_Layer[ 1 ],
+	    "Stamen toner-labels": Over_Layer[ 2 ],
+	    "OpenSeaMap": Over_Layer[ 3 ],
+	};
+	L.control.layers(baseMap, overLay_201).addTo(map_201);
+
+    }
+</script>
+</head>
+<body onload="init()">
+    <div id="map_201" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

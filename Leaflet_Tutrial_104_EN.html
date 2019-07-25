@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_104_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset = "utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Basic_Map = new Array();
+	Basic_Map[ 0 ] = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		continuousWorld: false
+	});
+	Basic_Map[ 1 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ',
+		variant: 'toner-background'
+	});
+	Basic_Map[ 2 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ',
+		variant: 'toner-lite'
+	});
+	Basic_Map[ 3 ] = L.tileLayer('http://{s}.tile.stamen.com/{variant}/{z}/{x}/{y}.png', {
+		minZoom: 1,
+		maxZoom: 16,
+		attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ',
+		variant: 'watercolor'
+	});
+	Basic_Map[ 4 ] = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; <a href="http://www.esrij.com/"> Esri Japan </a>'
+	});
+	Basic_Map[ 5 ] = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+		maxZoom: 13,
+		attribution: 'Tiles by <a href="http://www.esrij.com/"> Esri Japan </a>'
+	});
+
+        var map_104 = L.map('map_104').setView([51.5, 0.0], 8);
+        map_104.addLayer( Basic_Map[ 0 ] );
+
+	var baseMap = {
+		"OpenStreetMap": Basic_Map[ 0 ],
+		"Stamen Toner-Background": Basic_Map[ 1 ],
+		"Stamen Toner-Lite": Basic_Map[ 2 ],
+		"Stamen Watercolor": Basic_Map[ 3 ],
+		"Esri World Topo Map": Basic_Map[ 4 ],
+		"Esri Ocean Base Map": Basic_Map[ 5 ],
+	};
+	L.control.layers(baseMap).addTo(map_104);
+
+    }
+</script>
+</head>
+<body onload="init()">
+    <div id="map_104" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

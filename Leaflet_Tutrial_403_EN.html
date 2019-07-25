@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_403_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Layer_403 = new Array();
+	var map_403 = L.map('map_403').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_403);
+	Leaflet_Marker_403();
+
+	function Leaflet_Marker_403()		// Set the Markers
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    var Markers_shape_icn = new Array();
+	    var Drag_Markers_shape = new Array();
+	    var Drag_Markers_shape_pos = new Array();
+	    var Drag_Markers_shape_nam = new Array();
+	    var Drag_Markers_shape_lnk = new Array();
+	    var Drag_Markers_shape_icn = new Array();
+
+	    Markers_shape_pos[ 0 ] = [51.5058, -0.0752];
+	    Markers_shape_nam[ 0 ] = "Tower Bridge";
+	    Markers_shape_lnk[ 0 ] = "<a href= 'https://www.towerbridge.org.uk/' target='_blank'>Link to Tower Bridge</a>";
+	    Markers_shape_icn[ 0 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_business_76_0nbg.png",
+		iconSize: [32, 32],
+		iconAnchor: [16, 32],
+		popupAnchor: [0, -16]
+	    });
+
+	    Markers_shape_pos[ 1 ] = [51.47, -0.453];
+	    Markers_shape_nam[ 1 ] = "Heathrow Airport";
+	    Markers_shape_lnk[ 1 ] = "<a href= 'https://www.heathrow.com/' target='_blank'>Link to Heathrow Airport</a>";
+	    Markers_shape_icn[ 1 ] = L.icon({
+		iconUrl: "./ICONS/BW_Icon/BW_Icons_64/icon_107470_64.png",
+		iconSize: [32, 32],
+		iconAnchor: [0, 32],
+		popupAnchor: [16, -16]
+	    });
+
+	    Markers_shape_pos[ 2 ] = [51.258, -0.00456];
+	    Markers_shape_nam[ 2 ] = "Oxford";
+	    Markers_shape_lnk[ 2 ] = "<a href= 'https://oxfordcity.co.uk/' target='_blank'>Link to Oxford</a>";
+	    Markers_shape_icn[ 2 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_traffic_45_0nbg.png",
+		iconSize: [28, 32],
+		iconAnchor: [0, 32],
+		popupAnchor: [16, -16]
+	    });
+
+	    Drag_Markers_shape_pos[ 0 ] = [52.0, 1.75];
+	    Drag_Markers_shape_nam[ 0 ] = "Movable Marker #1";
+	    Drag_Markers_shape_lnk[ 0 ] = " ";
+	    Drag_Markers_shape_icn[ 0 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_object_116_1nbg.png",
+		iconSize: [48, 48],
+		iconAnchor: [24, 24],
+		popupAnchor: [0, 0]
+	    });
+
+	    Drag_Markers_shape_pos[ 1 ] = [51.5, 1.0];
+	    Drag_Markers_shape_nam[ 1 ] = "Movable Marker #2";
+	    Drag_Markers_shape_lnk[ 1 ] = "<A HREF = 'http://flat-icon-design.com/' target='_blank'> Link to FLAT ICOON </A>";
+	    Drag_Markers_shape_icn[ 1 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_object_115_0nbg.png",
+		iconSize: [48, 48],
+		iconAnchor: [24, 24],
+		popupAnchor: [0, 0]
+	    });
+
+	    Drag_Markers_shape_pos[ 2 ] = [51.5, 2.0];
+	    Drag_Markers_shape_nam[ 2 ] = "Movable Marker #3";
+	    Drag_Markers_shape_lnk[ 2 ] = "<A HREF = 'http://icooon-mono.com/' target='_blank'> Link to ICOON MONO </A>";
+	    Drag_Markers_shape_icn[ 2 ] = L.icon({
+		iconUrl: "./ICONS/BW_Icon/BW_Icons_64/icon_128020_64.png",
+		iconSize: [48, 48],
+		iconAnchor: [24, 24],
+		popupAnchor: [0, 0]
+	    });
+
+	    for ( i = 0; i < Markers_shape_pos.length; i++ )
+	    {
+		if( Markers_shape_pos[ i ] != null ) {
+		    Markers_shape[ i ] = L.marker([ Markers_shape_pos[ i ][ 0 ], Markers_shape_pos[ i ][ 1 ] ],
+			{icon: Markers_shape_icn[ i ]});
+		    Markers_shape[ i ].bindPopup(Markers_shape_nam[ i ] + "<br>" + Markers_shape_lnk[ i ]).openPopup();
+		    Layer_403[ i ] = Markers_shape[ i ];
+		    Layer_403[ i ].addTo(map_403);
+		}
+	    }
+	    for ( i = 0; i < Drag_Markers_shape_pos.length; i++ )
+	    {
+		if( Drag_Markers_shape_pos[ i ] != null ) {
+		    Drag_Markers_shape[ i ] = L.marker([ Drag_Markers_shape_pos[ i ][ 0 ], Drag_Markers_shape_pos[ i ][ 1 ] ],
+			{icon: Drag_Markers_shape_icn[ i ], draggable: true});
+		    Drag_Markers_shape[ i ].bindPopup(Drag_Markers_shape_nam[ i ] + "<br>" + Drag_Markers_shape_lnk[ i ]);
+		    Layer_403[ i ] = Drag_Markers_shape[ i ];
+		    Layer_403[ i ].addTo(map_403);
+		}
+	    }
+	}
+    }
+
+    </script>
+</head>
+<body onload="init()">
+    <div id="map_403" style="width: 100%; height: 96%; border: solid 1px"></div>
+These Icons are downloaded from<A HREF = "http://flat-icon-design.com/" target="_blank"> FLAT ICON DESIGN </A>and
+<A HREF = "http://icooon-mono.com/" target="_blank"> ICOON MONO </A>. 
+TopeconHeroes holds the copyright of these Icons.
+</body>
+</html>

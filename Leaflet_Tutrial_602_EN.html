@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_602_EN.html	2019/7/20	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+
+    function init() {
+	var Layer_A001 = new Array();
+	var Current_Lat = 0;
+	var Current_Lon = 0;
+	var Accuracy = 0;
+	var Current_Time = "";
+	var zoom = 8;
+	var map_A001 = L.map('map_A001').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+	            'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	            attribution: 'Map data &copy; ' + mapLink,
+	            maxZoom: 18
+            }).addTo(map_A001);
+
+// In case of Geolocation API is available
+	if (navigator.geolocation) {
+		getPosition();
+// In case of Geolocation API is not available
+	} else {
+	      alert("This device is not support to Geolocation API.");
+	}
+
+	function Leaflet_Marker_A001()		// Set Marker
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    Markers_shape_pos[ 0 ] = [Current_Lat, Current_Lon];
+	    Markers_shape_nam[ 0 ] = Current_Time;
+	    Markers_shape_lnk[ 0 ] = "";
+	    Markers_shape[ 0 ] = L.marker([ Markers_shape_pos[ 0 ][ 0 ], Markers_shape_pos[ 0 ][ 1 ] ]);
+	    Markers_shape[ 0 ].bindPopup(Markers_shape_nam[ 0 ] + "<BR> Accutacy: " + Accuracy + " (m)").openPopup();
+	    Layer_A001[ 0 ] = Markers_shape[ 0 ];
+	    Layer_A001[ 0 ].addTo(map_A001);
+	}
+
+// Get Device Position
+	function getPosition() {
+	    navigator.geolocation.getCurrentPosition(
+// Success to get Device Position
+		function(position) {
+		    Current_Lat = position.coords.latitude;
+		    Current_Lon = position.coords.longitude;
+		    Accuracy = position.coords.accuracy;
+		    Current_Time = new Date(position.timestamp); 
+		    zoom = map_A001.getZoom();
+		    Leaflet_Marker_A001();
+		    map_A001.setView(new L.LatLng(Current_Lat, Current_Lon), zoom, {animation: true} );
+		},
+// Failed to get Device Position
+		function(error) {
+		    switch(error.code) {
+			case 1: //PERMISSION_DENIED
+			    alert("It is not allowed to get Position.");
+			    break;
+			case 2: //POSITION_UNAVAILABLE
+			    alert("Failed to get Position.");
+			    break;
+			case 3: //TIMEOUT
+			    alert("Timeout!");
+			    break;
+			default:
+			    alert("Other Error (Error Code: "+error.code+")");
+			    break;
+		    }
+		}
+	    );
+	}
+    }
+
+</script>
+</head>
+<body onload="init()">
+    <div id="map_A001" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

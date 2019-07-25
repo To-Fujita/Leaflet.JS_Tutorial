@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_101_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var map_101 = L.map('map_101').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	L.tileLayer(
+	    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	    attribution: 'Map data &copy; ' + mapLink,
+	    maxZoom: 18
+        }).addTo(map_101);
+    }
+</script>
+</head>
+<body onload="init()">
+    <div id="map_101" style="width: 100%; height: 100%; border: solid 1px"></div>
+</body>
+</html>

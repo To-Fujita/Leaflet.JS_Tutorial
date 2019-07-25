@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_402_EN.html	2019/7/19	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+<script>
+    function init() {
+	var Layer_402 = new Array();
+	var map_402 = L.map('map_402').setView([51.5, 0.0], 8);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_402);
+	Leaflet_Marker_402();
+
+	function Leaflet_Marker_402()		// Set the Markers
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    var Markers_shape_icn = new Array();
+	    Markers_shape_pos[ 0 ] = [51.5058, -0.0752];
+	    Markers_shape_nam[ 0 ] = "Tower Bridge";
+	    Markers_shape_lnk[ 0 ] = "<a href= 'https://www.towerbridge.org.uk/' target='_blank'>Link to Tower Bridge</a>";
+	    Markers_shape_icn[ 0 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_business_76_0nbg.png",
+		iconSize: [32, 32],
+		iconAnchor: [16, 32],
+		popupAnchor: [0, -16]
+	    });
+
+	    Markers_shape_pos[ 1 ] = [51.47, -0.453];
+	    Markers_shape_nam[ 1 ] = "Heathrow Airport";
+	    Markers_shape_lnk[ 1 ] = "<a href= 'https://www.heathrow.com/' target='_blank'>Link to Heathrow Airport</a>";
+	    Markers_shape_icn[ 1 ] = L.icon({
+		iconUrl: "./ICONS/BW_Icon/BW_Icons_64/icon_107470_64.png",
+		iconSize: [32, 32],
+		iconAnchor: [0, 32],
+		popupAnchor: [16, -16]
+	    });
+
+	    Markers_shape_pos[ 2 ] = [51.258, -0.00456];
+	    Markers_shape_nam[ 2 ] = "Oxford";
+	    Markers_shape_lnk[ 2 ] = "<a href= 'https://oxfordcity.co.uk/' target='_blank'>Link to Oxford</a>";
+	    Markers_shape_icn[ 2 ] = L.icon({
+		iconUrl: "./ICONS/Flat_Icons/s64_f_traffic_45_0nbg.png",
+		iconSize: [28, 32],
+		iconAnchor: [0, 32],
+		popupAnchor: [16, -16]
+	    });
+	    for ( i = 0; i < Markers_shape_pos.length; i++ )
+	    {
+		if( Markers_shape_pos[ i ] != null ) {
+		    Markers_shape[ i ] = L.marker([ Markers_shape_pos[ i ][ 0 ], Markers_shape_pos[ i ][ 1 ] ],
+			{icon: Markers_shape_icn[ i ]});
+		    Markers_shape[ i ].bindPopup(Markers_shape_nam[ i ] + "<br>" + Markers_shape_lnk[ i ]).openPopup();
+		    Layer_402[ i ] = Markers_shape[ i ];
+		    Layer_402[ i ].addTo(map_402);
+		}
+	    }
+	}
+    }
+
+</script>
+</head>
+<body onload="init()">
+    <div id="map_402" style="width: 100%; height: 96%; border: solid 1px"></div>
+These Icons are downloaded from<A HREF = "http://flat-icon-design.com/" target="_blank"> FLAT ICON DESIGN </A>and
+<A HREF = "http://icooon-mono.com/" target="_blank"> ICOON MONO </A>. 
+TopeconHeroes holds the copyright of these Icons.
+</body>
+</html>
