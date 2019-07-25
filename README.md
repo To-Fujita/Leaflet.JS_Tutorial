@@ -5,7 +5,7 @@ This is a tutorial to draw maps by Leaflet.js for beginners.
 "Leaflet.js" is an open-source JavaScript library for interactive maps. This document is a tutorial for beginners to use the "Leaflet.js". I will show you how to draw a map, how to set markers and/or figures on the map step by step. 
 
 ## Demo
-The tutorial for how to use the "Leaflet.js" step by step.
+The tutorial for how to use the "Leaflet.js" step by step. 
 [Tutorial for Leaflet.js](https://to-fujita.github.io/Leaflet.JS_Tutorial/index.html): How to draw a map, set markers and/or figures on the map step by step. 
 
 ### Step-1
