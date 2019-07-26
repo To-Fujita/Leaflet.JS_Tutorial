@@ -22,14 +22,14 @@ How to draw overlays on the map.
 
 ### Step-3
 How to show some utilities on the map.  
-[Demo for Tutorial_301](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_301_EN.html): To show some Utilities on the Map. 
+[Demo for Tutorial_301](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_301_EN.html): To show some Utilities on the Map. Examples of utilities are mini-map, mouse position, graticule lines and search windows.   
 
 ### Step-4
 How to show Markers on the map.  
-[Demo for Tutorial_401](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_401_EN.html): To show the fixed Marker (with default configuration).  
+[Demo for Tutorial_401](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_401_EN.html): To show a fixed Marker (with default configuration).  
 [Demo for Tutorial_402](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_402_EN.html): To show selected Icons as Markers.  
-[Demo for Tutorial_403](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_403_EN.html): Add to Draggable Markers  
-[Demo for Tutorial_404](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_404_EN.html): Interactive Markers  
+[Demo for Tutorial_403](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_403_EN.html): Add to Draggable Markers.  
+[Demo for Tutorial_404](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_404_EN.html): Interactive Markers.  
 
 ### Step-5
 How to draw figures on the map.  
