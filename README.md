@@ -6,6 +6,7 @@ This document describes how to draw maps and how to draw figures on the map by L
 
 ## Demo
 The tutorial for how to use the "Leaflet.js" step by step.  
+These demonstrations are confirmed by Microsoft Edge (Ver. 11.0.17763.379), Firefox (Ver. 65.0.2/64 bit), Google Chrome (Ver. 73.0.3683.86/64 bit) and Safari (Ver. 5.1.7/ It is not available to save and to load local data file.) under the condition of Windows 10. 
 [Tutorial for Leaflet.js](https://to-fujita.github.io/Leaflet.JS_Tutorial/index.html): How to draw a map, set markers and/or figures on the map step by step. 
 
 ### Step-1
