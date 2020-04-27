@@ -66,7 +66,7 @@ Several samples.
 15. [Exif.js. A JavaScript library for reading EXIF meta data from image files.](https://github.com/exif-js/exif-js)
 
 ## Licence
-[MIT](https://choosealicense.com/licenses/mit/)
+MIT
 
 ## Author
 [T. Fujita](https://github.com/To-Fujita)
