@@ -47,7 +47,7 @@ Several samples.
 [Demo for Tutorial_603](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_603_EN.html): It is a sample to trace in any interval your device's position on the map.  
 [Demo for Tutorial_604](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_604_EN.html): It is a sample to show the place of the photograph on the map.  
 [Demo for Tutorial_605](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_605_EN.html): It is a sample to show the place of the photograph with photo frame on the map.  
-[Demo for Tutorial_606](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_606_EN.html): It is a sample to show the place with photo frame on the map. Then, it is linked to the 360 degrees video under the Babylon.js game engine.  
+[Demo for Tutorial_606](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_606_EN.html): It is a sample to show the place with photo frame on the map. Then, it is linked to the 360 degrees video under the Babylon.js 3D graphic engine.  
 
 ## References:
 1. [Leaflet - a JavaScript library for interactive maps](https://leafletjs.com/)  
