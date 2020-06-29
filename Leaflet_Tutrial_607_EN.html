@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Leaflet_Tutrial_607_EN.html	2020/6/28	by T. Fujita</title>
+<meta charset="utf-8" />
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+<script src = "https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+<style>
+    html, body {
+	width: 99%;
+	height: 98%;
+	font-size: 14px;
+	z-index: 0;
+    }
+
+    form img {
+	height: 100px;
+	order: 1;
+    }
+
+    .imageCover1 {
+	position: relative;
+	width: 100px;
+	height: 217px;
+    }
+
+    .imageCover1 .baseImage {
+	position: absolute;
+	left: -50px;
+	top: -217px;
+	width: 100px;
+	height: 56px;
+    }
+
+    .imageCover1 .coverImage {
+	position: absolute;
+	left: -50px;
+	top: -217px;
+	width: 100px;
+	height: 217px;
+    }
+
+    .imageCover2 {
+	position: relative;
+	width: 75px;
+	height: 260px;
+    }
+
+    .imageCover2 .baseImage {
+	position: absolute;
+	left: -38px;
+	top: -260px;
+	width: 75px;
+	height: 87px;
+    }
+
+    .imageCover2 .coverImage {
+	position: absolute;
+	left: -38px;
+	top: -260px;
+	width: 75px;
+	height: 260px;
+    }
+
+</style>
+<script>
+    function init() {
+	var Layer_607 = new Array();
+	var map_607 = L.map('map_607').setView([50.0, 0.0], 2);
+	mapLink = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
+	    L.tileLayer(
+		'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; ' + mapLink,
+		maxZoom: 18
+            }).addTo(map_607);
+	Leaflet_Marker_607();
+
+	function Leaflet_Marker_607()
+	{
+	    var Markers_shape = new Array();
+	    var Markers_shape_pos = new Array();
+	    var Markers_shape_nam = new Array();
+	    var Markers_shape_lnk = new Array();
+	    var Markers_shape_icn = new Array();
+	    Markers_shape_pos[ 0 ] = [51.5058, -0.0752];
+	    Markers_shape_nam[ 0 ] = "Tower Bridge";
+	    Markers_shape_lnk[ 0 ] = "<a href= '360_VR_London On Tower Bridge.html' target='_blank'>Link to 360 degrees video/VR for Tower Bridge</a>";
+	    Markers_shape_icn[ 0 ] = L.divIcon({
+		className: 'imageCover1', 
+		html: "<img src = './Videos/Tower_Bridge.png' alt='Photo' class='baseImage'> <img src='./ICONS/Photo_Frame_214.png' alt='Icon' class='coverImage'>",
+		popupAnchor: [0, -200]
+	    });
+
+	    Markers_shape_pos[ 1 ] = [14.35, 100.56];
+	    Markers_shape_nam[ 1 ] = "Ayutthaya";
+	    Markers_shape_lnk[ 1 ] = "<a href= '360_VR_Ayutthaya.html' target='_blank'>Link to 360 degrees video/VR for Ayutthaya</a>";
+	    Markers_shape_icn[ 1 ] = L.divIcon({
+		className: 'imageCover1', 
+		html: "<img src = './Videos/Ayutthaya.png' alt='Photo' class='baseImage'> <img src='./ICONS/Photo_Frame_214.png' alt='Icon' class='coverImage'>",
+		popupAnchor: [0, -200]
+	    });
+
+	    Markers_shape_pos[ 2 ] = [43.698, 7.272];
+	    Markers_shape_nam[ 2 ] = "Nice City";
+	    Markers_shape_lnk[ 2 ] = "<a href= '360_VR_Nice_City.html' target='_blank'>Link to 360 degrees video/VR for Nice City</a>";
+	    Markers_shape_icn[ 2 ] = L.divIcon({
+		className: 'imageCover1', 
+		html: "<img src = './Videos/Nice City.png' alt='Photo' class='baseImage'> <img src='./ICONS/Photo_Frame_214.png' alt='Icon' class='coverImage'>",
+		popupAnchor: [0, -200]
+	    });
+
+	    Markers_shape_pos[ 3 ] = [62.75, -150.11];
+	    Markers_shape_nam[ 3 ] = "Aurora in Alaska";
+	    Markers_shape_lnk[ 3 ] = "<a href= '360_VR_Aurora.html' target='_blank'>Link to 360 degrees video/VR for Aurora in Alaska</a>";
+	    Markers_shape_icn[ 3 ] = L.divIcon({
+		className: 'imageCover1', 
+		html: "<img src = './Videos/Aurora.png' alt='Photo' class='baseImage'> <img src='./ICONS/Photo_Frame_214.png' alt='Icon' class='coverImage'>",
+		popupAnchor: [0, -200]
+	    });
+	    for ( i = 0; i < Markers_shape_pos.length; i++ )
+	    {
+		if( Markers_shape_pos[ i ] != null ) {
+		    Markers_shape[ i ] = L.marker([ Markers_shape_pos[ i ][ 0 ], Markers_shape_pos[ i ][ 1 ] ],
+			{icon: Markers_shape_icn[ i ]});
+		    Markers_shape[ i ].bindPopup(Markers_shape_nam[ i ] + "<br>" + Markers_shape_lnk[ i ]).openPopup();
+		    Layer_607[ i ] = Markers_shape[ i ];
+		    Layer_607[ i ].addTo(map_607);
+		}
+	    }
+	}
+    }
+
+</script>
+</head>
+<body onload="init()">
+    <div id="map_607" style="width: 100%; height: 96%; border: solid 1px"></div>
+</body>
+</html>
