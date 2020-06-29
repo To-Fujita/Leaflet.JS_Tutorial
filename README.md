@@ -48,6 +48,7 @@ Several samples.
 [Demo for Tutorial_604](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_604_EN.html): It is a sample to show the place of the photograph on the map.  
 [Demo for Tutorial_605](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_605_EN.html): It is a sample to show the place of the photograph with photo frame on the map.  
 [Demo for Tutorial_606](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_606_EN.html): It is a sample to link the 360 degrees video by photo frame on the map. Then, it is to show the 360 degrees video under the Babylon.js 3D graphic engine. These 360 degrees videos are downloaded from [Free 360 Video Downloads Page at METTLE](https://www.mettle.com/360vr-master-series-free-360-downloads-page/).  
+[Demo for Tutorial_607](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_607_EN.html): This is a sample for the VR mode of 360 degrees video. You can change from the nomal mode to the VR mode of the video by click the goggle mark at bottom right. If you want to return the normal mode, please press down the "ESC" key.  
 
 ## References:
 1. [Leaflet - a JavaScript library for interactive maps](https://leafletjs.com/)  
