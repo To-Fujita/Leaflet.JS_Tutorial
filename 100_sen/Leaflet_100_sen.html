@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Leaflet_100_sen.html	2021/04/17	by T. Fujita</title>
+    <meta charset = "utf-8" />
+    <link rel = "stylesheet" href = "./css/leaflet.css" />
+    <link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel = "stylesheet" href = "./Plugins/Leaflet-MiniMap-master/Control.MiniMap.css" />
+	<link rel = "stylesheet" href = "./css/scroll_menu.css" />
+
+<style>
+    html, body {
+	width: 99%;
+	height: 99%;
+	font-size: 14px;
+	z-index: 0;
+    }
+</style>
+
+    <script src = "./js/leaflet.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src = "./Plugins/Leaflet-MiniMap-master/Control.MiniMap.js" ></script>
+    <script src = "./js/Map_Data.js" ></script>
+
+    <script>
+	var Markers_ICN = new Array();		// マーカー用アイコンの設定用
+	var Layers = new Array();			// マーカー表示用レイヤー
+	var CSV_List = new Array();			// 百選のリスト
+	var CSV_Data = new Array();			// 各百選のデータ
+	var OverLayerFlag = new Array();	// マーカー表示（未・済）用フラグ
+	var Temp_Data = new Array();		// CSVデータの一時保存用
+	var Markers_SHAPE;					// マーカーの設置データ
+	var map;							// 地図設定
+	var Layer_00;						// 地図を表示するレイヤー
+	var Data_No = 13;					// 読み込むデータ数（チェックボックスの数）
+
+	const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+	async function init() {
+		CSV_Read("./data/100sen_list_UTF8.csv");
+		await _sleep(100);
+		CSV_List = Temp_Data;
+	
+		for (var i=1; i<(CSV_List.length - 1); i++) {
+			CSV_Read(CSV_List[i][1]);
+			await _sleep(100);
+			CSV_Data[i] = Temp_Data;
+			OverLayerFlag[i] = 0;
+			Layers[i] = new Array();
+		}
+
+		map = L.map('map').setView([37.0, 137.0], 5);
+		Layer_00 = Basic_Map[ 0 ];
+		map.addLayer( Layer_00 );
+		L.control.scale().addTo(map);
+		var osm2 = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {minZoom: 0, maxZoom: 15, attribution: 'Map data &copy; OpenStreetMap contributors' });
+		var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true, position: 'bottomleft' }).addTo(map);
+
+		map.on('click', function(e) {
+			ClickLat = e.latlng.lat;
+			ClickLon = e.latlng.lng;
+			while(ClickLon < -180) {
+				ClickLon = ClickLon + 360;
+			}
+			while(ClickLon > 180) {
+				ClickLon = ClickLon - 360;
+			}
+		});
+	}
+
+	// チェックボックスの選択処理
+	$(function() {
+	    $("#Over_Layer :checkbox").change(function() {
+			for (var i = 0; i <= Data_No; i++) {
+		    	Temp = $("#ckbox" + String(i) + ":checked").val();
+
+		    	if( Number(Temp) == i) {
+					if (OverLayerFlag[i + 1] == 0) {
+						OverLayerFlag[i + 1] = 1;
+						Set_Marker(i + 1);
+					} 
+				} else if (OverLayerFlag[i + 1] == 1){
+					OverLayerFlag[i + 1] = 0;
+					Remove_Marker(i + 1);
+		    	}			
+			}
+	    });
+	});
+
+    // CSVファイル／UTF-8 の読み込み
+    function CSV_Read(dataPath) {
+		Temp_Data = new Array();
+    	var reader = new XMLHttpRequest();
+    	reader.open("get", dataPath, true);
+    	reader.send(null);
+    	reader.onload = function() {
+			var tmp = reader.responseText.split("\n");
+    		for (var i=0; i<tmp.length; ++i) {
+        		Temp_Data[i] = tmp[i].split(',');
+    		}
+    	}
+    }
+
+	// マーカー設置
+	function Set_Marker(Temp_No) {
+		Markers_ICN[Temp_No] =  L.icon({
+			iconUrl: CSV_List[Temp_No][2],
+			iconSize: [20, 24],
+			iconAnchor: [13, 24],
+			popupAnchor: [0, -12]
+   		});
+
+		for (var i=1; i<CSV_Data[Temp_No].length; i++) {
+			if( CSV_Data[Temp_No][i][2] != null ) {
+		    	Markers_SHAPE = L.marker([ Number(CSV_Data[Temp_No][i][2]), Number(CSV_Data[Temp_No][i][3]) ],
+					{icon: Markers_ICN[Temp_No] });
+		    	Markers_SHAPE.bindPopup(CSV_List[Temp_No][0] + "<br>" + CSV_Data[Temp_No][i][0] + ": " + CSV_Data[Temp_No][i][1] + "<br>" + CSV_Data[Temp_No][i][4]).openPopup();
+				if(CSV_Data[Temp_No][i][5] != null) {
+					if(CSV_Data[Temp_No][i][5].substr(0, 4) == "http") {
+						Markers_SHAPE.bindPopup(CSV_List[Temp_No][0] + "<br>" + CSV_Data[Temp_No][i][0] + ": " + CSV_Data[Temp_No][i][1] + "<br>" + CSV_Data[Temp_No][i][4] + "<br><a href='" + CSV_Data[Temp_No][i][5] + "' target='_blank'>" + CSV_Data[Temp_No][i][1] +"にリンク</a>").openPopup();
+					}
+				}
+		    	Layers[Temp_No][i] = Markers_SHAPE;
+		    	Layers[Temp_No][i].addTo(map);
+			}
+		}
+	}
+
+	// マーカー削除
+	function Remove_Marker(Temp_No) {
+		for(i = 1; i < Layers[Temp_No].length; i++) {
+			if(Layers[Temp_No][i] != null) {
+				map.removeLayer(Layers[Temp_No][i]);
+			}
+		}		
+	}
+
+
+    </script>
+</head>
+<body onload="init()">
+<nav id="menu-wrap" style=" z-index: 1000;">  
+	<ul id="menu" style="width: 98%;">
+		<li><a href="#">地図の選択</a>
+		<ul id="scroll">
+			<li><a><input type = "radio" name = "Basic_Layer" value = "0" checked onclick = "javascript: Sel_Basic_Layer();">Open Street Map</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "1" onclick = "javascript: Sel_Basic_Layer();">国土地理院 標準地図</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "2" onclick = "javascript: Sel_Basic_Layer();">国土地理院 淡色地図</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "3" onclick = "javascript: Sel_Basic_Layer();">国土地理院 写真</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "4" onclick = "javascript: Sel_Basic_Layer();">国土地理院 白地図</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "5" onclick = "javascript: Sel_Basic_Layer();">Esri World Topo Map</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "6" onclick = "javascript: Sel_Basic_Layer();">Esri Ocean Base Map</a></li>
+<!--
+			<li><a><input type = "radio" name = "Basic_Layer" value = "7" onclick = "javascript: Sel_Basic_Layer();">Stamen Toner-Background</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "8" onclick = "javascript: Sel_Basic_Layer();">Stamen Toner-Lite</a></li>
+			<li><a><input type = "radio" name = "Basic_Layer" value = "9" onclick = "javascript: Sel_Basic_Layer();">Stamen Watercolor</a></li>
+-->
+</ul>
+		</li>
+		<li><a href="#">各百選の表示</a>
+		<ul id="scroll">
+			<div id="Over_Layer" >
+			<li><a><input type = "checkbox" id="ckbox0" value = "0" >日本の百名城</a></li>
+			<li><a><input type = "checkbox" id="ckbox1" value = "1" >日本の史跡101選</a></li>
+			<li><a><input type = "checkbox" id="ckbox2" value = "2" >遊歩道百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox3" value = "3" >農村景観百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox4" value = "4" >夜景百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox5" value = "5" >日本の夕陽百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox6" value = "6" >車窓絶景百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox7" value = "7" >日本の里百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox8" value = "8" >水の郷百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox9" value = "9" >日本百名湯</a></li>
+			<li><a><input type = "checkbox" id="ckbox10" value = "10" >日本の滝百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox11" value = "11" >海水浴場百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox12" value = "12" >日本の紅葉百選</a></li>
+			<li><a><input type = "checkbox" id="ckbox13" value = "13" >日本の桜名所百選</a></li>
+
+			</div>
+		</ul>
+		</li>
+	</ul>
+</nav>
+
+<div id="map_Layer">
+    <div id="map" style="width: 100%; height: 100%; border: solid 1px; top: 1px;"></div>
+</div>
+</body>
+</html>
+

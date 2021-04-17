@@ -1,0 +1,15 @@
+名称,CSV_Data,Marker
+日本の百名城,./data/shiro02_UTF8.csv,./icons/Khaki.png
+日本の史跡101選,./data/shiseki02_UTF8.csv,./icons/Silver.png
+遊歩道百選,./data/yuho02_UTF8.csv,./icons/Mahogany.png
+農村景観百選,./data/noson02_UTF8.csv,./icons/Green.png
+夜景百選,./data/yakei02_UTF8.csv,./icons/Navy.png
+日本の夕陽百選,./data/yuhi02_UTF8.csv,./icons/Scarlet.png
+車窓絶景百選,./data/zekkei02_UTF8.csv,./icons/Maroon.png
+日本の里百選,./data/nihonsato02_UTF8.csv,./icons/Teal.png
+水の郷百選,./data/mizu02_UTF8.csv,./icons/Aqua.png
+日本百名湯,./data/onsen02_UTF8.csv,./icons/White.png
+日本の滝百選,./data/taki02_UTF8.csv,./icons/Ice_Green.png
+海水浴場百選,./data/kaisui02_UTF8.csv,./icons/Blue.png
+日本の紅葉百選,./data/koyo02_UTF8.csv,./icons/Oramge.png
+日本の桜名所百選,./data/sakura02_UTF8.csv,./icons/Fachsia.png
