@@ -15,7 +15,7 @@ How to draw maps in several cases.
 [Demo for Tutorial_102](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_102_EN.html): To draw a Stamen Design map.  
 [Demo for Tutorial_103](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_103_EN.html): To draw an Esri designed map.  
 [Demo for Tutorial_104](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_104_EN.html): To select a map from several maps.  
-(Note: The Stamen designed map is not working well at the condition of <https://> by the security's reasons. However, it will be working at the local condition or at the site of <http://>.)  
+(Note: The Stamen designed map is not working well at the condition of "https://" by the security's reasons. However, it will be working at the local condition or at the site of "http://".)  
 
 ### Step-2
 How to draw overlays on the map.  
