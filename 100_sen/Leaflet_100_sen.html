@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Leaflet_100_sen.html	2021/04/17	by T. Fujita</title>
+    <title>Leaflet_100_sen.html	2021/04/19	by T. Fujita</title>
     <meta charset = "utf-8" />
     <link rel = "stylesheet" href = "./css/leaflet.css" />
     <link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -38,13 +38,19 @@
 	const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	async function init() {
-		CSV_Read("./data/100sen_list_UTF8.csv");
-		await _sleep(100);
+		Temp_Data = new Array();
+		await CSV_Read("./data/100sen_list_UTF8.csv");
+		while(Temp_Data.length == 0) {
+			await _sleep(100);
+		}		
 		CSV_List = Temp_Data;
 	
 		for (var i=1; i<(CSV_List.length - 1); i++) {
-			CSV_Read(CSV_List[i][1]);
-			await _sleep(100);
+			Temp_Data = new Array();
+			await CSV_Read(CSV_List[i][1]);
+			while(Temp_Data.length == 0) {
+				await _sleep(100);
+			}		
 			CSV_Data[i] = Temp_Data;
 			OverLayerFlag[i] = 0;
 			Layers[i] = new Array();
@@ -89,8 +95,7 @@
 	});
 
     // CSVファイル／UTF-8 の読み込み
-    function CSV_Read(dataPath) {
-		Temp_Data = new Array();
+    async function CSV_Read(dataPath) {
     	var reader = new XMLHttpRequest();
     	reader.open("get", dataPath, true);
     	reader.send(null);
