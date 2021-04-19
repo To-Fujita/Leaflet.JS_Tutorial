@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Leaflet_100_sen.html	2021/04/19	by T. Fujita</title>
+    <title>Leaflet_100_sen with loading animation 2021/04/19 by T. Fujita</title>
     <meta charset = "utf-8" />
     <link rel = "stylesheet" href = "./css/leaflet.css" />
     <link rel = "stylesheet" href = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -15,15 +15,86 @@
 	font-size: 14px;
 	z-index: 0;
     }
+
+	#loading {
+		width: 100vw;
+		height: 100vh;
+		transition: all 1s;
+		background-color: #0bd;
+ 
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 9999;
+	}
+	.loader {
+	  color: #ffffff;
+	  font-size: 20px;
+	  margin: 200px auto;
+	  width: 1em;
+	  height: 1em;
+	  border-radius: 50%;
+	  position: relative;
+	  text-indent: -9999em;
+	  -webkit-animation: load4 1.3s infinite linear;
+	  animation: load4 1.3s infinite linear;
+	  -webkit-transform: translateZ(0);
+	  -ms-transform: translateZ(0);
+	  transform: translateZ(0);
+	}
+	@-webkit-keyframes load4 {
+	  0%,
+	  100% { box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+	  }
+	  12.5% { box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+	  }
+	  25% { box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+	  }
+	  37.5% { box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+	  }
+	  50% { box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+	  }
+	  62.5% { box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+	  }
+	  75% {
+	    box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+	  }
+	  87.5% {
+	    box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+	  }
+	}
+	@keyframes load4 {
+	  0%,
+	  100% { box-shadow: 0 -3em 0 0.2em, 2em -2em 0 0em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 0;
+	  }
+	  12.5% { box-shadow: 0 -3em 0 0, 2em -2em 0 0.2em, 3em 0 0 0, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+	  }
+	  25% { box-shadow: 0 -3em 0 -0.5em, 2em -2em 0 0, 3em 0 0 0.2em, 2em 2em 0 0, 0 3em 0 -1em, -2em 2em 0 -1em, -3em 0 0 -1em, -2em -2em 0 -1em;
+	  }
+	  37.5% { box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 0, 2em 2em 0 0.2em, 0 3em 0 0em, -2em 2em 0 -1em, -3em 0em 0 -1em, -2em -2em 0 -1em;
+	  }
+	  50% { box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 0em, 0 3em 0 0.2em, -2em 2em 0 0, -3em 0em 0 -1em, -2em -2em 0 -1em;
+	  }
+	  62.5% { box-shadow: 0 -3em 0 -1em, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 0, -2em 2em 0 0.2em, -3em 0 0 0, -2em -2em 0 -1em;
+	  }
+	  75% { box-shadow: 0em -3em 0 -1em, 2em -2em 0 -1em, 3em 0em 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0.2em, -2em -2em 0 0;
+	  }
+	  87.5% { box-shadow: 0em -3em 0 0, 2em -2em 0 -1em, 3em 0 0 -1em, 2em 2em 0 -1em, 0 3em 0 -1em, -2em 2em 0 0, -3em 0em 0 0, -2em -2em 0 0.2em;
+	  }
+	}
+	.loaded {
+		opacity: 0;
+		visibility: hidden;
+	}
 </style>
 
-    <script src = "./js/leaflet.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src = "./Plugins/Leaflet-MiniMap-master/Control.MiniMap.js" ></script>
-    <script src = "./js/Map_Data.js" ></script>
+<script src = "./js/leaflet.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src = "./Plugins/Leaflet-MiniMap-master/Control.MiniMap.js" ></script>
+<script src = "./js/Map_Data.js" ></script>
 
-    <script>
+<script>
 	var Markers_ICN = new Array();		// マーカー用アイコンの設定用
 	var Layers = new Array();			// マーカー表示用レイヤー
 	var CSV_List = new Array();			// 百選のリスト
@@ -38,8 +109,9 @@
 	const _sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 	async function init() {
+		const spinner = document.getElementById('loading');
 		Temp_Data = new Array();
-		await CSV_Read("./data/100sen_list_UTF8.csv");
+		CSV_Read("./data/100sen_list_UTF8.csv");
 		while(Temp_Data.length == 0) {
 			await _sleep(100);
 		}		
@@ -47,7 +119,7 @@
 	
 		for (var i=1; i<(CSV_List.length - 1); i++) {
 			Temp_Data = new Array();
-			await CSV_Read(CSV_List[i][1]);
+			CSV_Read(CSV_List[i][1]);
 			while(Temp_Data.length == 0) {
 				await _sleep(100);
 			}		
@@ -55,6 +127,7 @@
 			OverLayerFlag[i] = 0;
 			Layers[i] = new Array();
 		}
+		spinner.classList.add('loaded');
 
 		map = L.map('map').setView([37.0, 137.0], 5);
 		Layer_00 = Basic_Map[ 0 ];
@@ -95,7 +168,7 @@
 	});
 
     // CSVファイル／UTF-8 の読み込み
-    async function CSV_Read(dataPath) {
+    function CSV_Read(dataPath) {
     	var reader = new XMLHttpRequest();
     	reader.open("get", dataPath, true);
     	reader.send(null);
@@ -141,12 +214,16 @@
 		}		
 	}
 
-
-    </script>
+</script>
 </head>
 <body onload="init()">
 <nav id="menu-wrap" style=" z-index: 1000;">  
 	<ul id="menu" style="width: 98%;">
+		<Li><a href="#">メニュー</a>
+		<ul>
+			<li><a>地図と各百選の選択が可能です。</a></li>
+		</ul>	
+		</Li>
 		<li><a href="#">地図の選択</a>
 		<ul id="scroll">
 			<li><a><input type = "radio" name = "Basic_Layer" value = "0" checked onclick = "javascript: Sel_Basic_Layer();">Open Street Map</a></li>
@@ -156,12 +233,7 @@
 			<li><a><input type = "radio" name = "Basic_Layer" value = "4" onclick = "javascript: Sel_Basic_Layer();">国土地理院 白地図</a></li>
 			<li><a><input type = "radio" name = "Basic_Layer" value = "5" onclick = "javascript: Sel_Basic_Layer();">Esri World Topo Map</a></li>
 			<li><a><input type = "radio" name = "Basic_Layer" value = "6" onclick = "javascript: Sel_Basic_Layer();">Esri Ocean Base Map</a></li>
-<!--
-			<li><a><input type = "radio" name = "Basic_Layer" value = "7" onclick = "javascript: Sel_Basic_Layer();">Stamen Toner-Background</a></li>
-			<li><a><input type = "radio" name = "Basic_Layer" value = "8" onclick = "javascript: Sel_Basic_Layer();">Stamen Toner-Lite</a></li>
-			<li><a><input type = "radio" name = "Basic_Layer" value = "9" onclick = "javascript: Sel_Basic_Layer();">Stamen Watercolor</a></li>
--->
-</ul>
+		</ul>
 		</li>
 		<li><a href="#">各百選の表示</a>
 		<ul id="scroll">
@@ -186,7 +258,9 @@
 		</li>
 	</ul>
 </nav>
-
+<div id="loading">
+	<div class="loader">Loading...</div>
+</div>	
 <div id="map_Layer">
     <div id="map" style="width: 100%; height: 100%; border: solid 1px; top: 1px;"></div>
 </div>
