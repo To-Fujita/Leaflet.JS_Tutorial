@@ -51,6 +51,7 @@ How to draw figures on the map.
 [Demo for Tutorial_606](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_606_EN.html): It is a sample to link the 360 degrees video by photo frame on the map. Then, it is to show the 360 degrees video under the Babylon.js 3D graphic engine. These 360 degrees videos are downloaded from [Free 360 Video Downloads Page at METTLE](https://www.mettle.com/360vr-master-series-free-360-downloads-page/).  
 [Demo for Tutorial_607](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_607_EN.html): This is a sample for the VR mode of 360 degrees video. You can change from the nomal mode to the VR mode of the video by click the goggle mark at bottom right. If you want to return the normal mode, please press down the "ESC" key.  
 [100 Selections in Japan](https://to-fujita.github.io/Leaflet.JS_Tutorial/100_sen/Leaflet_100_sen.html): The map for several types of 100 selections in Japan.  
+[100 Selections in Japan Plus](https://to-fujita.github.io/Leaflet.JS_Tutorial/100_sen/Leaflet_100_sen_Plus.html): It also supports the display to the local saved CSV files.
 
 ## References:
 1. [Leaflet - a JavaScript library for interactive maps](https://leafletjs.com/)  
