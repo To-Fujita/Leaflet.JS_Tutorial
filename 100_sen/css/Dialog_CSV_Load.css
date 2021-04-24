@@ -1,0 +1,11 @@
+﻿/* For Dialog_CSV_Load.js */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+td {
+    font-size: 12px;
+    padding: .2em .5em;
+    border: solid 1px "ccc;"
+}
