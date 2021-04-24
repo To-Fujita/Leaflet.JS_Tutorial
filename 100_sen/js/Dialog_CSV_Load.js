@@ -1,7 +1,7 @@
 ﻿// Dialog_CSV_Load.js	2021/4/24 by T. Fujita
 // Usage:
+// var Local_Data = new Array();
 // var Temp_Data = new Array();
-// var CSV_Data = new Array();
 // Dialog_CSV_Load();
 
 
@@ -21,8 +21,8 @@ $(document).ready( function() {
 		hide: "fade",
 		buttons: {
 			"OK": function(){
-				Temp_Data = new Array();
-				Temp_Data = CSV_Data;
+				Local_Data = new Array();
+				Local_Data = Temp_Data;
 				$(this).dialog('close');
 			}
 		}
@@ -46,21 +46,21 @@ function CSV_Data_Load() {
 				alert('ファイル読み取りに失敗しました')
 			}
 			reader.onload = function(event) {
-				CSV_Data = new Array();
+				Temp_Data = new Array();
 				var tmp = new Uint8Array(event.target.result);
 				var tmp_text = Encoding.convert(tmp, 'UNICODE', 'AUTO');
 		  		var txtArray = Encoding.codeToString(tmp_text);
 		  		var tmp_head = txtArray.slice(0,1);
 				var lineArr = txtArray.split('\n');
 				for (var i = 0; i < lineArr.length; i++) {
-					CSV_Data[i] = lineArr[i].split(',');
+					Temp_Data[i] = lineArr[i].split(',');
 		  		}
 
 				var insertElement = '';
-				for (var i=0; i<CSV_Data.length; i++) {
+				for (var i=0; i<Temp_Data.length; i++) {
 					insertElement += '<tr>';
-					for (var j=0; j<CSV_Data[0].length; j++) {
-						insertElement += '<td>' + CSV_Data[i][j] + '</td>';
+					for (var j=0; j<Temp_Data[0].length; j++) {
+						insertElement += '<td>' + Temp_Data[i][j] + '</td>';
 					}
 					insertElement += '</tr>';
 				}

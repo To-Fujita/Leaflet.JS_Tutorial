@@ -2,7 +2,6 @@
 // Usage:
 // Dialog_Information();
 
-
 $(document).ready( function() {
         $("body").append('<div id="dialog_Information" style="z-index: 2000;">'+
 '<BR>Excel等で次によりデータを入力し、CSV形式で保存して下さい。<BR>'+
