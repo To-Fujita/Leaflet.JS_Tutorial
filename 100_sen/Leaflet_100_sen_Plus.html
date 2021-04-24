@@ -35,7 +35,7 @@
 	var Local_CSV = new Array();		// ローカルデータ
 	var LocalFlag = new Array();		// ローカルマーカー表示（未・済）用フラグ
 	var Temp_Data = new Array();		// CSVデータの一時保存用
-	var CSV_Data = new Array();			// CSVデータの一時保存用
+	var Local_Data = new Array();		// CSVデータの一時保存用
 	var Markers_SHAPE;					// マーカーの設置データ
 	var map;							// 地図設定
 	var Layer_00;						// 地図を表示するレイヤー
@@ -81,7 +81,7 @@
 	}
 
 	// チェックボックスの選択処理
-	$(function() {
+	$(document).ready(function() {
 	    $("#Over_Layer :checkbox").change(function() {
 			for (var i = 0; i <= Data_No; i++) {
 		    	Temp = $("#ckbox" + String(i) + ":checked").val();
@@ -217,16 +217,16 @@
 	}
 
 	async function Local_Marker_Set(Temp_No) {
-		Temp_Data = new Array();
+		Local_Data = new Array();
 		Dialog_CSV_Load();
-		while(Temp_Data.length == 0) {			
+		while(Local_Data.length == 0) {			
 			await _sleep(100);
 		}
-		if(isNaN(Temp_Data[1][2]) || isNaN(Temp_Data[1][3])) {
+		if(isNaN(Local_Data[1][2]) || isNaN(Local_Data[1][3])) {
 			alert("CSVデータのフォーマットが異なります！");
 			return;
 		} 
-		Local_CSV[Temp_No] = Temp_Data;
+		Local_CSV[Temp_No] = Local_Data;
 		Set_Local(Temp_No);
 		LocalFlag[Temp_No] = 1;
 	}
