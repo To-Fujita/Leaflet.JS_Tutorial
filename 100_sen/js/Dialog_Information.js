@@ -1,5 +1,9 @@
 ﻿// Dialog_Information.js	2021/4/24 by T. Fujita
 // Usage:
+// <link rel = "stylesheet" href = "https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+// <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+// <script src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+//
 // Dialog_Information();
 
 $(document).ready( function() {
