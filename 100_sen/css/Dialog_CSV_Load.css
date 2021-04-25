@@ -1,4 +1,7 @@
 ﻿/* For Dialog_CSV_Load.js */
+.ui-dialog-title{
+    text-align: center;
+}
 
 table {
     border-collapse: collapse;
