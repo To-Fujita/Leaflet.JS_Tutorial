@@ -3,11 +3,11 @@
     text-align: center;
 }
 
-table {
+#dialog_CSV_Load table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-td {
+#dialog_CSV_Load td {
     font-size: 12px;
     padding: .2em .5em;
     border: solid 1px "ccc;"
