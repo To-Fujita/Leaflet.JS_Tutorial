@@ -4,7 +4,7 @@
     <title>Leaflet_100_sen_Plus 2021/04/24 by T. Fujita</title>
     <meta charset = "utf-8" />
     <link rel = "stylesheet" href = "./css/leaflet.css" />
-	<link rel = "stylesheet" href = "https://code.jquery.com/ui/1.12.1/themes/blitzer/jquery-ui.css">
+	<link rel = "stylesheet" href = "https://code.jquery.com/ui/1.12.1/themes/pepper-grinder/jquery-ui.css">
 <!--	
     <link rel = "stylesheet" href = "https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 -->
@@ -149,11 +149,13 @@
 	// Local CSV Data 表示・非表示等
 	function Local_001() {
 		Local_Marker = "./icons/Pin_Red.png";
+//		Local_CSV[0] = new Array();
 		if(LocalFlag[0] == 1) {
 			Remove_Local(0);
-			LocalFlag[0] == 0;
+//			LocalFlag[0] = 0;
 		}
 		Local_Marker_Set(0);
+//		LocalFlag[0] = 1;
 	}
 
 	function Local_002() {
@@ -164,9 +166,10 @@
 		Local_Marker = "./icons/Pin_Red.png";
 		if (LocalFlag[0] != 1) {
 			Local_Marker_Set(0);
+//			LocalFlag[0] = 1;
 		} else {
 			Set_Local(0);
-			LocalFlag[0] = 1;
+//			LocalFlag[0] = 1;
 		}
 	}
 
@@ -174,9 +177,10 @@
 		Local_Marker = "./icons/Pin_Blue.png";
 		if(LocalFlag[1] == 1) {
 			Remove_Local(1);
-			LocalFlag[1] == 0;
+//			LocalFlag[1] = 0;
 		}
 		Local_Marker_Set(1);
+//		LocalFlag[1] = 1;
 	}
 
 	function Local_012() {
@@ -187,9 +191,10 @@
 		Local_Marker = "./icons/Pin_Blue.png";
 		if (LocalFlag[1] != 1) {
 			Local_Marker_Set(1);
+//			LocalFlag[1] = 1;
 		} else {
 			Set_Local(1);
-			LocalFlag[1] = 1;
+//			LocalFlag[1] = 1;
 		}	
 	}
 
@@ -197,9 +202,10 @@
 		Local_Marker = "./icons/Pin_Green.png";
 		if(LocalFlag[2] == 1) {
 			Remove_Local(2);
-			LocalFlag[2] == 0;
+//			LocalFlag[2] = 0;
 		}
 		Local_Marker_Set(2);
+//		LocalFlag[2] = 1;
 	}
 
 	function Local_022() {
@@ -210,25 +216,31 @@
 		Local_Marker = "./icons/Pin_Green.png";
 		if (LocalFlag[2] != 1) {
 			Local_Marker_Set(2);
+//			LocalFlag[2] = 1;
 		} else {
 			Set_Local(2);
-			LocalFlag[2] = 1;
+//			LocalFlag[2] = 1;
 		}	
 	}
 
 	async function Local_Marker_Set(Temp_No) {
 		Local_Data = new Array();
+		LocalFlag[Temp_No] = 0;
 		Dialog_CSV_Load();
-		while(Local_Data.length == 0) {			
+		while(Local_Data.length == 0) {
 			await _sleep(100);
 		}
-		if(isNaN(Local_Data[1][2]) || isNaN(Local_Data[1][3])) {
-			alert("CSVデータのフォーマットが異なります！");
-			return;
-		} 
-		Local_CSV[Temp_No] = Local_Data;
-		Set_Local(Temp_No);
-		LocalFlag[Temp_No] = 1;
+
+		if(Local_Data.length > 1) {
+			if(isNaN(Local_Data[1][2]) || isNaN(Local_Data[1][3])) {
+				alert("CSVデータのフォーマットが異なります！");
+				LocalFlag[Temp_No] = 0;
+				return;
+			} else{
+				Local_CSV[Temp_No] = Local_Data;
+				Set_Local(Temp_No);
+			}
+		}
 	}
 
 	// ローカル・マーカー設置
@@ -239,7 +251,7 @@
 			iconAnchor: [0, 24],
 			popupAnchor: [0, -12]
    		});
-
+		LocalFlag[Temp_No] = 1;
 		for (var i=1; i<Local_CSV[Temp_No].length; i++) {
 			if( Local_CSV[Temp_No][i][2] != null ) {
 		    	Markers_SHAPE = L.marker([ Number(Local_CSV[Temp_No][i][2]), Number(Local_CSV[Temp_No][i][3]) ],
@@ -258,8 +270,7 @@
 
 	// ローカル・マーカー削除
 	function Remove_Local(Temp_No) {
-		if(Local_Layers[Temp_No])
-		for(i = 1; i < Local_Layers[Temp_No].length; i++) {
+		for(i = 0; i < Local_Layers[Temp_No].length; i++) {
 			if(Local_Layers[Temp_No][i] != null) {
 				map.removeLayer(Local_Layers[Temp_No][i]);
 			}
