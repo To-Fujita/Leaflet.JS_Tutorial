@@ -2,6 +2,9 @@
 .ui-dialog-title{
     text-align: center;
 }
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
 
 #dialog_CSV_Load table {
     border-collapse: collapse;
