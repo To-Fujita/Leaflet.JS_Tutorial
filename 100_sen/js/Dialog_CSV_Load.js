@@ -1,4 +1,4 @@
-﻿// Dialog_CSV_Load.js	2021/4/24 by T. Fujita
+﻿// Dialog_CSV_Load.js	2021/4/28 by T. Fujita
 //
 // Usage:
 // <link rel = "stylesheet" href = "https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -18,6 +18,7 @@ $(document).ready( function() {
 '<table border="1" id="dialog_DSP"></table></center></div>');
 
 	$('#dialog_CSV_Load').dialog({
+		dialogClass: "no-close",
 		autoOpen: false,
 		title: 'CSVファイルを選択してください。',
 		height: 400,
