@@ -52,7 +52,7 @@ How to draw figures on the map.
 [Demo for Tutorial_607](https://to-fujita.github.io/Leaflet.JS_Tutorial/Leaflet_Tutrial_607_EN.html): This is a sample for the VR mode of 360 degrees video. You can change from the nomal mode to the VR mode of the video by click the goggle mark at bottom right. If you want to return the normal mode, please press down the "ESC" key.  
 [100 Selections in Japan](https://to-fujita.github.io/Leaflet.JS_Tutorial/100_sen/Leaflet_100_sen.html): The map for several types of 100 selections in Japan.  
 [100 Selections in Japan Plus](https://to-fujita.github.io/Leaflet.JS_Tutorial/100_sen/Leaflet_100_sen_Plus.html): It also supports the display to the local saved CSV files.  
-[EN_Dialog_020.html](https://to-fujita.github.io/Dialog_Boxes_for_HTML/EN_Dialog_020.html): "EN_Dialog_020.html": It is a sample to show the Map with "Leaflet.js" in the dialog box. 
+[EN_Dialog_020.html](https://to-fujita.github.io/Dialog_Boxes_for_HTML/EN_Dialog_020.html): "EN_Dialog_020.html": It is a sample to show the Map with "Leaflet.js" in the dialog box. Inside of the dialog box is same to the "Demo for Tutorial_404" above.  
 
 ## References:
 1. [Leaflet - a JavaScript library for interactive maps](https://leafletjs.com/)  
